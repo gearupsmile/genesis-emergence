@@ -15,6 +15,7 @@ import argparse
 
 from physics_engine import GrayScottEngine
 from parameters import GrayScottParams, get_preset, get_initial_conditions, list_presets
+from src.agents.population import Population
 
 
 class SimulationRunner:
@@ -26,6 +27,9 @@ class SimulationRunner:
         grid_size: tuple = (256, 256),
         output_dir: str = "output",
         checkpoint_interval: int = 1000,
+        with_agents: bool = False,
+        num_agents: int = 50,
+        max_population: int = 1000,
     ):
         """Initialize simulation runner.
         
@@ -34,11 +38,20 @@ class SimulationRunner:
             grid_size: (height, width) of simulation grid
             output_dir: Directory for output files
             checkpoint_interval: Save checkpoint every N cycles
+            with_agents: Enable agent system
+            num_agents: Initial number of agents to spawn
+            max_population: Maximum population cap
         """
         self.params = params
         self.grid_size = grid_size
         self.output_dir = Path(output_dir)
         self.checkpoint_interval = checkpoint_interval
+        
+        # Agent system configuration
+        self.with_agents = with_agents
+        self.num_agents = num_agents
+        self.max_population = max_population
+        self.population = None
         
         # Create output directory
         self.output_dir.mkdir(parents=True, exist_ok=True)
@@ -68,6 +81,15 @@ class SimulationRunner:
         self._log(f"Grid size: {self.grid_size}")
         self._log(f"Parameters: F={self.params.F}, k={self.params.k}, "
                  f"Du={self.params.Du}, Dv={self.params.Dv}")
+        
+        # Initialize agent system if enabled
+        if self.with_agents:
+            self.population = Population(max_population=self.max_population)
+            spawned = self.population.spawn_random_agents(
+                count=self.num_agents,
+                bounds=self.grid_size
+            )
+            self._log(f"Agent system enabled: spawned {spawned} agents (max: {self.max_population})")
         
     def _log(self, message: str) -> None:
         """Write message to log file and print to console.
@@ -160,19 +182,38 @@ class SimulationRunner:
                 
                 current_cycle = self.engine.cycle_count
                 
+                # Update agents if enabled
+                if self.with_agents and self.population is not None:
+                    U, V = self.engine.get_state()
+                    agent_stats = self.population.update(U)
+                    # Update U field after agent consumption
+                    self.engine.U = U
+                
                 # Periodic logging
                 if current_cycle % 100 == 0:
                     stats = self.engine.get_statistics()
                     elapsed = time.time() - self.start_time
                     cps = current_cycle / elapsed if elapsed > 0 else 0
                     
-                    self._log(
+                    log_msg = (
                         f"Cycle {current_cycle}/{num_cycles} | "
                         f"V: [{stats['V_min']:.3f}, {stats['V_max']:.3f}] "
                         f"mean={stats['V_mean']:.3f} | "
                         f"Mass error: {stats['mass_conservation_error']:.6f} | "
                         f"{cps:.1f} cycles/sec"
                     )
+                    
+                    # Add agent statistics if enabled
+                    if self.with_agents and self.population is not None:
+                        agent_stats = self.population.get_statistics()
+                        log_msg += (
+                            f" | Agents: {agent_stats['population']} "
+                            f"(births: {agent_stats['total_births']}, "
+                            f"deaths: {agent_stats['total_deaths']}) "
+                            f"Energy: {agent_stats['avg_energy']:.1f}"
+                        )
+                    
+                    self._log(log_msg)
                 
                 # Save checkpoint
                 if current_cycle % self.checkpoint_interval == 0:
@@ -221,6 +262,15 @@ class SimulationRunner:
             elapsed = time.time() - self.start_time
             stats['total_elapsed_seconds'] = elapsed
             stats['average_cycles_per_second'] = stats['cycle'] / elapsed if elapsed > 0 else 0
+        
+        # Add agent statistics if enabled
+        if self.with_agents and self.population is not None:
+            agent_stats = self.population.get_statistics()
+            stats['agent_population'] = agent_stats['population']
+            stats['agent_total_births'] = agent_stats['total_births']
+            stats['agent_total_deaths'] = agent_stats['total_deaths']
+            stats['agent_avg_energy'] = agent_stats['avg_energy']
+            stats['agent_avg_age'] = agent_stats['avg_age']
         
         return stats
 
@@ -287,6 +337,26 @@ def main():
         help="Disable snapshot saving"
     )
     
+    parser.add_argument(
+        '--with-agents',
+        action='store_true',
+        help="Enable agent system"
+    )
+    
+    parser.add_argument(
+        '--num-agents',
+        type=int,
+        default=50,
+        help="Initial number of agents to spawn (default: 50)"
+    )
+    
+    parser.add_argument(
+        '--max-population',
+        type=int,
+        default=1000,
+        help="Maximum agent population cap (default: 1000)"
+    )
+    
     args = parser.parse_args()
     
     # Get parameters
@@ -302,6 +372,9 @@ def main():
         grid_size=(args.grid_size, args.grid_size),
         output_dir=args.output_dir,
         checkpoint_interval=args.checkpoint_interval,
+        with_agents=args.with_agents,
+        num_agents=args.num_agents,
+        max_population=args.max_population,
     )
     
     # Initialize

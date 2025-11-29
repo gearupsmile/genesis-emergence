@@ -39,6 +39,147 @@ const COLOR_SCHEMES = {
     }
 };
 
+// Agent class for simple agent-based system
+class Agent {
+    constructor(x, y, energy = 100) {
+        this.x = x;
+        this.y = y;
+        this.energy = energy;
+        this.alive = true;
+        this.age = 0;
+
+        // Agent parameters (tuned for sustainable populations - matching Python)
+        this.ENERGY_START = 100.0;
+        this.ENERGY_METABOLISM = 0.3;  // Reduced from 0.5
+        this.ENERGY_CONSUMPTION_RATE = 5.0;  // Increased from 2.0
+        this.ENERGY_REPRODUCTION_THRESHOLD = 120.0;  // Reduced from 150.0
+        this.ENERGY_REPRODUCTION_COST = 40.0;  // Reduced from 50.0
+        this.MOVEMENT_SPEED = 1.0;
+        this.SENSING_RADIUS = 5;
+
+        // Statistics
+        this.total_consumed = 0;
+        this.offspring_count = 0;
+    }
+
+    senseGradient(U, width, height) {
+        // Sense U gradient in 4 directions
+        const cx = Math.floor(Math.max(0, Math.min(width - 1, this.x)));
+        const cy = Math.floor(Math.max(0, Math.min(height - 1, this.y)));
+        const radius = this.SENSING_RADIUS;
+
+        // Sample in 4 directions
+        const north = U[Math.max(0, cy - radius) * width + cx];
+        const south = U[Math.min(height - 1, cy + radius) * width + cx];
+        const west = U[cy * width + Math.max(0, cx - radius)];
+        const east = U[cy * width + Math.min(width - 1, cx + radius)];
+
+        // Compute gradient
+        let dx = east - west;
+        let dy = south - north;
+
+        // Normalize
+        const magnitude = Math.sqrt(dx * dx + dy * dy);
+        if (magnitude > 0) {
+            dx /= magnitude;
+            dy /= magnitude;
+        }
+
+        return { dx, dy };
+    }
+
+    move(U, width, height) {
+        if (!this.alive) return;
+
+        // Sense gradient
+        const { dx, dy } = this.senseGradient(U, width, height);
+
+        // Move in gradient direction
+        this.x += dx * this.MOVEMENT_SPEED;
+        this.y += dy * this.MOVEMENT_SPEED;
+
+        // Wrap around boundaries (periodic)
+        this.x = (this.x + width) % width;
+        this.y = (this.y + height) % height;
+    }
+
+    consume(U, width, height) {
+        if (!this.alive) return 0;
+
+        // Get current grid position
+        const x = Math.floor(Math.max(0, Math.min(width - 1, this.x)));
+        const y = Math.floor(Math.max(0, Math.min(height - 1, this.y)));
+        const idx = y * width + x;
+
+        // Consume available U (limited by what's there)
+        const availableU = U[idx];
+        const consumption = Math.min(availableU, 0.1); // Max 0.1 U per cycle
+
+        // Remove from field
+        U[idx] -= consumption;
+
+        // Gain energy
+        const energyGained = consumption * this.ENERGY_CONSUMPTION_RATE;
+        this.energy += energyGained;
+        this.total_consumed += consumption;
+
+        return consumption;
+    }
+
+    metabolize() {
+        if (!this.alive) return;
+
+        this.energy -= this.ENERGY_METABOLISM;
+        this.age++;
+
+        // Check for death
+        if (this.energy <= 0) {
+            this.alive = false;
+            this.energy = 0;
+        }
+    }
+
+    canReproduce() {
+        return this.alive && this.energy >= this.ENERGY_REPRODUCTION_THRESHOLD;
+    }
+
+    reproduce() {
+        if (!this.canReproduce()) return null;
+
+        // Pay reproduction cost
+        this.energy -= this.ENERGY_REPRODUCTION_COST;
+
+        // Create offspring at nearby position (small random offset)
+        const offsetX = (Math.random() - 0.5) * 10;
+        const offsetY = (Math.random() - 0.5) * 10;
+
+        const offspring = new Agent(
+            this.x + offsetX,
+            this.y + offsetY,
+            this.ENERGY_REPRODUCTION_COST  // Offspring starts with parent's investment
+        );
+
+        this.offspring_count++;
+
+        return offspring;
+    }
+
+    getEnergyColor() {
+        // Energy-based color: red (low) -> yellow (medium) -> green (high)
+        const ratio = Math.max(0, Math.min(100, this.energy)) / 100;
+
+        if (ratio < 0.5) {
+            // Red to Yellow
+            const t = ratio * 2;
+            return `rgb(255, ${Math.floor(t * 255)}, 0)`;
+        } else {
+            // Yellow to Green
+            const t = (ratio - 0.5) * 2;
+            return `rgb(${Math.floor((1 - t) * 255)}, 255, 0)`;
+        }
+    }
+}
+
 class GrayScottSimulator {
     constructor(width, height) {
         this.width = width;
@@ -216,6 +357,13 @@ class Visualizer {
         this.gridSize = 256;
         this.simulator = new GrayScottSimulator(this.gridSize, this.gridSize);
 
+        // Agent system
+        this.agents = [];
+        this.populationStats = {
+            births: 0,
+            deaths: 0
+        };
+
         // Display
         this.colorScheme = 'grayscale';
         this.imageData = this.ctx.createImageData(this.canvas.width, this.canvas.height);
@@ -300,6 +448,9 @@ class Visualizer {
             this.simulator.step();
         }
 
+        // Update agents
+        this.updateAgents();
+
         this.render();
 
         // Update metrics periodically
@@ -310,6 +461,49 @@ class Visualizer {
         }
 
         this.animationId = requestAnimationFrame(() => this.animate());
+    }
+
+    updateAgents() {
+        const newborns = [];
+        let deathsThisCycle = 0;
+
+        // Update all agents (iterate backwards to safely remove dead agents)
+        for (let i = this.agents.length - 1; i >= 0; i--) {
+            const agent = this.agents[i];
+
+            // Move toward U gradient
+            agent.move(this.simulator.U, this.gridSize, this.gridSize);
+
+            // Consume energy from U field
+            agent.consume(this.simulator.U, this.gridSize, this.gridSize);
+
+            // Metabolism
+            agent.metabolize();
+
+            // Check for reproduction
+            if (agent.canReproduce()) {
+                const offspring = agent.reproduce();
+                if (offspring) {
+                    newborns.push(offspring);
+                    this.populationStats.births++;
+                }
+            }
+
+            // Remove dead agents
+            if (!agent.alive) {
+                this.agents.splice(i, 1);
+                deathsThisCycle++;
+                this.populationStats.deaths++;
+            }
+        }
+
+        // Add newborns to population
+        this.agents.push(...newborns);
+
+        // Log population changes occasionally
+        if (this.frameCount % 100 === 0 && (newborns.length > 0 || deathsThisCycle > 0)) {
+            console.log(`[Cycle ${this.simulator.cycle}] Pop: ${this.agents.length}, Births: ${newborns.length}, Deaths: ${deathsThisCycle}`);
+        }
     }
 
     render() {
@@ -341,8 +535,37 @@ class Visualizer {
 
         this.ctx.putImageData(this.imageData, 0, 0);
 
+        // Render agents on top of pattern
+        this.renderAgents();
+
         // Update cycle count
         document.getElementById('cycleCount').textContent = this.simulator.cycle.toLocaleString();
+    }
+
+    renderAgents() {
+        if (this.agents.length === 0) return;
+
+        const scale = this.canvas.width / this.gridSize;
+
+        // Draw each agent as a colored circle
+        for (const agent of this.agents) {
+            if (!agent.alive) continue;
+
+            // Convert grid position to canvas position
+            const canvasX = agent.x * scale;
+            const canvasY = agent.y * scale;
+
+            // Draw agent circle
+            this.ctx.beginPath();
+            this.ctx.arc(canvasX, canvasY, 4, 0, Math.PI * 2);
+            this.ctx.fillStyle = agent.getEnergyColor();
+            this.ctx.fill();
+
+            // Optional: Add a black outline for visibility
+            this.ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+            this.ctx.lineWidth = 1;
+            this.ctx.stroke();
+        }
     }
 
     updateMetrics() {
@@ -385,9 +608,39 @@ class Visualizer {
         indicator.className = `status-indicator ${state}`;
         document.getElementById('statusText').textContent = text;
     }
+
+    spawnAgents(count) {
+        console.log(`Spawning ${count} agents...`);
+
+        for (let i = 0; i < count; i++) {
+            const x = Math.random() * this.gridSize;
+            const y = Math.random() * this.gridSize;
+            const agent = new Agent(x, y, 100);
+            this.agents.push(agent);
+        }
+
+        console.log(`Total agents: ${this.agents.length}`);
+        console.log(`Energy parameters: Metabolism=${this.agents[0].ENERGY_METABOLISM}, Consumption=${this.agents[0].ENERGY_CONSUMPTION_RATE}x, Reproduction threshold=${this.agents[0].ENERGY_REPRODUCTION_THRESHOLD}`);
+        return this.agents.length;
+    }
 }
+
+// Global reference to visualizer
+let visualizerInstance = null;
 
 // Initialize when page loads
 window.addEventListener('DOMContentLoaded', () => {
-    new Visualizer();
+    visualizerInstance = new Visualizer();
+
+    // Expose spawnAgents to console
+    window.spawnAgents = (count = 20) => {
+        if (!visualizerInstance) {
+            console.error('Visualizer not initialized');
+            return 0;
+        }
+        return visualizerInstance.spawnAgents(count);
+    };
+
+    console.log('Agent system ready! Use window.spawnAgents(count) to spawn agents.');
+    console.log('Example: window.spawnAgents(20)');
 });

@@ -1,0 +1,19 @@
+[2025-11-29 19:35:14] Initialized with pattern: random
+[2025-11-29 19:35:14] Grid size: (256, 256)
+[2025-11-29 19:35:14] Parameters: F=0.0367, k=0.0649, Du=0.16, Dv=0.08
+[2025-11-29 19:35:14] Agent system enabled: spawned 50 agents (max: 1000)
+[2025-11-29 19:35:14] Starting simulation for 1000 cycles
+[2025-11-29 19:35:21] Cycle 100/1000 | V: [0.000, 0.425] mean=0.025 | Mass error: 0.084551 | 15.2 cycles/sec | Agents: 100 (births: 100, deaths: 0) Energy: 60.0
+[2025-11-29 19:35:22] Cycle 200/1000 | V: [0.000, 0.559] mean=0.007 | Mass error: 0.041507 | 25.3 cycles/sec | Agents: 100 (births: 100, deaths: 0) Energy: 80.0
+[2025-11-29 19:35:23] Cycle 300/1000 | V: [0.000, 0.384] mean=0.008 | Mass error: 0.042561 | 33.0 cycles/sec | Agents: 150 (births: 150, deaths: 0) Energy: 66.7
+[2025-11-29 19:35:25] Cycle 400/1000 | V: [0.000, 0.420] mean=0.008 | Mass error: 0.044133 | 37.1 cycles/sec | Agents: 150 (births: 150, deaths: 0) Energy: 86.7
+[2025-11-29 19:35:26] Cycle 500/1000 | V: [0.000, 0.401] mean=0.008 | Mass error: 0.044643 | 40.1 cycles/sec | Agents: 250 (births: 250, deaths: 0) Energy: 64.0
+[2025-11-29 19:35:29] Cycle 600/1000 | V: [0.000, 0.396] mean=0.009 | Mass error: 0.049043 | 40.8 cycles/sec | Agents: 250 (births: 250, deaths: 0) Energy: 84.0
+[2025-11-29 19:35:31] Cycle 700/1000 | V: [0.000, 0.383] mean=0.009 | Mass error: 0.049549 | 41.0 cycles/sec | Agents: 400 (births: 400, deaths: 0) Energy: 65.0
+[2025-11-29 19:35:34] Cycle 800/1000 | V: [0.000, 0.398] mean=0.009 | Mass error: 0.056255 | 39.0 cycles/sec | Agents: 400 (births: 400, deaths: 0) Energy: 85.0
+[2025-11-29 19:35:38] Cycle 900/1000 | V: [0.000, 0.406] mean=0.010 | Mass error: 0.057560 | 37.8 cycles/sec | Agents: 650 (births: 650, deaths: 0) Energy: 64.6
+[2025-11-29 19:35:43] Cycle 1000/1000 | V: [0.000, 0.406] mean=0.011 | Mass error: 0.069105 | 34.3 cycles/sec | Agents: 650 (births: 650, deaths: 0) Energy: 84.6
+[2025-11-29 19:35:43] Checkpoint saved: checkpoint_001000.npz
+[2025-11-29 19:35:43] Checkpoint saved: checkpoint_001000.npz
+[2025-11-29 19:35:43] Simulation completed successfully in 29.3 seconds
+[2025-11-29 19:35:43] Average: 34.1 cycles/second
