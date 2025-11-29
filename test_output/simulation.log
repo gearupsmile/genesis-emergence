@@ -1,0 +1,29 @@
+[2025-11-29 03:32:26] Initialized with pattern: random
+[2025-11-29 03:32:26] Grid size: (128, 128)
+[2025-11-29 03:32:26] Parameters: F=0.0367, k=0.0649, Du=0.16, Dv=0.08
+[2025-11-29 03:32:26] Starting simulation for 2000 cycles
+[2025-11-29 03:32:27] Cycle 100/2000 | V: [0.000, 0.000] mean=0.000 | Mass error: 0.009486 | 110.0 cycles/sec
+[2025-11-29 03:32:27] Cycle 200/2000 | V: [0.000, 0.000] mean=0.000 | Mass error: 0.009088 | 177.0 cycles/sec
+[2025-11-29 03:32:27] Cycle 300/2000 | V: [0.000, 0.000] mean=0.000 | Mass error: 0.009078 | 227.1 cycles/sec
+[2025-11-29 03:32:28] Cycle 400/2000 | V: [0.000, 0.000] mean=0.000 | Mass error: 0.009078 | 266.0 cycles/sec
+[2025-11-29 03:32:28] Cycle 500/2000 | V: [0.000, 0.000] mean=0.000 | Mass error: 0.009078 | 294.2 cycles/sec
+[2025-11-29 03:32:28] Cycle 600/2000 | V: [0.000, 0.000] mean=0.000 | Mass error: 0.009078 | 281.1 cycles/sec
+[2025-11-29 03:32:28] Cycle 700/2000 | V: [0.000, 0.000] mean=0.000 | Mass error: 0.009078 | 300.0 cycles/sec
+[2025-11-29 03:32:29] Cycle 800/2000 | V: [0.000, 0.000] mean=0.000 | Mass error: 0.009078 | 315.1 cycles/sec
+[2025-11-29 03:32:29] Cycle 900/2000 | V: [0.000, 0.000] mean=0.000 | Mass error: 0.009078 | 329.1 cycles/sec
+[2025-11-29 03:32:29] Cycle 1000/2000 | V: [0.000, 0.000] mean=0.000 | Mass error: 0.009078 | 343.8 cycles/sec
+[2025-11-29 03:32:29] Checkpoint saved: checkpoint_001000.npz
+[2025-11-29 03:32:29] Cycle 1100/2000 | V: [0.000, 0.000] mean=0.000 | Mass error: 0.009078 | 359.2 cycles/sec
+[2025-11-29 03:32:29] Cycle 1200/2000 | V: [0.000, 0.000] mean=0.000 | Mass error: 0.009078 | 371.2 cycles/sec
+[2025-11-29 03:32:30] Cycle 1300/2000 | V: [0.000, 0.000] mean=0.000 | Mass error: 0.009078 | 384.4 cycles/sec
+[2025-11-29 03:32:30] Cycle 1400/2000 | V: [0.000, 0.000] mean=0.000 | Mass error: 0.009078 | 395.4 cycles/sec
+[2025-11-29 03:32:30] Cycle 1500/2000 | V: [0.000, 0.000] mean=0.000 | Mass error: 0.009078 | 403.3 cycles/sec
+[2025-11-29 03:32:30] Cycle 1600/2000 | V: [0.000, 0.000] mean=0.000 | Mass error: 0.009078 | 412.2 cycles/sec
+[2025-11-29 03:32:30] Cycle 1700/2000 | V: [0.000, 0.000] mean=0.000 | Mass error: 0.009078 | 422.1 cycles/sec
+[2025-11-29 03:32:30] Cycle 1800/2000 | V: [0.000, 0.000] mean=0.000 | Mass error: 0.009078 | 427.6 cycles/sec
+[2025-11-29 03:32:30] Cycle 1900/2000 | V: [0.000, 0.000] mean=0.000 | Mass error: 0.009078 | 435.9 cycles/sec
+[2025-11-29 03:32:31] Cycle 2000/2000 | V: [0.000, 0.000] mean=0.000 | Mass error: 0.009078 | 443.7 cycles/sec
+[2025-11-29 03:32:31] Checkpoint saved: checkpoint_002000.npz
+[2025-11-29 03:32:31] Checkpoint saved: checkpoint_002000.npz
+[2025-11-29 03:32:31] Simulation completed successfully in 4.5 seconds
+[2025-11-29 03:32:31] Average: 440.8 cycles/second
