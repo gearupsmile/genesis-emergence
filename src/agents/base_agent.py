@@ -29,19 +29,28 @@ class Agent:
     MOVEMENT_SPEED = 1.0  # Pixels per cycle
     SENSING_RADIUS = 5.0  # Radius for U sensing
     
-    def __init__(self, x: float, y: float, energy: Optional[float] = None):
+    def __init__(self, x: float, y: float, energy: Optional[float] = None, custom_params: Optional[Dict] = None):
         """Initialize agent at position with energy.
         
         Args:
             x: X position (float for sub-pixel precision)
             y: Y position (float for sub-pixel precision)
             energy: Starting energy (defaults to ENERGY_START)
+            custom_params: Optional dict to override class-level parameters
+                          Keys: metabolism, consumption_rate, reproduction_threshold, reproduction_cost
         """
         self.x = x
         self.y = y
         self.energy = energy if energy is not None else self.ENERGY_START
         self.age = 0
         self.alive = True
+        
+        # Override class-level parameters if custom_params provided
+        if custom_params:
+            self.ENERGY_METABOLISM = custom_params.get('metabolism', self.ENERGY_METABOLISM)
+            self.ENERGY_CONSUMPTION_RATE = custom_params.get('consumption_rate', self.ENERGY_CONSUMPTION_RATE)
+            self.ENERGY_REPRODUCTION_THRESHOLD = custom_params.get('reproduction_threshold', self.ENERGY_REPRODUCTION_THRESHOLD)
+            self.ENERGY_REPRODUCTION_COST = custom_params.get('reproduction_cost', self.ENERGY_REPRODUCTION_COST)
         
         # Statistics
         self.total_consumed = 0.0
@@ -186,10 +195,19 @@ class Agent:
         offset_x = np.random.uniform(-5, 5)
         offset_y = np.random.uniform(-5, 5)
         
+        # Build custom_params dict from current instance values
+        custom_params = {
+            'metabolism': self.ENERGY_METABOLISM,
+            'consumption_rate': self.ENERGY_CONSUMPTION_RATE,
+            'reproduction_threshold': self.ENERGY_REPRODUCTION_THRESHOLD,
+            'reproduction_cost': self.ENERGY_REPRODUCTION_COST
+        }
+        
         offspring = Agent(
             x=self.x + offset_x,
             y=self.y + offset_y,
-            energy=self.ENERGY_REPRODUCTION_COST
+            energy=self.ENERGY_REPRODUCTION_COST,
+            custom_params=custom_params
         )
         
         self.offspring_count += 1

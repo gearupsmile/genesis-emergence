@@ -30,6 +30,7 @@ class SimulationRunner:
         with_agents: bool = False,
         num_agents: int = 50,
         max_population: int = 1000,
+        agent_params: Optional[Dict] = None,
     ):
         """Initialize simulation runner.
         
@@ -41,6 +42,8 @@ class SimulationRunner:
             with_agents: Enable agent system
             num_agents: Initial number of agents to spawn
             max_population: Maximum population cap
+            agent_params: Optional dict to override agent parameters
+                         Keys: metabolism, consumption_rate, reproduction_threshold, reproduction_cost
         """
         self.params = params
         self.grid_size = grid_size
@@ -51,6 +54,7 @@ class SimulationRunner:
         self.with_agents = with_agents
         self.num_agents = num_agents
         self.max_population = max_population
+        self.agent_params = agent_params
         self.population = None
         
         # Create output directory
@@ -84,7 +88,10 @@ class SimulationRunner:
         
         # Initialize agent system if enabled
         if self.with_agents:
-            self.population = Population(max_population=self.max_population)
+            self.population = Population(
+                max_population=self.max_population,
+                custom_params=self.agent_params
+            )
             spawned = self.population.spawn_random_agents(
                 count=self.num_agents,
                 bounds=self.grid_size
@@ -357,7 +364,35 @@ def main():
         help="Maximum agent population cap (default: 1000)"
     )
     
+    # Parameter search arguments
+    parser.add_argument(
+        '--parameter-search',
+        action='store_true',
+        help="Run multi-world parameter search instead of single simulation"
+    )
+    
+    parser.add_argument(
+        '--generations',
+        type=int,
+        default=3,
+        help="Number of search generations for parameter search (default: 3)"
+    )
+    
+    parser.add_argument(
+        '--worlds-per-gen',
+        type=int,
+        default=20,
+        help="Worlds to test per generation in parameter search (default: 20)"
+    )
+    
     args = parser.parse_args()
+    
+    # Route to parameter search if requested
+    if args.parameter_search:
+        from parameter_search import ParameterSearcher
+        searcher = ParameterSearcher()
+        searcher.run_search(args.generations, args.worlds_per_gen)
+        return 0
     
     # Get parameters
     try:

@@ -13,14 +13,16 @@ from .base_agent import Agent
 class Population:
     """Manages a population of agents with spatial efficiency."""
     
-    def __init__(self, max_population: int = 1000):
+    def __init__(self, max_population: int = 1000, custom_params: Optional[Dict] = None):
         """Initialize population manager.
         
         Args:
             max_population: Maximum number of agents allowed
+            custom_params: Optional dict to override agent parameters
         """
         self.agents: List[Agent] = []
         self.max_population = max_population
+        self.custom_params = custom_params  # Store for spawning new agents
         
         # Statistics
         self.total_births = 0
@@ -73,7 +75,7 @@ class Population:
             x = np.random.uniform(0, width)
             y = np.random.uniform(0, height)
             
-            agent = Agent(x, y, energy)
+            agent = Agent(x, y, energy, custom_params=self.custom_params)
             if self.add_agent(agent):
                 spawned += 1
         

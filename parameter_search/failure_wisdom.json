@@ -1,0 +1,3458 @@
+{
+  "metadata": {
+    "created": "2025-11-30T22:25:54.658698",
+    "total_experiments": 122,
+    "generations": 3,
+    "best_score": 0.7203109493880251
+  },
+  "experiments": [
+    {
+      "id": "exp_001",
+      "generation": 1,
+      "timestamp": "2025-11-30T22:26:14.303610",
+      "parameters": {
+        "metabolism": 0.6577386514214868,
+        "consumption_rate": 5.975753283202325,
+        "reproduction_threshold": 171.4751015105916,
+        "reproduction_cost": 32.92054358680585
+      },
+      "outcomes": {
+        "final_population": 0,
+        "total_births": 50,
+        "total_deaths": 50,
+        "death_rate": 1.0,
+        "avg_population": 41.55,
+        "population_variance": 351.0975,
+        "extinction": true,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.33333333333333326,
+        "dynamics": 0.17554875,
+        "survival": 0.0,
+        "health": 0.4155,
+        "total": 0.2275479583333333
+      }
+    },
+    {
+      "id": "exp_002",
+      "generation": 1,
+      "timestamp": "2025-11-30T22:26:26.514106",
+      "parameters": {
+        "metabolism": 0.4620861008346079,
+        "consumption_rate": 1.1355247192988522,
+        "reproduction_threshold": 121.37376244189133,
+        "reproduction_cost": 60.18159645895896
+      },
+      "outcomes": {
+        "final_population": 0,
+        "total_births": 50,
+        "total_deaths": 50,
+        "death_rate": 1.0,
+        "avg_population": 7.15,
+        "population_variance": 306.37750000000005,
+        "extinction": true,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.33333333333333326,
+        "dynamics": 0.15318875000000004,
+        "survival": 0.0,
+        "health": 0.07150000000000001,
+        "total": 0.1864399583333333
+      }
+    },
+    {
+      "id": "exp_003",
+      "generation": 1,
+      "timestamp": "2025-12-01T23:10:20.813249",
+      "parameters": {
+        "metabolism": 0.3880507190507796,
+        "consumption_rate": 9.493264770838321,
+        "reproduction_threshold": 124.43588810331751,
+        "reproduction_cost": 23.501449491392677
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 38397,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 875.8695,
+        "population_variance": 79528.92946975,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    },
+    {
+      "id": "exp_004",
+      "generation": 1,
+      "timestamp": "2025-12-01T23:10:35.863507",
+      "parameters": {
+        "metabolism": 0.7038604792994132,
+        "consumption_rate": 2.199620080593893,
+        "reproduction_threshold": 78.79564971629688,
+        "reproduction_cost": 34.935638606331196
+      },
+      "outcomes": {
+        "final_population": 0,
+        "total_births": 100,
+        "total_deaths": 100,
+        "death_rate": 1.0,
+        "avg_population": 5.175,
+        "population_variance": 414.469375,
+        "extinction": true,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.33333333333333326,
+        "dynamics": 0.20723468750000001,
+        "survival": 0.0,
+        "health": 0.05174999999999996,
+        "total": 0.2006787395833333
+      }
+    },
+    {
+      "id": "exp_005",
+      "generation": 1,
+      "timestamp": "2025-12-01T23:10:50.623610",
+      "parameters": {
+        "metabolism": 0.43402658909044045,
+        "consumption_rate": 1.2412583187188426,
+        "reproduction_threshold": 65.91273731708344,
+        "reproduction_cost": 55.52985842905821
+      },
+      "outcomes": {
+        "final_population": 0,
+        "total_births": 100,
+        "total_deaths": 100,
+        "death_rate": 1.0,
+        "avg_population": 8.075,
+        "population_variance": 696.044375,
+        "extinction": true,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.33333333333333326,
+        "dynamics": 0.34802218749999997,
+        "survival": 0.0,
+        "health": 0.08074999999999999,
+        "total": 0.2458149895833333
+      }
+    },
+    {
+      "id": "exp_006",
+      "generation": 1,
+      "timestamp": "2025-12-01T23:11:09.108724",
+      "parameters": {
+        "metabolism": 0.7679846461957606,
+        "consumption_rate": 4.557204126890852,
+        "reproduction_threshold": 170.4498202724994,
+        "reproduction_cost": 57.55052142195459
+      },
+      "outcomes": {
+        "final_population": 0,
+        "total_births": 50,
+        "total_deaths": 50,
+        "death_rate": 1.0,
+        "avg_population": 8.0,
+        "population_variance": 336.0,
+        "extinction": true,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.33333333333333326,
+        "dynamics": 0.168,
+        "survival": 0.0,
+        "health": 0.07999999999999996,
+        "total": 0.1917333333333333
+      }
+    },
+    {
+      "id": "exp_007",
+      "generation": 1,
+      "timestamp": "2025-12-01T23:13:35.900136",
+      "parameters": {
+        "metabolism": 0.3354191737584086,
+        "consumption_rate": 9.580736319869567,
+        "reproduction_threshold": 55.127057940716305,
+        "reproduction_cost": 69.39254636646119
+      },
+      "outcomes": {
+        "final_population": 951,
+        "total_births": 43095,
+        "total_deaths": 21048,
+        "death_rate": 0.4884093282283328,
+        "avg_population": 983.935,
+        "population_variance": 2936.3847749999995,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.44204664114166403,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6768186564566656
+      }
+    },
+    {
+      "id": "exp_008",
+      "generation": 1,
+      "timestamp": "2025-12-01T23:15:13.785892",
+      "parameters": {
+        "metabolism": 0.13220465313288532,
+        "consumption_rate": 3.3292170272230566,
+        "reproduction_threshold": 117.29569120718747,
+        "reproduction_cost": 70.43486201209737
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 3397,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 608.175,
+        "population_variance": 146766.919375,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    },
+    {
+      "id": "exp_009",
+      "generation": 1,
+      "timestamp": "2025-12-01T23:16:44.814112",
+      "parameters": {
+        "metabolism": 0.36652956169578477,
+        "consumption_rate": 4.6152671027214405,
+        "reproduction_threshold": 104.27294519001876,
+        "reproduction_cost": 38.498818927525875
+      },
+      "outcomes": {
+        "final_population": 997,
+        "total_births": 997,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 332.0735,
+        "population_variance": 56464.216097749995,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    },
+    {
+      "id": "exp_010",
+      "generation": 1,
+      "timestamp": "2025-12-01T23:17:00.989697",
+      "parameters": {
+        "metabolism": 0.7826973383463537,
+        "consumption_rate": 1.5031935624454746,
+        "reproduction_threshold": 95.6287832123876,
+        "reproduction_cost": 32.56205351317192
+      },
+      "outcomes": {
+        "final_population": 0,
+        "total_births": 100,
+        "total_deaths": 100,
+        "death_rate": 1.0,
+        "avg_population": 3.95,
+        "population_variance": 311.89749999999987,
+        "extinction": true,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.33333333333333326,
+        "dynamics": 0.15594874999999994,
+        "survival": 0.0,
+        "health": 0.03949999999999998,
+        "total": 0.18406795833333328
+      }
+    },
+    {
+      "id": "exp_011",
+      "generation": 1,
+      "timestamp": "2025-12-01T23:18:29.499855",
+      "parameters": {
+        "metabolism": 0.36000223397887443,
+        "consumption_rate": 4.769948029308468,
+        "reproduction_threshold": 75.71173062793234,
+        "reproduction_cost": 61.40761120344041
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 3098,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 723.025,
+        "population_variance": 120283.59937499998,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    },
+    {
+      "id": "exp_012",
+      "generation": 1,
+      "timestamp": "2025-12-01T23:19:34.134519",
+      "parameters": {
+        "metabolism": 0.4777981778552788,
+        "consumption_rate": 8.642310611402001,
+        "reproduction_threshold": 183.20702672228452,
+        "reproduction_cost": 69.53757716256465
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 5833,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 616.65,
+        "population_variance": 159765.2775,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    },
+    {
+      "id": "exp_013",
+      "generation": 1,
+      "timestamp": "2025-12-01T23:20:15.338055",
+      "parameters": {
+        "metabolism": 0.7322107195805071,
+        "consumption_rate": 9.603975464590281,
+        "reproduction_threshold": 180.21765116820694,
+        "reproduction_cost": 84.95324664201678
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 1550,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 345.075,
+        "population_variance": 91519.494375,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    },
+    {
+      "id": "exp_014",
+      "generation": 1,
+      "timestamp": "2025-12-01T23:21:27.231170",
+      "parameters": {
+        "metabolism": 0.42413220004267693,
+        "consumption_rate": 6.810873073546383,
+        "reproduction_threshold": 117.08169602499963,
+        "reproduction_cost": 82.78322322573717
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 4649,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 715.9,
+        "population_variance": 135937.19,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    },
+    {
+      "id": "exp_015",
+      "generation": 1,
+      "timestamp": "2025-12-01T23:21:38.887445",
+      "parameters": {
+        "metabolism": 0.7784741334936954,
+        "consumption_rate": 1.1641015908966534,
+        "reproduction_threshold": 68.51652734634254,
+        "reproduction_cost": 33.35101387727222
+      },
+      "outcomes": {
+        "final_population": 0,
+        "total_births": 100,
+        "total_deaths": 100,
+        "death_rate": 1.0,
+        "avg_population": 3.775,
+        "population_variance": 301.999375,
+        "extinction": true,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.33333333333333326,
+        "dynamics": 0.15099968749999998,
+        "survival": 0.0,
+        "health": 0.03775000000000006,
+        "total": 0.1824082395833333
+      }
+    },
+    {
+      "id": "exp_016",
+      "generation": 1,
+      "timestamp": "2025-12-01T23:23:14.367881",
+      "parameters": {
+        "metabolism": 0.25775965233117615,
+        "consumption_rate": 6.265295430802924,
+        "reproduction_threshold": 60.861550049426064,
+        "reproduction_cost": 72.96712595497671
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 23152,
+        "total_deaths": 11053,
+        "death_rate": 0.4774101589495508,
+        "avg_population": 989.438,
+        "population_variance": 2786.9051560000003,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.38705079474775417,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6548203178991017
+      }
+    },
+    {
+      "id": "exp_017",
+      "generation": 1,
+      "timestamp": "2025-12-01T23:24:59.349486",
+      "parameters": {
+        "metabolism": 0.3522472485241087,
+        "consumption_rate": 5.991871876824388,
+        "reproduction_threshold": 95.57140948726607,
+        "reproduction_cost": 95.54339933899729
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 6035,
+        "total_deaths": 4,
+        "death_rate": 0.0006628003314001657,
+        "avg_population": 995.092,
+        "population_variance": 2614.6135360000003,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.001104667219000377,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5004418668876002
+      }
+    },
+    {
+      "id": "exp_018",
+      "generation": 1,
+      "timestamp": "2025-12-01T23:26:36.114930",
+      "parameters": {
+        "metabolism": 0.34271657627553337,
+        "consumption_rate": 8.71702527328505,
+        "reproduction_threshold": 174.54372419259863,
+        "reproduction_cost": 47.07288024591334
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 14940,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 755.7,
+        "population_variance": 134497.51000000004,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    },
+    {
+      "id": "exp_019",
+      "generation": 1,
+      "timestamp": "2025-12-01T23:26:49.799879",
+      "parameters": {
+        "metabolism": 0.5607354077117271,
+        "consumption_rate": 2.3736181525694606,
+        "reproduction_threshold": 170.84120230630185,
+        "reproduction_cost": 33.81091218373254
+      },
+      "outcomes": {
+        "final_population": 0,
+        "total_births": 50,
+        "total_deaths": 50,
+        "death_rate": 1.0,
+        "avg_population": 7.725,
+        "population_variance": 326.5743749999999,
+        "extinction": true,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.33333333333333326,
+        "dynamics": 0.16328718749999996,
+        "survival": 0.0,
+        "health": 0.07724999999999993,
+        "total": 0.19004448958333328
+      }
+    },
+    {
+      "id": "exp_020",
+      "generation": 1,
+      "timestamp": "2025-12-01T23:27:05.072326",
+      "parameters": {
+        "metabolism": 0.4781844440339822,
+        "consumption_rate": 3.6394801189172314,
+        "reproduction_threshold": 163.16264589075428,
+        "reproduction_cost": 41.868300469378816
+      },
+      "outcomes": {
+        "final_population": 0,
+        "total_births": 50,
+        "total_deaths": 50,
+        "death_rate": 1.0,
+        "avg_population": 21.875,
+        "population_variance": 615.234375,
+        "extinction": true,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.33333333333333326,
+        "dynamics": 0.3076171875,
+        "survival": 0.0,
+        "health": 0.21875,
+        "total": 0.2474934895833333
+      }
+    },
+    {
+      "id": "exp_021",
+      "generation": 1,
+      "timestamp": "2025-12-01T23:28:37.126618",
+      "parameters": {
+        "metabolism": 0.6227044059726101,
+        "consumption_rate": 8.915157001062788,
+        "reproduction_threshold": 117.37637094773264,
+        "reproduction_cost": 93.97059975680102
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 4696,
+        "total_deaths": 2,
+        "death_rate": 0.00042589437819420784,
+        "avg_population": 759.1475,
+        "population_variance": 124353.86974375001,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0007098239636569303,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5002839295854627
+      }
+    },
+    {
+      "id": "exp_022",
+      "generation": 1,
+      "timestamp": "2025-12-01T23:28:56.279810",
+      "parameters": {
+        "metabolism": 0.49827413525618125,
+        "consumption_rate": 5.857125740029904,
+        "reproduction_threshold": 177.28495150560136,
+        "reproduction_cost": 75.53993581924145
+      },
+      "outcomes": {
+        "final_population": 150,
+        "total_births": 150,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 84.25,
+        "population_variance": 1171.9375,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 0.58596875,
+        "survival": 1.0,
+        "health": 1.0,
+        "total": 0.475790625
+      }
+    },
+    {
+      "id": "exp_023",
+      "generation": 2,
+      "timestamp": "2025-12-01T23:30:50.431413",
+      "parameters": {
+        "metabolism": 0.41206154888587465,
+        "consumption_rate": 10.0,
+        "reproduction_threshold": 55.65506926929343,
+        "reproduction_cost": 59.50909304667546
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 41005,
+        "total_deaths": 19984,
+        "death_rate": 0.48735520058529447,
+        "avg_population": 983.863,
+        "population_variance": 2905.517231,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.43677600292647245,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.674710401170589
+      }
+    },
+    {
+      "id": "exp_024",
+      "generation": 2,
+      "timestamp": "2025-12-01T23:32:08.169104",
+      "parameters": {
+        "metabolism": 0.4351368647921207,
+        "consumption_rate": 6.948598372482359,
+        "reproduction_threshold": 140.86433414631057,
+        "reproduction_cost": 23.81636112965267
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 10957,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 684.275,
+        "population_variance": 146383.97437499996,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    },
+    {
+      "id": "exp_025",
+      "generation": 2,
+      "timestamp": "2025-12-01T23:33:59.701262",
+      "parameters": {
+        "metabolism": 0.24637414493465387,
+        "consumption_rate": 4.85462127352331,
+        "reproduction_threshold": 59.97868459912638,
+        "reproduction_cost": 80.72943305599404
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 15158,
+        "total_deaths": 7059,
+        "death_rate": 0.46569468267581476,
+        "avg_population": 990.8005,
+        "population_variance": 2724.0816997499987,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.328473413379074,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6313893653516296
+      }
+    },
+    {
+      "id": "exp_026",
+      "generation": 2,
+      "timestamp": "2025-12-01T23:35:26.638669",
+      "parameters": {
+        "metabolism": 0.6198622404999128,
+        "consumption_rate": 10.0,
+        "reproduction_threshold": 118.84024426332228,
+        "reproduction_cost": 79.43581548723307
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 7631,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 796.8195,
+        "population_variance": 115233.25291975001,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    },
+    {
+      "id": "exp_027",
+      "generation": 2,
+      "timestamp": "2025-12-01T23:37:06.668596",
+      "parameters": {
+        "metabolism": 0.4055997520563416,
+        "consumption_rate": 10.0,
+        "reproduction_threshold": 50.0,
+        "reproduction_cost": 77.8370048554223
+      },
+      "outcomes": {
+        "final_population": 996,
+        "total_births": 45150,
+        "total_deaths": 22052,
+        "death_rate": 0.4884163898117386,
+        "avg_population": 983.727,
+        "population_variance": 2918.277471,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.44208194905869325,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6768327796234773
+      }
+    },
+    {
+      "id": "exp_028",
+      "generation": 2,
+      "timestamp": "2025-12-01T23:38:59.287777",
+      "parameters": {
+        "metabolism": 0.2885178441194842,
+        "consumption_rate": 7.867916357854382,
+        "reproduction_threshold": 50.0,
+        "reproduction_cost": 52.7351094390323
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 39122,
+        "total_deaths": 19036,
+        "death_rate": 0.48658044067276723,
+        "avg_population": 987.2525,
+        "population_variance": 2694.155743750001,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.43290220336383634,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6731608813455345
+      }
+    },
+    {
+      "id": "exp_029",
+      "generation": 2,
+      "timestamp": "2025-12-01T23:39:52.629457",
+      "parameters": {
+        "metabolism": 0.3960390869318853,
+        "consumption_rate": 5.221224568069851,
+        "reproduction_threshold": 120.52741126056725,
+        "reproduction_cost": 92.2954488563207
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 1450,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 434.645,
+        "population_variance": 112006.228975,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    },
+    {
+      "id": "exp_030",
+      "generation": 2,
+      "timestamp": "2025-12-01T23:41:38.707653",
+      "parameters": {
+        "metabolism": 0.3518158180528797,
+        "consumption_rate": 10.0,
+        "reproduction_threshold": 62.362718388097534,
+        "reproduction_cost": 75.15345287851657
+      },
+      "outcomes": {
+        "final_population": 996,
+        "total_births": 40918,
+        "total_deaths": 19939,
+        "death_rate": 0.4872916564836991,
+        "avg_population": 984.7705,
+        "population_variance": 2884.99882975,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.4364582824184956,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6745833129673983
+      }
+    },
+    {
+      "id": "exp_031",
+      "generation": 2,
+      "timestamp": "2025-12-01T23:42:40.039525",
+      "parameters": {
+        "metabolism": 0.8167119950508747,
+        "consumption_rate": 8.854248943366445,
+        "reproduction_threshold": 108.35468942602313,
+        "reproduction_cost": 98.02073373838232
+      },
+      "outcomes": {
+        "final_population": 999,
+        "total_births": 999,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 403.6945,
+        "population_variance": 65067.35416974999,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    },
+    {
+      "id": "exp_032",
+      "generation": 2,
+      "timestamp": "2025-12-01T23:42:55.099818",
+      "parameters": {
+        "metabolism": 0.8791270053752472,
+        "consumption_rate": 7.814681711157835,
+        "reproduction_threshold": 111.77149448692342,
+        "reproduction_cost": 96.62858916622625
+      },
+      "outcomes": {
+        "final_population": 0,
+        "total_births": 50,
+        "total_deaths": 50,
+        "death_rate": 1.0,
+        "avg_population": 25.575,
+        "population_variance": 624.6693750000002,
+        "extinction": true,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.33333333333333326,
+        "dynamics": 0.3123346875000001,
+        "survival": 0.0,
+        "health": 0.25575000000000003,
+        "total": 0.25260873958333335
+      }
+    },
+    {
+      "id": "exp_033",
+      "generation": 2,
+      "timestamp": "2025-12-01T23:44:36.733930",
+      "parameters": {
+        "metabolism": 0.4205457728575201,
+        "consumption_rate": 9.811917479205558,
+        "reproduction_threshold": 51.13590658812206,
+        "reproduction_cost": 71.38555521339583
+      },
+      "outcomes": {
+        "final_population": 998,
+        "total_births": 42950,
+        "total_deaths": 20952,
+        "death_rate": 0.4878230500582072,
+        "avg_population": 983.9445,
+        "population_variance": 2902.1974197500003,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.43911525029103615,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6756461001164145
+      }
+    },
+    {
+      "id": "exp_034",
+      "generation": 2,
+      "timestamp": "2025-12-01T23:46:28.117335",
+      "parameters": {
+        "metabolism": 0.23528617553947015,
+        "consumption_rate": 4.891792832715661,
+        "reproduction_threshold": 58.04551942666333,
+        "reproduction_cost": 71.87791218870186
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 17044,
+        "total_deaths": 7997,
+        "death_rate": 0.46919737150903545,
+        "avg_population": 988.722,
+        "population_variance": 2837.173716000001,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.34598685754517744,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.638394743018071
+      }
+    },
+    {
+      "id": "exp_035",
+      "generation": 2,
+      "timestamp": "2025-12-01T23:48:03.730031",
+      "parameters": {
+        "metabolism": 0.4293118515521486,
+        "consumption_rate": 10.0,
+        "reproduction_threshold": 120.52899997950186,
+        "reproduction_cost": 24.04626859921347
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 38446,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 881.7,
+        "population_variance": 75960.10999999999,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    },
+    {
+      "id": "exp_036",
+      "generation": 2,
+      "timestamp": "2025-12-01T23:50:03.701081",
+      "parameters": {
+        "metabolism": 0.3004033269547995,
+        "consumption_rate": 5.325132543828728,
+        "reproduction_threshold": 68.55391293194276,
+        "reproduction_cost": 78.98608603110904
+      },
+      "outcomes": {
+        "final_population": 999,
+        "total_births": 13039,
+        "total_deaths": 5996,
+        "death_rate": 0.4598512155840172,
+        "avg_population": 989.7345,
+        "population_variance": 2782.838009749999,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.2992560779200861,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6197024311680345
+      }
+    },
+    {
+      "id": "exp_037",
+      "generation": 2,
+      "timestamp": "2025-12-01T23:50:20.883705",
+      "parameters": {
+        "metabolism": 0.3333272979744518,
+        "consumption_rate": 2.687219803719575,
+        "reproduction_threshold": 112.71875552649948,
+        "reproduction_cost": 94.29858757459724
+      },
+      "outcomes": {
+        "final_population": 0,
+        "total_births": 50,
+        "total_deaths": 50,
+        "death_rate": 1.0,
+        "avg_population": 38.675,
+        "population_variance": 437.9943749999999,
+        "extinction": true,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.33333333333333326,
+        "dynamics": 0.21899718749999994,
+        "survival": 0.0,
+        "health": 0.3867499999999999,
+        "total": 0.23770748958333326
+      }
+    },
+    {
+      "id": "exp_038",
+      "generation": 2,
+      "timestamp": "2025-12-01T23:50:33.502684",
+      "parameters": {
+        "metabolism": 0.807384735937653,
+        "consumption_rate": 1.73076181737588,
+        "reproduction_threshold": 108.4035290357518,
+        "reproduction_cost": 57.73162097306493
+      },
+      "outcomes": {
+        "final_population": 0,
+        "total_births": 50,
+        "total_deaths": 50,
+        "death_rate": 1.0,
+        "avg_population": 3.925,
+        "population_variance": 180.84437499999993,
+        "extinction": true,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.33333333333333326,
+        "dynamics": 0.09042218749999996,
+        "survival": 0.0,
+        "health": 0.03925000000000001,
+        "total": 0.1643849895833333
+      }
+    },
+    {
+      "id": "exp_039",
+      "generation": 2,
+      "timestamp": "2025-12-01T23:50:59.883646",
+      "parameters": {
+        "metabolism": 0.7272829304676122,
+        "consumption_rate": 7.311243002035127,
+        "reproduction_threshold": 98.31058756140459,
+        "reproduction_cost": 85.90593628511998
+      },
+      "outcomes": {
+        "final_population": 100,
+        "total_births": 100,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 100.0,
+        "population_variance": 0.0,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 0.0,
+        "survival": 1.0,
+        "health": 1.0,
+        "total": 0.30000000000000004
+      }
+    },
+    {
+      "id": "exp_040",
+      "generation": 2,
+      "timestamp": "2025-12-01T23:51:46.141546",
+      "parameters": {
+        "metabolism": 0.602867428846126,
+        "consumption_rate": 7.689428455152793,
+        "reproduction_threshold": 150.76605818178052,
+        "reproduction_cost": 73.2207088548237
+      },
+      "outcomes": {
+        "final_population": 800,
+        "total_births": 800,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 299.725,
+        "population_variance": 63573.67437500002,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    },
+    {
+      "id": "exp_041",
+      "generation": 2,
+      "timestamp": "2025-12-01T23:52:49.578457",
+      "parameters": {
+        "metabolism": 0.2703028047620595,
+        "consumption_rate": 4.645837342820301,
+        "reproduction_threshold": 193.34996635802383,
+        "reproduction_cost": 21.26177047072637
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 1800,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 406.3,
+        "population_variance": 117390.31,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    },
+    {
+      "id": "exp_042",
+      "generation": 2,
+      "timestamp": "2025-12-01T23:53:03.890946",
+      "parameters": {
+        "metabolism": 0.8455387703438069,
+        "consumption_rate": 1.5985740065915541,
+        "reproduction_threshold": 177.77315144290628,
+        "reproduction_cost": 93.59007715297923
+      },
+      "outcomes": {
+        "final_population": 0,
+        "total_births": 50,
+        "total_deaths": 50,
+        "death_rate": 1.0,
+        "avg_population": 3.625,
+        "population_variance": 168.109375,
+        "extinction": true,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.33333333333333326,
+        "dynamics": 0.0840546875,
+        "survival": 0.0,
+        "health": 0.036250000000000004,
+        "total": 0.16217473958333328
+      }
+    },
+    {
+      "id": "exp_043",
+      "generation": 3,
+      "timestamp": "2025-12-01T23:55:12.825385",
+      "parameters": {
+        "metabolism": 0.3641442000782815,
+        "consumption_rate": 10.0,
+        "reproduction_threshold": 50.0,
+        "reproduction_cost": 84.05463287362208
+      },
+      "outcomes": {
+        "final_population": 999,
+        "total_births": 49017,
+        "total_deaths": 23988,
+        "death_rate": 0.48938123508170633,
+        "avg_population": 983.097,
+        "population_variance": 2904.231591,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.44690617540853184,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6787624701634127
+      }
+    },
+    {
+      "id": "exp_044",
+      "generation": 3,
+      "timestamp": "2025-12-01T23:56:53.275508",
+      "parameters": {
+        "metabolism": 0.38078867315148374,
+        "consumption_rate": 7.70396072683277,
+        "reproduction_threshold": 50.7322669017895,
+        "reproduction_cost": 59.515784501128614
+      },
+      "outcomes": {
+        "final_population": 954,
+        "total_births": 29684,
+        "total_deaths": 14343,
+        "death_rate": 0.48318959708934106,
+        "avg_population": 985.8095,
+        "population_variance": 2889.82220975,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.4159479854467054,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6663791941786822
+      }
+    },
+    {
+      "id": "exp_045",
+      "generation": 3,
+      "timestamp": "2025-12-01T23:58:39.173870",
+      "parameters": {
+        "metabolism": 0.2658073363596561,
+        "consumption_rate": 9.973329421997546,
+        "reproduction_threshold": 59.671376883250176,
+        "reproduction_cost": 49.247212483355476
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 29316,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 970.9125,
+        "population_variance": 18782.83884375,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    },
+    {
+      "id": "exp_046",
+      "generation": 3,
+      "timestamp": "2025-12-02T00:00:32.513274",
+      "parameters": {
+        "metabolism": 0.3046272197615131,
+        "consumption_rate": 10.0,
+        "reproduction_threshold": 69.31446778494112,
+        "reproduction_cost": 85.82141688713355
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 39036,
+        "total_deaths": 18993,
+        "death_rate": 0.486550876114356,
+        "avg_population": 985.6405,
+        "population_variance": 2894.098259749999,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.43275438057178006,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.673101752228712
+      }
+    },
+    {
+      "id": "exp_047",
+      "generation": 3,
+      "timestamp": "2025-12-02T00:02:37.900489",
+      "parameters": {
+        "metabolism": 0.4525683500182347,
+        "consumption_rate": 8.16815575642607,
+        "reproduction_threshold": 59.50395538620975,
+        "reproduction_cost": 61.552770498027975
+      },
+      "outcomes": {
+        "final_population": 954,
+        "total_births": 23970,
+        "total_deaths": 11494,
+        "death_rate": 0.4795160617438465,
+        "avg_population": 986.7475,
+        "population_variance": 2890.05474375,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.39758030871923256,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.659032123487693
+      }
+    },
+    {
+      "id": "exp_048",
+      "generation": 3,
+      "timestamp": "2025-12-02T00:04:39.786303",
+      "parameters": {
+        "metabolism": 0.4360574594066206,
+        "consumption_rate": 10.0,
+        "reproduction_threshold": 60.00478881789576,
+        "reproduction_cost": 58.39006354261196
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 19635,
+        "total_deaths": 6,
+        "death_rate": 0.00030557677616501144,
+        "avg_population": 988.3555,
+        "population_variance": 7415.17111975,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0005092946269417142,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5002037178507767
+      }
+    },
+    {
+      "id": "exp_049",
+      "generation": 3,
+      "timestamp": "2025-12-02T00:06:27.175869",
+      "parameters": {
+        "metabolism": 0.40343851547609705,
+        "consumption_rate": 10.0,
+        "reproduction_threshold": 75.53529992300821,
+        "reproduction_cost": 49.319866708530384
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 22770,
+        "total_deaths": 1,
+        "death_rate": 4.391743522178305e-05,
+        "avg_population": 934.0415,
+        "population_variance": 43162.18877775,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 7.319572536967911e-05,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5000292782901479
+      }
+    },
+    {
+      "id": "exp_050",
+      "generation": 3,
+      "timestamp": "2025-12-02T00:08:19.201636",
+      "parameters": {
+        "metabolism": 0.45908282471383927,
+        "consumption_rate": 9.653389465536998,
+        "reproduction_threshold": 50.0,
+        "reproduction_cost": 61.38808276618411
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 39043,
+        "total_deaths": 18997,
+        "death_rate": 0.486566093794022,
+        "avg_population": 984.245,
+        "population_variance": 2942.5109750000006,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.4328304689701101,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.673132187588044
+      }
+    },
+    {
+      "id": "exp_051",
+      "generation": 3,
+      "timestamp": "2025-12-02T00:10:03.701288",
+      "parameters": {
+        "metabolism": 0.38847040188133775,
+        "consumption_rate": 8.705112514323694,
+        "reproduction_threshold": 50.818520914338855,
+        "reproduction_cost": 81.72632916476063
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 37038,
+        "total_deaths": 17994,
+        "death_rate": 0.48582536854041797,
+        "avg_population": 985.678,
+        "population_variance": 2904.173316,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.42912684270209,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.671650737080836
+      }
+    },
+    {
+      "id": "exp_052",
+      "generation": 3,
+      "timestamp": "2025-12-02T00:11:48.401807",
+      "parameters": {
+        "metabolism": 0.48556205816117676,
+        "consumption_rate": 10.0,
+        "reproduction_threshold": 73.20279721709333,
+        "reproduction_cost": 90.28529687915643
+      },
+      "outcomes": {
+        "final_population": 999,
+        "total_births": 27040,
+        "total_deaths": 13001,
+        "death_rate": 0.4808062130177515,
+        "avg_population": 988.4315,
+        "population_variance": 2778.526307750001,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.40403106508875763,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6616124260355031
+      }
+    },
+    {
+      "id": "exp_053",
+      "generation": 3,
+      "timestamp": "2025-12-02T00:13:25.089472",
+      "parameters": {
+        "metabolism": 0.4257869527641369,
+        "consumption_rate": 9.59594711802519,
+        "reproduction_threshold": 50.0,
+        "reproduction_cost": 80.13853390628144
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 41046,
+        "total_deaths": 20002,
+        "death_rate": 0.4873069239389953,
+        "avg_population": 984.7535,
+        "population_variance": 2877.5977377500003,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.43653461969497653,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6746138478779906
+      }
+    },
+    {
+      "id": "exp_054",
+      "generation": 3,
+      "timestamp": "2025-12-02T00:15:12.242037",
+      "parameters": {
+        "metabolism": 0.40882573778246,
+        "consumption_rate": 8.428722799684333,
+        "reproduction_threshold": 60.807749830302804,
+        "reproduction_cost": 76.26923081576572
+      },
+      "outcomes": {
+        "final_population": 951,
+        "total_births": 27113,
+        "total_deaths": 13063,
+        "death_rate": 0.48179839929185264,
+        "avg_population": 987.508,
+        "population_variance": 2821.3899360000005,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.4089919964592633,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6635967985837053
+      }
+    },
+    {
+      "id": "exp_055",
+      "generation": 3,
+      "timestamp": "2025-12-02T00:17:24.933354",
+      "parameters": {
+        "metabolism": 0.3486254699853852,
+        "consumption_rate": 9.963480558808433,
+        "reproduction_threshold": 50.0,
+        "reproduction_cost": 77.835545020071
+      },
+      "outcomes": {
+        "final_population": 950,
+        "total_births": 49243,
+        "total_deaths": 24101,
+        "death_rate": 0.48942996974189223,
+        "avg_population": 982.7625,
+        "population_variance": 2948.538093750001,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.4471498487094613,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6788599394837845
+      }
+    },
+    {
+      "id": "exp_056",
+      "generation": 3,
+      "timestamp": "2025-12-02T00:19:10.762461",
+      "parameters": {
+        "metabolism": 0.3984059827162,
+        "consumption_rate": 10.0,
+        "reproduction_threshold": 59.95741574471685,
+        "reproduction_cost": 78.81294027484275
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 39022,
+        "total_deaths": 18990,
+        "death_rate": 0.48664855722413,
+        "avg_population": 985.2335,
+        "population_variance": 2879.0089777499998,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.43324278612065004,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.67329711444826
+      }
+    },
+    {
+      "id": "exp_057",
+      "generation": 3,
+      "timestamp": "2025-12-02T00:19:33.955427",
+      "parameters": {
+        "metabolism": 0.5114560684788823,
+        "consumption_rate": 5.344596553736689,
+        "reproduction_threshold": 101.84372375666794,
+        "reproduction_cost": 68.38600245419383
+      },
+      "outcomes": {
+        "final_population": 150,
+        "total_births": 150,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 109.625,
+        "population_variance": 588.609375,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 0.2943046875,
+        "survival": 1.0,
+        "health": 1.0,
+        "total": 0.38829140625
+      }
+    },
+    {
+      "id": "exp_058",
+      "generation": 3,
+      "timestamp": "2025-12-02T00:20:45.894548",
+      "parameters": {
+        "metabolism": 0.7208291877575522,
+        "consumption_rate": 9.653347406632228,
+        "reproduction_threshold": 124.90741842461769,
+        "reproduction_cost": 78.49093930863616
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 4000,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 650.825,
+        "population_variance": 148308.069375,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    },
+    {
+      "id": "exp_059",
+      "generation": 3,
+      "timestamp": "2025-12-02T00:21:01.768889",
+      "parameters": {
+        "metabolism": 0.3235877844577938,
+        "consumption_rate": 3.0490592744490743,
+        "reproduction_threshold": 189.76159486549358,
+        "reproduction_cost": 47.0287016587029
+      },
+      "outcomes": {
+        "final_population": 50,
+        "total_births": 50,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 50.0,
+        "population_variance": 0.0,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 0.0,
+        "survival": 1.0,
+        "health": 1.0,
+        "total": 0.30000000000000004
+      }
+    },
+    {
+      "id": "exp_060",
+      "generation": 3,
+      "timestamp": "2025-12-02T00:21:25.680078",
+      "parameters": {
+        "metabolism": 0.8740465602529283,
+        "consumption_rate": 1.1775102201946734,
+        "reproduction_threshold": 52.4505093940543,
+        "reproduction_cost": 72.21587631393157
+      },
+      "outcomes": {
+        "final_population": 100,
+        "total_births": 100050,
+        "total_deaths": 99950,
+        "death_rate": 0.999000499750125,
+        "avg_population": 100.875,
+        "population_variance": 42.984375,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.33499916708312505,
+        "dynamics": 0.0214921875,
+        "survival": 1.0,
+        "health": 1.0,
+        "total": 0.44044732308324996
+      }
+    },
+    {
+      "id": "exp_061",
+      "generation": 3,
+      "timestamp": "2025-12-02T00:22:55.878169",
+      "parameters": {
+        "metabolism": 0.5013108303894825,
+        "consumption_rate": 8.658930261598321,
+        "reproduction_threshold": 142.72532282724785,
+        "reproduction_cost": 20.62751503187951
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 22535,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 781.525,
+        "population_variance": 121702.424375,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    },
+    {
+      "id": "exp_062",
+      "generation": 3,
+      "timestamp": "2025-12-02T00:24:02.070239",
+      "parameters": {
+        "metabolism": 0.23772557926724677,
+        "consumption_rate": 5.304750442466629,
+        "reproduction_threshold": 155.87676996855126,
+        "reproduction_cost": 28.929865075421326
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 9499,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 662.75,
+        "population_variance": 151829.9375,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    },
+    {
+      "id": "exp_063",
+      "generation": 1,
+      "timestamp": "2025-12-02T02:56:17.534002",
+      "parameters": {
+        "metabolism": 0.1193435819934091,
+        "consumption_rate": 2.1026485888512565,
+        "reproduction_threshold": 51.18840541360744,
+        "reproduction_cost": 73.83228160452235
+      },
+      "outcomes": {
+        "final_population": 999,
+        "total_births": 7031,
+        "total_deaths": 3000,
+        "death_rate": 0.4266818375764472,
+        "avg_population": 982.31,
+        "population_variance": 2819.4299000000005,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.133409187882236,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5533636751528944
+      }
+    },
+    {
+      "id": "exp_064",
+      "generation": 1,
+      "timestamp": "2025-12-02T02:57:45.002212",
+      "parameters": {
+        "metabolism": 0.33000400226961335,
+        "consumption_rate": 6.623395363217826,
+        "reproduction_threshold": 197.53629936832476,
+        "reproduction_cost": 44.25662751262852
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 5447,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 562.5215,
+        "population_variance": 159465.21953774997,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    },
+    {
+      "id": "exp_065",
+      "generation": 1,
+      "timestamp": "2025-12-02T02:58:04.177773",
+      "parameters": {
+        "metabolism": 0.9425664981413256,
+        "consumption_rate": 5.7648748791012725,
+        "reproduction_threshold": 76.77638573658632,
+        "reproduction_cost": 23.07056188152209
+      },
+      "outcomes": {
+        "final_population": 0,
+        "total_births": 100,
+        "total_deaths": 100,
+        "death_rate": 1.0,
+        "avg_population": 6.85,
+        "population_variance": 455.5775000000001,
+        "extinction": true,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.33333333333333326,
+        "dynamics": 0.22778875000000004,
+        "survival": 0.0,
+        "health": 0.0684999999999999,
+        "total": 0.2085199583333333
+      }
+    },
+    {
+      "id": "exp_066",
+      "generation": 1,
+      "timestamp": "2025-12-02T02:58:25.604732",
+      "parameters": {
+        "metabolism": 0.6157242252055749,
+        "consumption_rate": 3.276471046227212,
+        "reproduction_threshold": 111.4504321376998,
+        "reproduction_cost": 34.50287739885304
+      },
+      "outcomes": {
+        "final_population": 0,
+        "total_births": 50,
+        "total_deaths": 50,
+        "death_rate": 1.0,
+        "avg_population": 8.675,
+        "population_variance": 358.4943750000001,
+        "extinction": true,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.33333333333333326,
+        "dynamics": 0.17924718750000004,
+        "survival": 0.0,
+        "health": 0.08675,
+        "total": 0.1957824895833333
+      }
+    },
+    {
+      "id": "exp_067",
+      "generation": 1,
+      "timestamp": "2025-12-02T02:59:09.325159",
+      "parameters": {
+        "metabolism": 0.4303150207292076,
+        "consumption_rate": 5.442884774690267,
+        "reproduction_threshold": 132.1838636070819,
+        "reproduction_cost": 81.46038828866557
+      },
+      "outcomes": {
+        "final_population": 600,
+        "total_births": 600,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 223.45,
+        "population_variance": 23812.5975,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    },
+    {
+      "id": "exp_068",
+      "generation": 1,
+      "timestamp": "2025-12-02T03:00:16.017758",
+      "parameters": {
+        "metabolism": 0.30856745772561955,
+        "consumption_rate": 5.891466669537778,
+        "reproduction_threshold": 182.93977245942455,
+        "reproduction_cost": 88.48448271710262
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 2599,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 454.7995,
+        "population_variance": 136006.41529975002,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    },
+    {
+      "id": "exp_069",
+      "generation": 1,
+      "timestamp": "2025-12-02T03:01:56.297269",
+      "parameters": {
+        "metabolism": 0.3601470491832256,
+        "consumption_rate": 9.74055794452339,
+        "reproduction_threshold": 160.64912268324326,
+        "reproduction_cost": 91.1916965926416
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 10547,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 793.725,
+        "population_variance": 120496.87437500001,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    },
+    {
+      "id": "exp_070",
+      "generation": 1,
+      "timestamp": "2025-12-02T03:03:48.118667",
+      "parameters": {
+        "metabolism": 0.4560986782086579,
+        "consumption_rate": 8.840576177792009,
+        "reproduction_threshold": 121.14242544753502,
+        "reproduction_cost": 90.66025279997419
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 7950,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 826.95,
+        "population_variance": 102403.69750000002,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    },
+    {
+      "id": "exp_071",
+      "generation": 1,
+      "timestamp": "2025-12-02T03:04:17.733704",
+      "parameters": {
+        "metabolism": 0.5944987442728689,
+        "consumption_rate": 2.348896215966949,
+        "reproduction_threshold": 51.42916144174266,
+        "reproduction_cost": 69.04501697831178
+      },
+      "outcomes": {
+        "final_population": 100,
+        "total_births": 100050,
+        "total_deaths": 99950,
+        "death_rate": 0.999000499750125,
+        "avg_population": 102.125,
+        "population_variance": 101.734375,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.33499916708312505,
+        "dynamics": 0.0508671875,
+        "survival": 1.0,
+        "health": 1.0,
+        "total": 0.44925982308324997
+      }
+    },
+    {
+      "id": "exp_072",
+      "generation": 1,
+      "timestamp": "2025-12-02T03:04:36.326153",
+      "parameters": {
+        "metabolism": 0.7806475409008562,
+        "consumption_rate": 6.663557850107761,
+        "reproduction_threshold": 82.51551859106306,
+        "reproduction_cost": 29.85502405586205
+      },
+      "outcomes": {
+        "final_population": 0,
+        "total_births": 100,
+        "total_deaths": 100,
+        "death_rate": 1.0,
+        "avg_population": 21.875,
+        "population_variance": 1270.234375,
+        "extinction": true,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.33333333333333326,
+        "dynamics": 0.6351171875,
+        "survival": 0.0,
+        "health": 0.21875,
+        "total": 0.3457434895833333
+      }
+    },
+    {
+      "id": "exp_073",
+      "generation": 1,
+      "timestamp": "2025-12-02T03:04:53.697779",
+      "parameters": {
+        "metabolism": 0.5311606777109681,
+        "consumption_rate": 1.8714817519543425,
+        "reproduction_threshold": 127.19428784602782,
+        "reproduction_cost": 23.256031769591754
+      },
+      "outcomes": {
+        "final_population": 0,
+        "total_births": 50,
+        "total_deaths": 50,
+        "death_rate": 1.0,
+        "avg_population": 7.25,
+        "population_variance": 309.9375,
+        "extinction": true,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.33333333333333326,
+        "dynamics": 0.15496875,
+        "survival": 0.0,
+        "health": 0.07250000000000001,
+        "total": 0.18707395833333332
+      }
+    },
+    {
+      "id": "exp_074",
+      "generation": 1,
+      "timestamp": "2025-12-02T03:06:41.331278",
+      "parameters": {
+        "metabolism": 0.2970821267746315,
+        "consumption_rate": 6.80253035751243,
+        "reproduction_threshold": 111.21121830189819,
+        "reproduction_cost": 79.1442008773
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 8094,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 825.894,
+        "population_variance": 101135.007764,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    },
+    {
+      "id": "exp_075",
+      "generation": 1,
+      "timestamp": "2025-12-02T03:07:01.145519",
+      "parameters": {
+        "metabolism": 0.8720163480389275,
+        "consumption_rate": 2.81378300101443,
+        "reproduction_threshold": 117.34918245162928,
+        "reproduction_cost": 43.83146778958248
+      },
+      "outcomes": {
+        "final_population": 0,
+        "total_births": 50,
+        "total_deaths": 50,
+        "death_rate": 1.0,
+        "avg_population": 4.225,
+        "population_variance": 193.39937499999994,
+        "extinction": true,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.33333333333333326,
+        "dynamics": 0.09669968749999996,
+        "survival": 0.0,
+        "health": 0.0422499999999999,
+        "total": 0.16656823958333328
+      }
+    },
+    {
+      "id": "exp_076",
+      "generation": 1,
+      "timestamp": "2025-12-02T03:07:59.747261",
+      "parameters": {
+        "metabolism": 0.11964015986478359,
+        "consumption_rate": 2.65127638267615,
+        "reproduction_threshold": 132.88044010119205,
+        "reproduction_cost": 96.5114518550109
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 1398,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 397.947,
+        "population_variance": 104117.53919100002,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    },
+    {
+      "id": "exp_077",
+      "generation": 1,
+      "timestamp": "2025-12-02T03:09:41.882589",
+      "parameters": {
+        "metabolism": 0.3148254390828535,
+        "consumption_rate": 5.429589177817566,
+        "reproduction_threshold": 72.27040915021871,
+        "reproduction_cost": 49.39863292448784
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 7799,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 842.349,
+        "population_variance": 87963.813199,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    },
+    {
+      "id": "exp_078",
+      "generation": 1,
+      "timestamp": "2025-12-02T03:11:39.027117",
+      "parameters": {
+        "metabolism": 0.19878363655637069,
+        "consumption_rate": 5.137142121406673,
+        "reproduction_threshold": 50.86731075707111,
+        "reproduction_cost": 76.33471580763367
+      },
+      "outcomes": {
+        "final_population": 999,
+        "total_births": 25004,
+        "total_deaths": 11978,
+        "death_rate": 0.4790433530635098,
+        "avg_population": 987.734,
+        "population_variance": 2857.9262439999993,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.39521676531754923,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6580867061270197
+      }
+    },
+    {
+      "id": "exp_079",
+      "generation": 1,
+      "timestamp": "2025-12-02T03:11:57.077498",
+      "parameters": {
+        "metabolism": 0.3563044304993527,
+        "consumption_rate": 1.9873418722328222,
+        "reproduction_threshold": 112.408777472557,
+        "reproduction_cost": 69.47100584777868
+      },
+      "outcomes": {
+        "final_population": 0,
+        "total_births": 50,
+        "total_deaths": 50,
+        "death_rate": 1.0,
+        "avg_population": 15.85,
+        "population_variance": 541.2774999999999,
+        "extinction": true,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.33333333333333326,
+        "dynamics": 0.27063875,
+        "survival": 0.0,
+        "health": 0.15849999999999997,
+        "total": 0.2303749583333333
+      }
+    },
+    {
+      "id": "exp_080",
+      "generation": 1,
+      "timestamp": "2025-12-02T03:12:25.579784",
+      "parameters": {
+        "metabolism": 0.5561249231397896,
+        "consumption_rate": 6.826433057272432,
+        "reproduction_threshold": 190.70350747182158,
+        "reproduction_cost": 73.26940535060186
+      },
+      "outcomes": {
+        "final_population": 250,
+        "total_births": 250,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 111.7,
+        "population_variance": 3750.61,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 1.0,
+        "total": 0.6
+      }
+    },
+    {
+      "id": "exp_081",
+      "generation": 1,
+      "timestamp": "2025-12-02T03:13:49.163087",
+      "parameters": {
+        "metabolism": 0.46355462649891843,
+        "consumption_rate": 6.005505613577278,
+        "reproduction_threshold": 81.5206445610688,
+        "reproduction_cost": 39.918616543397356
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 4198,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 666.625,
+        "population_variance": 131029.859375,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    },
+    {
+      "id": "exp_082",
+      "generation": 1,
+      "timestamp": "2025-12-02T03:21:20.766101",
+      "parameters": {
+        "metabolism": 0.9482634386886001,
+        "consumption_rate": 9.71259445191076,
+        "reproduction_threshold": 89.40951747239245,
+        "reproduction_cost": 99.56528937531438
+      },
+      "outcomes": {
+        "final_population": 991,
+        "total_births": 1167,
+        "total_deaths": 126,
+        "death_rate": 0.10796915167095116,
+        "avg_population": 988.3825,
+        "population_variance": 2622.0991937500003,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.17994858611825193,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5719794344473008
+      }
+    },
+    {
+      "id": "exp_083",
+      "generation": 2,
+      "timestamp": "2025-12-02T03:23:18.057414",
+      "parameters": {
+        "metabolism": 0.42700520669793623,
+        "consumption_rate": 10.0,
+        "reproduction_threshold": 50.88882022935471,
+        "reproduction_cost": 81.1333580189314
+      },
+      "outcomes": {
+        "final_population": 954,
+        "total_births": 43091,
+        "total_deaths": 21044,
+        "death_rate": 0.48836183889907403,
+        "avg_population": 984.3775,
+        "population_variance": 2895.78099375,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.44180919449537026,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6767236777981481
+      }
+    },
+    {
+      "id": "exp_084",
+      "generation": 2,
+      "timestamp": "2025-12-02T03:25:15.094598",
+      "parameters": {
+        "metabolism": 0.45772101690612266,
+        "consumption_rate": 8.386060385076272,
+        "reproduction_threshold": 50.0,
+        "reproduction_cost": 74.16689432069569
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 29051,
+        "total_deaths": 14012,
+        "death_rate": 0.4823241884960931,
+        "avg_population": 986.61,
+        "population_variance": 2854.964900000001,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.41162094248046566,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6646483769921863
+      }
+    },
+    {
+      "id": "exp_085",
+      "generation": 2,
+      "timestamp": "2025-12-02T03:27:11.412607",
+      "parameters": {
+        "metabolism": 0.3404355383198406,
+        "consumption_rate": 10.0,
+        "reproduction_threshold": 54.740061642491234,
+        "reproduction_cost": 80.7521688415746
+      },
+      "outcomes": {
+        "final_population": 998,
+        "total_births": 46999,
+        "total_deaths": 22980,
+        "death_rate": 0.4889465733313475,
+        "avg_population": 983.4545,
+        "population_variance": 2909.3229297499993,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.4447328666567376,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6778931466626951
+      }
+    },
+    {
+      "id": "exp_086",
+      "generation": 2,
+      "timestamp": "2025-12-02T03:29:08.144790",
+      "parameters": {
+        "metabolism": 0.34368075593138886,
+        "consumption_rate": 9.586160249539716,
+        "reproduction_threshold": 57.27737962763494,
+        "reproduction_cost": 76.98895661289099
+      },
+      "outcomes": {
+        "final_population": 999,
+        "total_births": 41042,
+        "total_deaths": 20000,
+        "death_rate": 0.48730568685736564,
+        "avg_population": 984.647,
+        "population_variance": 2917.827390999999,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.4365284342868283,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6746113737147313
+      }
+    },
+    {
+      "id": "exp_087",
+      "generation": 2,
+      "timestamp": "2025-12-02T03:31:43.436673",
+      "parameters": {
+        "metabolism": 0.3017835994987617,
+        "consumption_rate": 8.920121723828672,
+        "reproduction_threshold": 50.0,
+        "reproduction_cost": 100.0
+      },
+      "outcomes": {
+        "final_population": 955,
+        "total_births": 45149,
+        "total_deaths": 22048,
+        "death_rate": 0.4883386121508782,
+        "avg_population": 984.666,
+        "population_variance": 2873.2184439999987,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.4416930607543912,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6766772243017565
+      }
+    },
+    {
+      "id": "exp_088",
+      "generation": 2,
+      "timestamp": "2025-12-02T03:33:41.760838",
+      "parameters": {
+        "metabolism": 0.3031893805614392,
+        "consumption_rate": 10.0,
+        "reproduction_threshold": 50.0,
+        "reproduction_cost": 56.894819629231
+      },
+      "outcomes": {
+        "final_population": 955,
+        "total_births": 53379,
+        "total_deaths": 26194,
+        "death_rate": 0.4907173232919313,
+        "avg_population": 983.1535,
+        "population_variance": 3014.11793775,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.4535866164596566,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6814346465838627
+      }
+    },
+    {
+      "id": "exp_089",
+      "generation": 2,
+      "timestamp": "2025-12-02T03:35:37.777556",
+      "parameters": {
+        "metabolism": 0.40450876700151317,
+        "consumption_rate": 10.0,
+        "reproduction_threshold": 63.20136536369454,
+        "reproduction_cost": 82.70529113924385
+      },
+      "outcomes": {
+        "final_population": 999,
+        "total_births": 37030,
+        "total_deaths": 17991,
+        "death_rate": 0.48584931136916015,
+        "avg_population": 985.9705,
+        "population_variance": 2897.4986297500004,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.42924655684580093,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6716986227383204
+      }
+    },
+    {
+      "id": "exp_090",
+      "generation": 2,
+      "timestamp": "2025-12-02T03:37:35.315573",
+      "parameters": {
+        "metabolism": 0.3103478915630552,
+        "consumption_rate": 9.469752992592786,
+        "reproduction_threshold": 50.0,
+        "reproduction_cost": 75.02714011539835
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 49041,
+        "total_deaths": 23999,
+        "death_rate": 0.48936604065985606,
+        "avg_population": 982.7155,
+        "population_variance": 2934.2985597499996,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.44683020329928047,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6787320813197122
+      }
+    },
+    {
+      "id": "exp_091",
+      "generation": 2,
+      "timestamp": "2025-12-02T03:39:32.032021",
+      "parameters": {
+        "metabolism": 0.2539528584437982,
+        "consumption_rate": 8.437839233157286,
+        "reproduction_threshold": 57.76233412743839,
+        "reproduction_cost": 76.11428021309773
+      },
+      "outcomes": {
+        "final_population": 951,
+        "total_births": 39248,
+        "total_deaths": 19099,
+        "death_rate": 0.4866235222176926,
+        "avg_population": 985.1325,
+        "population_variance": 2909.3109437500007,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.43311761108846325,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6732470444353853
+      }
+    },
+    {
+      "id": "exp_092",
+      "generation": 2,
+      "timestamp": "2025-12-02T03:41:28.898738",
+      "parameters": {
+        "metabolism": 0.45511541916488313,
+        "consumption_rate": 10.0,
+        "reproduction_threshold": 60.97406760133093,
+        "reproduction_cost": 64.54297502699457
+      },
+      "outcomes": {
+        "final_population": 998,
+        "total_births": 35011,
+        "total_deaths": 16985,
+        "death_rate": 0.48513324383765105,
+        "avg_population": 985.523,
+        "population_variance": 2870.729471,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.4256662191882554,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6702664876753022
+      }
+    },
+    {
+      "id": "exp_093",
+      "generation": 2,
+      "timestamp": "2025-12-02T03:43:53.145544",
+      "parameters": {
+        "metabolism": 0.34701427947543134,
+        "consumption_rate": 9.17024263340105,
+        "reproduction_threshold": 50.0,
+        "reproduction_cost": 75.63107206801953
+      },
+      "outcomes": {
+        "final_population": 994,
+        "total_births": 44964,
+        "total_deaths": 21963,
+        "death_rate": 0.48845743261275687,
+        "avg_population": 983.6485,
+        "population_variance": 2924.8869477499993,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.44228716306378446,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6769148652255138
+      }
+    },
+    {
+      "id": "exp_094",
+      "generation": 2,
+      "timestamp": "2025-12-02T03:45:50.054142",
+      "parameters": {
+        "metabolism": 0.2202512450479,
+        "consumption_rate": 9.406844134742023,
+        "reproduction_threshold": 54.20425221340869,
+        "reproduction_cost": 100.0
+      },
+      "outcomes": {
+        "final_population": 999,
+        "total_births": 51031,
+        "total_deaths": 24993,
+        "death_rate": 0.4897611255903275,
+        "avg_population": 983.191,
+        "population_variance": 2903.0045190000005,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.4488056279516375,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.679522251180655
+      }
+    },
+    {
+      "id": "exp_095",
+      "generation": 2,
+      "timestamp": "2025-12-02T03:47:41.941207",
+      "parameters": {
+        "metabolism": 0.3945746904095208,
+        "consumption_rate": 7.806178389488554,
+        "reproduction_threshold": 60.00662073198123,
+        "reproduction_cost": 76.59225786275464
+      },
+      "outcomes": {
+        "final_population": 999,
+        "total_births": 25040,
+        "total_deaths": 11997,
+        "death_rate": 0.47911341853035144,
+        "avg_population": 987.9055,
+        "population_variance": 2847.4985697499997,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.3955670926517574,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.658226837060703
+      }
+    },
+    {
+      "id": "exp_096",
+      "generation": 2,
+      "timestamp": "2025-12-02T03:49:34.780625",
+      "parameters": {
+        "metabolism": 0.3899181771182229,
+        "consumption_rate": 9.894596151868226,
+        "reproduction_threshold": 50.0,
+        "reproduction_cost": 65.10059054469185
+      },
+      "outcomes": {
+        "final_population": 998,
+        "total_births": 46969,
+        "total_deaths": 22962,
+        "death_rate": 0.488875641380485,
+        "avg_population": 982.6975,
+        "population_variance": 2935.8299937499996,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.44437820690242513,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6777512827609701
+      }
+    },
+    {
+      "id": "exp_097",
+      "generation": 2,
+      "timestamp": "2025-12-02T03:49:46.143448",
+      "parameters": {
+        "metabolism": 0.9807752099054434,
+        "consumption_rate": 5.641898681410108,
+        "reproduction_threshold": 144.60971371881757,
+        "reproduction_cost": 84.99437634861476
+      },
+      "outcomes": {
+        "final_population": 0,
+        "total_births": 50,
+        "total_deaths": 50,
+        "death_rate": 1.0,
+        "avg_population": 6.0,
+        "population_variance": 264.0,
+        "extinction": true,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.33333333333333326,
+        "dynamics": 0.132,
+        "survival": 0.0,
+        "health": 0.06000000000000005,
+        "total": 0.1789333333333333
+      }
+    },
+    {
+      "id": "exp_098",
+      "generation": 2,
+      "timestamp": "2025-12-02T03:51:40.307643",
+      "parameters": {
+        "metabolism": 0.6480472032834906,
+        "consumption_rate": 6.990576838415448,
+        "reproduction_threshold": 76.89501138456329,
+        "reproduction_cost": 86.93753573628285
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 3023,
+        "total_deaths": 999,
+        "death_rate": 0.3304664240820377,
+        "avg_population": 974.8325,
+        "population_variance": 2656.387443749999,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.5507773734700628,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.7203109493880251
+      }
+    },
+    {
+      "id": "exp_099",
+      "generation": 2,
+      "timestamp": "2025-12-02T03:52:46.673733",
+      "parameters": {
+        "metabolism": 0.5752734763473891,
+        "consumption_rate": 9.310948106494775,
+        "reproduction_threshold": 195.18244835154914,
+        "reproduction_cost": 88.49437058726193
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 3600,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 536.6,
+        "population_variance": 155717.94,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    },
+    {
+      "id": "exp_100",
+      "generation": 2,
+      "timestamp": "2025-12-02T03:54:16.350370",
+      "parameters": {
+        "metabolism": 0.35527645590572987,
+        "consumption_rate": 6.362557539335027,
+        "reproduction_threshold": 108.44867896642438,
+        "reproduction_cost": 30.75746573630149
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 12014,
+        "total_deaths": 7,
+        "death_rate": 0.000582653570834027,
+        "avg_population": 773.905,
+        "population_variance": 118537.646975,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0009710892847233366,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5003884357138894
+      }
+    },
+    {
+      "id": "exp_101",
+      "generation": 2,
+      "timestamp": "2025-12-02T03:54:30.148823",
+      "parameters": {
+        "metabolism": 0.6180283322041933,
+        "consumption_rate": 4.846317525559373,
+        "reproduction_threshold": 100.29607677715671,
+        "reproduction_cost": 88.49138286988455
+      },
+      "outcomes": {
+        "final_population": 0,
+        "total_births": 50,
+        "total_deaths": 50,
+        "death_rate": 1.0,
+        "avg_population": 18.725,
+        "population_variance": 585.624375,
+        "extinction": true,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.33333333333333326,
+        "dynamics": 0.2928121875,
+        "survival": 0.0,
+        "health": 0.18724999999999992,
+        "total": 0.2399019895833333
+      }
+    },
+    {
+      "id": "exp_102",
+      "generation": 2,
+      "timestamp": "2025-12-02T03:54:55.065858",
+      "parameters": {
+        "metabolism": 0.16270171217781412,
+        "consumption_rate": 2.699089454403316,
+        "reproduction_threshold": 177.4806531928917,
+        "reproduction_cost": 51.12895351189821
+      },
+      "outcomes": {
+        "final_population": 250,
+        "total_births": 250,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 112.55,
+        "population_variance": 3579.9975,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 1.0,
+        "total": 0.6
+      }
+    },
+    {
+      "id": "exp_103",
+      "generation": 3,
+      "timestamp": "2025-12-02T03:56:46.532912",
+      "parameters": {
+        "metabolism": 0.26698585135875647,
+        "consumption_rate": 10.0,
+        "reproduction_threshold": 50.0,
+        "reproduction_cost": 80.64185437355442
+      },
+      "outcomes": {
+        "final_population": 951,
+        "total_births": 56340,
+        "total_deaths": 27670,
+        "death_rate": 0.4911253106141285,
+        "avg_population": 981.217,
+        "population_variance": 2950.163910999999,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.4556265530706427,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6822506212282571
+      }
+    },
+    {
+      "id": "exp_104",
+      "generation": 3,
+      "timestamp": "2025-12-02T03:58:40.254680",
+      "parameters": {
+        "metabolism": 0.2531222752871672,
+        "consumption_rate": 10.0,
+        "reproduction_threshold": 50.0,
+        "reproduction_cost": 65.05185459777945
+      },
+      "outcomes": {
+        "final_population": 998,
+        "total_births": 57127,
+        "total_deaths": 28042,
+        "death_rate": 0.49087121676265166,
+        "avg_population": 980.5605,
+        "population_variance": 2914.8003397500006,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.4543560838132584,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6817424335253034
+      }
+    },
+    {
+      "id": "exp_105",
+      "generation": 3,
+      "timestamp": "2025-12-02T03:58:56.202205",
+      "parameters": {
+        "metabolism": 0.7344465140817557,
+        "consumption_rate": 6.721813844570473,
+        "reproduction_threshold": 77.21736609804161,
+        "reproduction_cost": 71.16984962149597
+      },
+      "outcomes": {
+        "final_population": 0,
+        "total_births": 100,
+        "total_deaths": 100,
+        "death_rate": 1.0,
+        "avg_population": 40.175,
+        "population_variance": 1552.219375,
+        "extinction": true,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.33333333333333326,
+        "dynamics": 0.7761096875,
+        "survival": 0.0,
+        "health": 0.40174999999999994,
+        "total": 0.4063412395833333
+      }
+    },
+    {
+      "id": "exp_106",
+      "generation": 3,
+      "timestamp": "2025-12-02T03:59:20.434579",
+      "parameters": {
+        "metabolism": 0.664409963896734,
+        "consumption_rate": 6.058177066457756,
+        "reproduction_threshold": 64.78950258328864,
+        "reproduction_cost": 100.0
+      },
+      "outcomes": {
+        "final_population": 100,
+        "total_births": 100050,
+        "total_deaths": 99950,
+        "death_rate": 0.999000499750125,
+        "avg_population": 100.0,
+        "population_variance": 0.0,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.33499916708312505,
+        "dynamics": 0.0,
+        "survival": 1.0,
+        "health": 1.0,
+        "total": 0.43399966683325
+      }
+    },
+    {
+      "id": "exp_107",
+      "generation": 3,
+      "timestamp": "2025-12-02T04:01:14.612623",
+      "parameters": {
+        "metabolism": 0.5589655700563547,
+        "consumption_rate": 7.598369072536745,
+        "reproduction_threshold": 68.61142993039535,
+        "reproduction_cost": 68.46932016714733
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 6166,
+        "total_deaths": 69,
+        "death_rate": 0.01119039896204995,
+        "avg_population": 992.8905,
+        "population_variance": 2709.53350975,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.01865066493674994,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5074602659747
+      }
+    },
+    {
+      "id": "exp_108",
+      "generation": 3,
+      "timestamp": "2025-12-02T04:03:08.215257",
+      "parameters": {
+        "metabolism": 0.30090914492318066,
+        "consumption_rate": 9.752124438821332,
+        "reproduction_threshold": 56.75397152281762,
+        "reproduction_cost": 68.56978843790277
+      },
+      "outcomes": {
+        "final_population": 996,
+        "total_births": 45146,
+        "total_deaths": 22048,
+        "death_rate": 0.4883710627741107,
+        "avg_population": 983.4835,
+        "population_variance": 2913.64772775,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.44185531387055355,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6767421255482214
+      }
+    },
+    {
+      "id": "exp_109",
+      "generation": 3,
+      "timestamp": "2025-12-02T04:05:01.223843",
+      "parameters": {
+        "metabolism": 0.24251022931085267,
+        "consumption_rate": 10.0,
+        "reproduction_threshold": 50.0,
+        "reproduction_cost": 72.09913549565773
+      },
+      "outcomes": {
+        "final_population": 999,
+        "total_births": 57142,
+        "total_deaths": 28048,
+        "death_rate": 0.49084736271044066,
+        "avg_population": 980.7755,
+        "population_variance": 2951.135099749999,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.45423681355220347,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6816947254208814
+      }
+    },
+    {
+      "id": "exp_110",
+      "generation": 3,
+      "timestamp": "2025-12-02T04:06:55.360474",
+      "parameters": {
+        "metabolism": 0.35901544689991843,
+        "consumption_rate": 6.431580251080002,
+        "reproduction_threshold": 53.151463729748905,
+        "reproduction_cost": 99.31964954474039
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 21026,
+        "total_deaths": 9991,
+        "death_rate": 0.4751735945971654,
+        "avg_population": 989.8605,
+        "population_variance": 2764.7040397499995,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.3758679729858272,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6503471891943309
+      }
+    },
+    {
+      "id": "exp_111",
+      "generation": 3,
+      "timestamp": "2025-12-02T04:08:52.481497",
+      "parameters": {
+        "metabolism": 0.18764993657371876,
+        "consumption_rate": 10.0,
+        "reproduction_threshold": 50.0,
+        "reproduction_cost": 90.71861363956735
+      },
+      "outcomes": {
+        "final_population": 948,
+        "total_births": 62743,
+        "total_deaths": 30873,
+        "death_rate": 0.49205489058540397,
+        "avg_population": 979.999,
+        "population_variance": 2965.6749990000003,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.46027445292701996,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.684109781170808
+      }
+    },
+    {
+      "id": "exp_112",
+      "generation": 3,
+      "timestamp": "2025-12-02T04:10:52.478948",
+      "parameters": {
+        "metabolism": 0.3741045896958267,
+        "consumption_rate": 10.0,
+        "reproduction_threshold": 57.76033302071993,
+        "reproduction_cost": 69.18964506847529
+      },
+      "outcomes": {
+        "final_population": 950,
+        "total_births": 41702,
+        "total_deaths": 20353,
+        "death_rate": 0.48805812670855114,
+        "avg_population": 984.2755,
+        "population_variance": 2944.2955997500003,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.4402906335427559,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6761162534171024
+      }
+    },
+    {
+      "id": "exp_113",
+      "generation": 3,
+      "timestamp": "2025-12-02T04:12:50.353197",
+      "parameters": {
+        "metabolism": 0.391041013226497,
+        "consumption_rate": 10.0,
+        "reproduction_threshold": 64.73921041682242,
+        "reproduction_cost": 77.73301261805115
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 36977,
+        "total_deaths": 17966,
+        "death_rate": 0.48586959461286744,
+        "avg_population": 985.7575,
+        "population_variance": 2870.4826937500006,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.42934797306433736,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.671739189225735
+      }
+    },
+    {
+      "id": "exp_114",
+      "generation": 3,
+      "timestamp": "2025-12-02T04:14:45.288634",
+      "parameters": {
+        "metabolism": 0.7338798908349999,
+        "consumption_rate": 7.525613331511899,
+        "reproduction_threshold": 81.76164884444653,
+        "reproduction_cost": 100.0
+      },
+      "outcomes": {
+        "final_population": 953,
+        "total_births": 1052,
+        "total_deaths": 49,
+        "death_rate": 0.04657794676806084,
+        "avg_population": 954.0995,
+        "population_variance": 2308.40859975,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.07762991128010133,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5310519645120405
+      }
+    },
+    {
+      "id": "exp_115",
+      "generation": 3,
+      "timestamp": "2025-12-02T04:16:42.820481",
+      "parameters": {
+        "metabolism": 0.38828623758840486,
+        "consumption_rate": 8.576749938280138,
+        "reproduction_threshold": 50.0,
+        "reproduction_cost": 54.47340857656993
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 37066,
+        "total_deaths": 18015,
+        "death_rate": 0.4860249285059084,
+        "avg_population": 986.897,
+        "population_variance": 2871.9373910000004,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.4301246425295421,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.6720498570118169
+      }
+    },
+    {
+      "id": "exp_116",
+      "generation": 3,
+      "timestamp": "2025-12-02T04:18:37.671606",
+      "parameters": {
+        "metabolism": 0.3646231222698774,
+        "consumption_rate": 10.0,
+        "reproduction_threshold": 50.0,
+        "reproduction_cost": 33.88064600200427
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 36579,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 968.979,
+        "population_variance": 19902.684559000005,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    },
+    {
+      "id": "exp_117",
+      "generation": 3,
+      "timestamp": "2025-12-02T04:18:53.746095",
+      "parameters": {
+        "metabolism": 0.46458670681533365,
+        "consumption_rate": 1.5353356685937882,
+        "reproduction_threshold": 154.92760106144505,
+        "reproduction_cost": 60.9392599867106
+      },
+      "outcomes": {
+        "final_population": 0,
+        "total_births": 50,
+        "total_deaths": 50,
+        "death_rate": 1.0,
+        "avg_population": 8.025,
+        "population_variance": 336.8493750000001,
+        "extinction": true,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.33333333333333326,
+        "dynamics": 0.16842468750000006,
+        "survival": 0.0,
+        "health": 0.08025000000000004,
+        "total": 0.19188573958333333
+      }
+    },
+    {
+      "id": "exp_118",
+      "generation": 3,
+      "timestamp": "2025-12-02T04:19:34.259177",
+      "parameters": {
+        "metabolism": 0.16708463284940023,
+        "consumption_rate": 3.141612749166341,
+        "reproduction_threshold": 155.11571859063903,
+        "reproduction_cost": 53.29001760664877
+      },
+      "outcomes": {
+        "final_population": 650,
+        "total_births": 650,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 236.1,
+        "population_variance": 33271.79,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    },
+    {
+      "id": "exp_119",
+      "generation": 3,
+      "timestamp": "2025-12-02T04:19:50.385109",
+      "parameters": {
+        "metabolism": 0.6021395742991124,
+        "consumption_rate": 2.227123619696536,
+        "reproduction_threshold": 124.26232637340878,
+        "reproduction_cost": 77.35610163907816
+      },
+      "outcomes": {
+        "final_population": 0,
+        "total_births": 50,
+        "total_deaths": 50,
+        "death_rate": 1.0,
+        "avg_population": 6.575,
+        "population_variance": 285.519375,
+        "extinction": true,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.33333333333333326,
+        "dynamics": 0.1427596875,
+        "survival": 0.0,
+        "health": 0.06574999999999998,
+        "total": 0.1827362395833333
+      }
+    },
+    {
+      "id": "exp_120",
+      "generation": 3,
+      "timestamp": "2025-12-02T14:25:32.108351",
+      "parameters": {
+        "metabolism": 0.2180806535524979,
+        "consumption_rate": 2.3400163095457587,
+        "reproduction_threshold": 53.281598379613854,
+        "reproduction_cost": 82.06562068470456
+      },
+      "outcomes": {
+        "final_population": 951,
+        "total_births": 1062,
+        "total_deaths": 61,
+        "death_rate": 0.05743879472693032,
+        "avg_population": 948.3945,
+        "population_variance": 2267.96386975,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.09573132454488398,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5382925298179536
+      }
+    },
+    {
+      "id": "exp_121",
+      "generation": 3,
+      "timestamp": "2025-12-02T14:26:12.107263",
+      "parameters": {
+        "metabolism": 0.6678916951715399,
+        "consumption_rate": 4.050509681368096,
+        "reproduction_threshold": 75.95330400052693,
+        "reproduction_cost": 95.07954333925072
+      },
+      "outcomes": {
+        "final_population": 100,
+        "total_births": 100050,
+        "total_deaths": 99950,
+        "death_rate": 0.999000499750125,
+        "avg_population": 100.425,
+        "population_variance": 21.069375,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.33499916708312505,
+        "dynamics": 0.0105346875,
+        "survival": 1.0,
+        "health": 1.0,
+        "total": 0.43716007308325
+      }
+    },
+    {
+      "id": "exp_122",
+      "generation": 3,
+      "timestamp": "2025-12-02T14:28:19.619500",
+      "parameters": {
+        "metabolism": 0.3720103294375443,
+        "consumption_rate": 6.675552165274574,
+        "reproduction_threshold": 100.66730892809386,
+        "reproduction_cost": 94.57926181217621
+      },
+      "outcomes": {
+        "final_population": 1000,
+        "total_births": 6247,
+        "total_deaths": 0,
+        "death_rate": 0.0,
+        "avg_population": 910.922,
+        "population_variance": 48267.96291600001,
+        "extinction": false,
+        "cycles_survived": 2000
+      },
+      "scores": {
+        "selection_pressure": 0.0,
+        "dynamics": 1.0,
+        "survival": 1.0,
+        "health": 0.0,
+        "total": 0.5
+      }
+    }
+  ],
+  "best_parameters": {
+    "generation_1": {
+      "parameters": {
+        "metabolism": 0.3354191737584086,
+        "consumption_rate": 9.580736319869567,
+        "reproduction_threshold": 55.127057940716305,
+        "reproduction_cost": 69.39254636646119
+      },
+      "score": 0.6768186564566656,
+      "id": "exp_007"
+    },
+    "generation_2": {
+      "parameters": {
+        "metabolism": 0.6480472032834906,
+        "consumption_rate": 6.990576838415448,
+        "reproduction_threshold": 76.89501138456329,
+        "reproduction_cost": 86.93753573628285
+      },
+      "score": 0.7203109493880251,
+      "id": "exp_098"
+    },
+    "generation_3": {
+      "parameters": {
+        "metabolism": 0.18764993657371876,
+        "consumption_rate": 10.0,
+        "reproduction_threshold": 50.0,
+        "reproduction_cost": 90.71861363956735
+      },
+      "score": 0.684109781170808,
+      "id": "exp_111"
+    }
+  }
+}
