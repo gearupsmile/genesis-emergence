@@ -1,5 +1,5 @@
 """
-Minimal agent implementation for emergence experiments.
+Minimal agent implementation for emergence experiments with evolvable genomes.
 
 Agents have the simplest possible behavior:
 - Sense local U concentration (energy)
@@ -9,57 +9,95 @@ Agents have the simplest possible behavior:
 - Reproduce when energy > threshold
 - Die when energy <= 0
 
-No complex behaviors, neural networks, or pre-programmed strategies.
-Pure emergence from simple survival rules.
+Agents now have EVOLVABLE GENOMES that modify how they interact
+with fixed world physics (World_98).
 """
 
 import numpy as np
-from typing import Tuple, Optional
+from typing import Tuple, Optional, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .genome import Genome
 
 
 class Agent:
-    """Minimal agent with pure survival behavior."""
+    """Agent with evolvable genome."""
     
-    # Class-level parameters (tuned for sustainable populations)
-    ENERGY_START = 100.0
-    ENERGY_METABOLISM = 0.3  # Reduced from 0.5
-    ENERGY_CONSUMPTION_RATE = 5.0  # Increased from 2.0
-    ENERGY_REPRODUCTION_THRESHOLD = 120.0  # Reduced from 150.0
-    ENERGY_REPRODUCTION_COST = 40.0  # Reduced from 50.0
-    MOVEMENT_SPEED = 1.0  # Pixels per cycle
-    SENSING_RADIUS = 5.0  # Radius for U sensing
+    # World_98 physics (FIXED environmental rules)
+    # NOTE: These can be adjusted at runtime via set_world_baselines() for self-tuning
+    WORLD_METABOLISM = 0.648
+    WORLD_CONSUMPTION_RATE = 6.99
+    WORLD_REPRODUCTION_THRESHOLD = 76.9
+    WORLD_REPRODUCTION_COST = 86.9
     
-    def __init__(self, x: float, y: float, energy: Optional[float] = None, custom_params: Optional[Dict] = None):
-        """Initialize agent at position with energy.
+    @classmethod
+    def set_world_baselines(cls, metabolism=None, consumption=None, 
+                           threshold=None, cost=None):
+        """Adjust world baseline parameters (for self-tuning worlds).
+        
+        This allows runtime adjustment of the baseline parameters that all agents
+        use to calculate their effective values (baseline × gene_multiplier).
+        
+        Args:
+            metabolism: New metabolism baseline (clamped to 0.3-1.5)
+            consumption: New consumption rate baseline (clamped to 3.0-12.0)
+            threshold: New reproduction threshold baseline (clamped to 40.0-150.0)
+            cost: New reproduction cost baseline (clamped to 15.0-120.0)
+        """
+        if metabolism is not None:
+            cls.WORLD_METABOLISM = np.clip(metabolism, 0.3, 1.5)
+        if consumption is not None:
+            cls.WORLD_CONSUMPTION_RATE = np.clip(consumption, 3.0, 12.0)
+        if threshold is not None:
+            cls.WORLD_REPRODUCTION_THRESHOLD = np.clip(threshold, 40.0, 150.0)
+        if cost is not None:
+            cls.WORLD_REPRODUCTION_COST = np.clip(cost, 15.0, 120.0)
+    
+    def __init__(self, x: float, y: float, energy: float = 100.0, 
+                 genome: Optional['Genome'] = None):
+        """Initialize agent at position with energy and genome.
         
         Args:
             x: X position (float for sub-pixel precision)
             y: Y position (float for sub-pixel precision)
-            energy: Starting energy (defaults to ENERGY_START)
-            custom_params: Optional dict to override class-level parameters
-                          Keys: metabolism, consumption_rate, reproduction_threshold, reproduction_cost
+            energy: Starting energy (default: 100.0)
+            genome: Genome object (creates default if None)
         """
         self.x = x
         self.y = y
-        self.energy = energy if energy is not None else self.ENERGY_START
+        self.energy = energy
         self.age = 0
         self.alive = True
         
-        # Override class-level parameters if custom_params provided
-        if custom_params:
-            self.ENERGY_METABOLISM = custom_params.get('metabolism', self.ENERGY_METABOLISM)
-            self.ENERGY_CONSUMPTION_RATE = custom_params.get('consumption_rate', self.ENERGY_CONSUMPTION_RATE)
-            self.ENERGY_REPRODUCTION_THRESHOLD = custom_params.get('reproduction_threshold', self.ENERGY_REPRODUCTION_THRESHOLD)
-            self.ENERGY_REPRODUCTION_COST = custom_params.get('reproduction_cost', self.ENERGY_REPRODUCTION_COST)
+        # Genome determines how agent interacts with world physics
+        if genome is None:
+            from .genome import Genome
+            self.genome = Genome()
+        else:
+            self.genome = genome
         
         # Statistics
         self.total_consumed = 0.0
         self.offspring_count = 0
     
+    def get_effective_metabolism(self) -> float:
+        """Calculate actual metabolism from world × gene multiplier."""
+        return self.WORLD_METABOLISM * self.genome.genes['metabolism_multiplier']
+    
+    def get_effective_consumption_rate(self) -> float:
+        """Calculate actual consumption rate from world × gene multiplier."""
+        return self.WORLD_CONSUMPTION_RATE * self.genome.genes['consumption_multiplier']
+    
+    def get_effective_reproduction_threshold(self) -> float:
+        """Calculate actual reproduction threshold from world × gene multiplier."""
+        return self.WORLD_REPRODUCTION_THRESHOLD * self.genome.genes['reproduction_th_multiplier']
+    
+    def get_effective_reproduction_cost(self) -> float:
+        """Calculate actual reproduction cost from world × gene multiplier."""
+        return self.WORLD_REPRODUCTION_COST * self.genome.genes['reproduction_cost_multiplier']
+    
     def sense_gradient(self, U: np.ndarray) -> Tuple[float, float]:
-        """Sense U gradient in local neighborhood.
-        
-        Uses simple 4-direction sampling to find gradient direction.
+        """Sense U gradient using gene-determined sensor radius.
         
         Args:
             U: U concentration field (2D array)
@@ -68,44 +106,37 @@ class Agent:
             (dx, dy) normalized gradient direction
         """
         height, width = U.shape
-        
-        # Current position (with bounds checking)
         cx = int(np.clip(self.x, 0, width - 1))
         cy = int(np.clip(self.y, 0, height - 1))
         
+        # Use gene-determined sensor radius
+        radius = int(self.genome.genes['sensor_radius'])
+        
         # Sample in 4 directions
-        radius = int(self.SENSING_RADIUS)
+        north_y = max(0, cy - radius)
+        south_y = min(height - 1, cy + radius)
+        west_x = max(0, cx - radius)
+        east_x = min(width - 1, cx + radius)
         
-        # North
-        ny = max(0, cy - radius)
-        north = U[ny, cx]
-        
-        # South
-        sy = min(height - 1, cy + radius)
-        south = U[sy, cx]
-        
-        # West
-        wx = max(0, cx - radius)
-        west = U[cy, wx]
-        
-        # East
-        ex = min(width - 1, cx + radius)
-        east = U[cy, ex]
+        north = U[north_y, cx]
+        south = U[south_y, cx]
+        west = U[cy, west_x]
+        east = U[cy, east_x]
         
         # Compute gradient
         dx = east - west
-        dy = south - north  # Inverted because y increases downward
+        dy = south - north
         
         # Normalize
-        magnitude = np.sqrt(dx**2 + dy**2)
+        magnitude = np.sqrt(dx*dx + dy*dy)
         if magnitude > 0:
             dx /= magnitude
             dy /= magnitude
         
         return dx, dy
     
-    def move(self, U: np.ndarray, bounds: Tuple[int, int]) -> None:
-        """Move toward higher U concentration.
+    def move(self, U: np.ndarray, bounds: Tuple[int, int]):
+        """Move using gene-determined speed.
         
         Args:
             U: U concentration field
@@ -114,23 +145,24 @@ class Agent:
         if not self.alive:
             return
         
-        # Sense gradient
+        # Calculate gradient direction
         dx, dy = self.sense_gradient(U)
         
-        # Move in gradient direction
-        self.x += dx * self.MOVEMENT_SPEED
-        self.y += dy * self.MOVEMENT_SPEED
+        # Use gene-determined move speed
+        speed = self.genome.genes['move_speed']
+        self.x += dx * speed
+        self.y += dy * speed
         
-        # Wrap around boundaries (periodic)
+        # Periodic boundaries
         height, width = bounds
         self.x = self.x % width
         self.y = self.y % height
     
     def consume_energy(self, U: np.ndarray) -> float:
-        """Consume U at current position to gain energy.
+        """Consume U and gain energy based on effective consumption rate.
         
         Args:
-            U: U concentration field (will be modified)
+            U: U concentration field (modified in-place)
             
         Returns:
             Amount of U consumed
@@ -140,7 +172,7 @@ class Agent:
         
         height, width = U.shape
         
-        # Get current grid position
+        # Get grid position
         x = int(np.clip(self.x, 0, width - 1))
         y = int(np.clip(self.y, 0, height - 1))
         
@@ -151,19 +183,19 @@ class Agent:
         # Remove from field
         U[y, x] -= consumption
         
-        # Gain energy
-        energy_gained = consumption * self.ENERGY_CONSUMPTION_RATE
+        # Gain energy using effective consumption rate
+        energy_gained = consumption * self.get_effective_consumption_rate()
         self.energy += energy_gained
         self.total_consumed += consumption
         
         return consumption
     
-    def metabolize(self) -> None:
-        """Lose energy due to metabolism."""
+    def metabolize(self):
+        """Lose energy based on effective metabolism."""
         if not self.alive:
             return
         
-        self.energy -= self.ENERGY_METABOLISM
+        self.energy -= self.get_effective_metabolism()
         self.age += 1
         
         # Check for death
@@ -172,65 +204,50 @@ class Agent:
             self.energy = 0
     
     def can_reproduce(self) -> bool:
-        """Check if agent has enough energy to reproduce.
+        """Check if energy exceeds effective reproduction threshold.
         
         Returns:
-            True if energy > threshold
+            True if agent can reproduce
         """
-        return self.alive and self.energy >= self.ENERGY_REPRODUCTION_THRESHOLD
+        return self.alive and self.energy >= self.get_effective_reproduction_threshold()
     
-    def reproduce(self) -> 'Agent':
-        """Create offspring by splitting energy.
+    def reproduce(self) -> Optional['Agent']:
+        """Create offspring with MUTATED genome.
         
         Returns:
-            New agent (offspring) at nearby position
+            New agent (offspring) with mutated genome, or None if cannot reproduce
         """
         if not self.can_reproduce():
             return None
         
-        # Split energy
-        self.energy -= self.ENERGY_REPRODUCTION_COST
+        # Pay reproduction cost
+        cost = self.get_effective_reproduction_cost()
+        self.energy -= cost
         
-        # Create offspring at nearby position (small random offset)
-        offset_x = np.random.uniform(-5, 5)
-        offset_y = np.random.uniform(-5, 5)
+        # Offspring gets MUTATED genome (this is where evolution happens!)
+        offspring_genome = self.genome.copy().mutate()
         
-        # Build custom_params dict from current instance values
-        custom_params = {
-            'metabolism': self.ENERGY_METABOLISM,
-            'consumption_rate': self.ENERGY_CONSUMPTION_RATE,
-            'reproduction_threshold': self.ENERGY_REPRODUCTION_THRESHOLD,
-            'reproduction_cost': self.ENERGY_REPRODUCTION_COST
-        }
-        
+        # Create offspring at nearby position
         offspring = Agent(
-            x=self.x + offset_x,
-            y=self.y + offset_y,
-            energy=self.ENERGY_REPRODUCTION_COST,
-            custom_params=custom_params
+            x=self.x + np.random.uniform(-5, 5),
+            y=self.y + np.random.uniform(-5, 5),
+            energy=cost,
+            genome=offspring_genome
         )
         
         self.offspring_count += 1
-        
         return offspring
     
     def get_position(self) -> Tuple[float, float]:
-        """Get current position.
-        
-        Returns:
-            (x, y) position
-        """
+        """Get current position."""
         return self.x, self.y
     
     def get_energy_ratio(self) -> float:
-        """Get energy as ratio of starting energy.
-        
-        Returns:
-            Energy ratio (0.0 to 2.0+)
-        """
-        return self.energy / self.ENERGY_START
+        """Get energy as ratio of 100.0."""
+        return self.energy / 100.0
     
-    def __repr__(self) -> str:
-        """String representation."""
+    def __repr__(self):
+        """String representation of agent."""
         status = "alive" if self.alive else "dead"
-        return f"Agent(pos=({self.x:.1f}, {self.y:.1f}), energy={self.energy:.1f}, {status})"
+        return (f"Agent(pos=({self.x:.1f},{self.y:.1f}), "
+                f"energy={self.energy:.1f}, {status})")

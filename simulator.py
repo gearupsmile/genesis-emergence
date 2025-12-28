@@ -31,6 +31,8 @@ class SimulationRunner:
         num_agents: int = 50,
         max_population: int = 1000,
         agent_params: Optional[Dict] = None,
+        evolution_mode: bool = False,
+        self_tuning: bool = False,
     ):
         """Initialize simulation runner.
         
@@ -44,6 +46,8 @@ class SimulationRunner:
             max_population: Maximum population cap
             agent_params: Optional dict to override agent parameters
                          Keys: metabolism, consumption_rate, reproduction_threshold, reproduction_cost
+            evolution_mode: Enable genome-based evolution
+            self_tuning: Enable self-tuning world (maintains 50-70% death rate)
         """
         self.params = params
         self.grid_size = grid_size
@@ -55,7 +59,10 @@ class SimulationRunner:
         self.num_agents = num_agents
         self.max_population = max_population
         self.agent_params = agent_params
+        self.evolution_mode = evolution_mode
+        self.self_tuning = self_tuning
         self.population = None
+        self.tuning_world = None
         
         # Create output directory
         self.output_dir.mkdir(parents=True, exist_ok=True)
@@ -97,6 +104,15 @@ class SimulationRunner:
                 bounds=self.grid_size
             )
             self._log(f"Agent system enabled: spawned {spawned} agents (max: {self.max_population})")
+            
+            # Initialize self-tuning world if enabled
+            if self.self_tuning:
+                from self_tuning_world import SelfTuningWorld
+                self.tuning_world = SelfTuningWorld(
+                    population=self.population,
+                    output_dir=self.output_dir
+                )
+                self._log("Self-tuning world enabled (tuning agent baselines)")
         
     def _log(self, message: str) -> None:
         """Write message to log file and print to console.
@@ -195,6 +211,10 @@ class SimulationRunner:
                     agent_stats = self.population.update(U)
                     # Update U field after agent consumption
                     self.engine.U = U
+                    
+                    # Update self-tuning world if enabled
+                    if self.tuning_world:
+                        self.tuning_world.update(current_cycle)
                 
                 # Periodic logging
                 if current_cycle % 100 == 0:
@@ -219,6 +239,17 @@ class SimulationRunner:
                             f"deaths: {agent_stats['total_deaths']}) "
                             f"Energy: {agent_stats['avg_energy']:.1f}"
                         )
+                        
+                        # Add genome statistics if evolution mode enabled
+                        if hasattr(self, 'evolution_mode') and self.evolution_mode:
+                            genome_stats = self.population.get_genome_statistics()
+                            if genome_stats:
+                                log_msg += (
+                                    f" | Genes: "
+                                    f"metab={genome_stats['metabolism_multiplier']['mean']:.3f}, "
+                                    f"cons={genome_stats['consumption_multiplier']['mean']:.3f}, "
+                                    f"speed={genome_stats['move_speed']['mean']:.3f}"
+                                )
                     
                     self._log(log_msg)
                 
@@ -241,6 +272,10 @@ class SimulationRunner:
             elapsed = time.time() - self.start_time
             self._log(f"Simulation completed successfully in {elapsed:.1f} seconds")
             self._log(f"Average: {num_cycles / elapsed:.1f} cycles/second")
+            
+            # Save tuning history if self-tuning was enabled
+            if self.tuning_world:
+                self.tuning_world.save_history()
             
             return True
             
@@ -385,6 +420,26 @@ def main():
         help="Worlds to test per generation in parameter search (default: 20)"
     )
     
+    # Evolution mode arguments
+    parser.add_argument(
+        '--evolution-mode',
+        action='store_true',
+        help="Enable genome-based evolution (requires --with-agents)"
+    )
+    
+    parser.add_argument(
+        '--world-id',
+        type=int,
+        default=98,
+        help="World ID for baseline physics parameters (default: 98)"
+    )
+    
+    parser.add_argument(
+        '--self-tuning',
+        action='store_true',
+        help="Enable self-tuning world (maintains 50-70%% death rate via baseline adjustment)"
+    )
+    
     args = parser.parse_args()
     
     # Route to parameter search if requested
@@ -410,6 +465,8 @@ def main():
         with_agents=args.with_agents,
         num_agents=args.num_agents,
         max_population=args.max_population,
+        evolution_mode=args.evolution_mode,
+        self_tuning=args.self_tuning,
     )
     
     # Initialize

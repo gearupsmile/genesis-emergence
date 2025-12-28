@@ -1,0 +1,14 @@
+[2025-12-28 15:30:47] Initialized with pattern: random
+[2025-12-28 15:30:47] Grid size: (256, 256)
+[2025-12-28 15:30:47] Parameters: F=0.0367, k=0.0649, Du=0.16, Dv=0.08
+[2025-12-28 15:30:47] Agent system enabled: spawned 100 agents (max: 1000)
+[2025-12-28 15:30:47] Self-tuning world enabled (tuning agent baselines)
+[2025-12-28 15:30:47] Starting simulation for 500 cycles
+[2025-12-28 15:30:59] Cycle 100/500 | V: [0.000, 0.434] mean=0.022 | Mass error: 0.114274 | 8.4 cycles/sec | Agents: 999 (births: 2293, deaths: 1243) Energy: 24.8 | Genes: metab=0.837, cons=1.147, speed=0.998
+[2025-12-28 15:31:07] Cycle 200/500 | V: [0.000, 0.536] mean=0.007 | Mass error: 0.078135 | 9.8 cycles/sec | Agents: 998 (births: 2970, deaths: 1584) Energy: 31.3 | Genes: metab=0.826, cons=1.160, speed=1.000
+[2025-12-28 15:31:15] Cycle 300/500 | V: [0.000, 0.360] mean=0.010 | Mass error: 0.080885 | 10.6 cycles/sec | Agents: 997 (births: 3746, deaths: 1932) Energy: 32.0 | Genes: metab=0.826, cons=1.183, speed=1.026
+[2025-12-28 15:31:24] Cycle 400/500 | V: [0.000, 0.392] mean=0.009 | Mass error: 0.080113 | 10.9 cycles/sec | Agents: 997 (births: 4337, deaths: 2144) Energy: 37.4 | Genes: metab=0.819, cons=1.215, speed=1.048
+[2025-12-28 15:31:32] Cycle 500/500 | V: [0.000, 0.371] mean=0.009 | Mass error: 0.080460 | 11.0 cycles/sec | Agents: 998 (births: 4991, deaths: 2322) Energy: 36.6 | Genes: metab=0.809, cons=1.256, speed=1.089
+[2025-12-28 15:31:32] Checkpoint saved: checkpoint_000500.npz
+[2025-12-28 15:31:32] Simulation completed successfully in 45.5 seconds
+[2025-12-28 15:31:32] Average: 11.0 cycles/second

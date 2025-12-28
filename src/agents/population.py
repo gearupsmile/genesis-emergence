@@ -13,7 +13,7 @@ from .base_agent import Agent
 class Population:
     """Manages a population of agents with spatial efficiency."""
     
-    def __init__(self, max_population: int = 1000, custom_params: Optional[Dict] = None):
+    def __init__(self, max_population: int = 5000, custom_params: Optional[Dict] = None):
         """Initialize population manager.
         
         Args:
@@ -55,7 +55,7 @@ class Population:
         bounds: Tuple[int, int],
         energy: Optional[float] = None
     ) -> int:
-        """Spawn agents at random positions.
+        """Spawn agents with DIVERSE genomes (not all at baseline).
         
         Args:
             count: Number of agents to spawn
@@ -65,6 +65,8 @@ class Population:
         Returns:
             Number of agents actually spawned
         """
+        from .genome import Genome
+        
         height, width = bounds
         spawned = 0
         
@@ -75,7 +77,11 @@ class Population:
             x = np.random.uniform(0, width)
             y = np.random.uniform(0, height)
             
-            agent = Agent(x, y, energy, custom_params=self.custom_params)
+            # Create genome with HIGH initial diversity
+            genome = Genome()
+            genome = genome.mutate(mutation_rate=1.0, mutation_strength=0.3)
+            
+            agent = Agent(x, y, energy if energy is not None else 100.0, genome=genome)
             if self.add_agent(agent):
                 spawned += 1
         
@@ -185,6 +191,31 @@ class Population:
             'total_deaths': self.total_deaths,
             'cycle': self.cycle_count
         }
+    
+    def get_genome_statistics(self) -> Dict:
+        """Track genetic diversity and evolution.
+        
+        Returns:
+            Dictionary with statistics for each gene
+        """
+        if not self.agents:
+            return {}
+        
+        stats = {}
+        gene_names = ['metabolism_multiplier', 'consumption_multiplier',
+                      'reproduction_th_multiplier', 'reproduction_cost_multiplier',
+                      'move_speed', 'sensor_radius']
+        
+        for gene_name in gene_names:
+            values = [a.genome.genes[gene_name] for a in self.agents]
+            stats[gene_name] = {
+                'mean': float(np.mean(values)),
+                'std': float(np.std(values)),
+                'min': float(np.min(values)),
+                'max': float(np.max(values))
+            }
+        
+        return stats
     
     def get_spatial_distribution(self, bounds: Tuple[int, int], grid_size: int = 32) -> np.ndarray:
         """Get spatial distribution of agents as a heatmap.
