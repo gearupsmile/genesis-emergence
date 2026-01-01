@@ -1,12 +1,16 @@
 # Genesis Engine v2
 
-**Phase 1.1: Foundational Genetic Architecture**
+**Phases 1.1 & 1.2: Foundational Genetic Architecture + Artificial Immune System**
 
-Genesis Engine v2 is a complete reboot focused on building robust artificial life from the ground up, starting with a proper genetic architecture that mirrors biological systems.
+Genesis Engine v2 is a complete reboot focused on building robust artificial life from the ground up, starting with proper genetic architecture and universal lifecycle laws.
 
 ## Overview
 
-This implementation introduces the **CodonTranslator** - a foundational module that translates triplet genetic codes (codons) into phenotypic instructions. The critical innovation is **genetic code degeneracy**, where multiple different codons map to the same instruction, providing mutational robustness similar to biological DNA.
+This implementation introduces two foundational systems:
+
+1. **CodonTranslator** (Phase 1.1): Translates triplet genetic codes (codons) into phenotypic instructions with **genetic code degeneracy** for mutational robustness
+
+2. **ArtificialImmuneSystem** (Phase 1.2): A stateless universal law that manages entity lifecycles through forgetting and purging rules, ensuring only relevant entities persist
 
 ## Key Features
 
@@ -35,14 +39,43 @@ translator.translate_agent('AAT')  # Returns: 'move_forward' (degenerate)
 - **12 codons** in world_table mapping to **6 unique instructions** (2:1 degeneracy)
 - Extensible design for future genetic complexity
 
+### Artificial Immune System (Stateless Architecture)
+
+The AIS is a **stateless universal law** that applies forgetting and purging rules:
+- **No internal state**: AIS stores only immutable law parameters
+- **Entity sovereignty**: Each entity owns its `relevance_score` and `age`
+- **Pure function**: `apply_cycle()` is deterministic with no side effects
+
+**Forgetting Rule**: After `expiry_cycle` (default: 1000), relevance scores decay by `decay_rate` (default: 0.001) each cycle
+
+**Purging Rule**: Entities with `relevance_score < viability_threshold` (default: 0.1) are removed
+
+**Example:**
+```python
+ais = ArtificialImmuneSystem()
+
+# Entities own their state
+entities = [
+    {'id': 'agent_1', 'relevance_score': 1.0, 'age': 0},
+    {'id': 'agent_2', 'relevance_score': 1.0, 'age': 0},
+]
+
+# Apply universal law
+updated_entities, purged_ids = ais.apply_cycle(entities)
+# updated_entities: entities with incremented age and decayed scores
+# purged_ids: IDs of entities that fell below viability threshold
+```
+
 ## Project Structure
 
 ```
 genesis_engine_v2/
 ├── engine/
 │   ├── __init__.py
-│   └── codon_translator.py    # Core genetic translation system
-├── test_codon_translator.py   # Comprehensive test suite
+│   ├── codon_translator.py    # Phase 1.1: Genetic translation
+│   └── ais.py                  # Phase 1.2: Lifecycle management
+├── test_codon_translator.py   # CodonTranslator test suite
+├── test_ais.py                 # AIS test suite
 └── README.md                   # This file
 ```
 
@@ -50,35 +83,33 @@ genesis_engine_v2/
 
 ### Running Tests
 
-Verify the CodonTranslator implementation:
-
+**CodonTranslator (Phase 1.1):**
 ```bash
 cd genesis_engine_v2
 python test_codon_translator.py
 ```
 
-Expected output:
+**ArtificialImmuneSystem (Phase 1.2):**
+```bash
+cd genesis_engine_v2
+python test_ais.py
+```
+
+Expected output for AIS:
 ```
 ============================================================
-CodonTranslator Test Suite
-Testing Phase 1.1: Foundational Genetic Architecture
+Artificial Immune System Test Suite
+Testing Phase 1.2: Stateless Universal Law
 ============================================================
 
-Test 1: Basic Translation
-  ✓ Agent translation works
-  ✓ World translation works
-  PASSED
+Test 4: Mass Purging of 100 Inert Entities (CRITICAL)
+  Expected inert entity lifetime: 1900 cycles
+  Created 100 inert entities
+  [PASS] All 100 entities were purged
+  [PASS] No entities remain after 2000 cycles
+  ...
 
-Test 2: Degeneracy Verification (CRITICAL)
-  Agent Table Degeneracy:
-    ✓ 'AAA' and 'AAT' both produce 'move_forward'
-    ✓ 'ACA' and 'ACT' both produce 'turn_left'
-    ...
-  PASSED
-
-...
-
-✓ ALL TESTS PASSED!
+[SUCCESS] ALL TESTS PASSED!
 ```
 
 ### Using the CodonTranslator

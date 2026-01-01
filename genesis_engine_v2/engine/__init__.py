@@ -5,5 +5,6 @@ This package contains the foundational genetic architecture for the Genesis Engi
 """
 
 from .codon_translator import CodonTranslator
+from .ais import ArtificialImmuneSystem
 
-__all__ = ['CodonTranslator']
+__all__ = ['CodonTranslator', 'ArtificialImmuneSystem']
