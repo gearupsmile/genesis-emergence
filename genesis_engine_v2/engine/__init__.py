@@ -8,5 +8,6 @@ from .codon_translator import CodonTranslator
 from .ais import ArtificialImmuneSystem
 from .kernel_agent import KernelAgent
 from .kernel_world import KernelWorld
+from .evolvable_genome import EvolvableGenome
 
-__all__ = ['CodonTranslator', 'ArtificialImmuneSystem', 'KernelAgent', 'KernelWorld']
+__all__ = ['CodonTranslator', 'ArtificialImmuneSystem', 'KernelAgent', 'KernelWorld', 'EvolvableGenome']
