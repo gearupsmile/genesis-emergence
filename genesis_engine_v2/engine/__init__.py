@@ -10,6 +10,7 @@ from .kernel_agent import KernelAgent
 from .kernel_world import KernelWorld
 from .evolvable_genome import EvolvableGenome
 from .linkage_structure import LinkageStructure
+from .structurally_evolvable_agent import StructurallyEvolvableAgent
 
 __all__ = ['CodonTranslator', 'ArtificialImmuneSystem', 'KernelAgent', 'KernelWorld', 
-           'EvolvableGenome', 'LinkageStructure']
+           'EvolvableGenome', 'LinkageStructure', 'StructurallyEvolvableAgent']
