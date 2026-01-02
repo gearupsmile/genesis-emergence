@@ -1,16 +1,18 @@
 # Genesis Engine v2
 
-**Phases 1.1 & 1.2: Foundational Genetic Architecture + Artificial Immune System**
+**Phases 1.1, 1.2 & 1.3: Complete Foundational Architecture**
 
-Genesis Engine v2 is a complete reboot focused on building robust artificial life from the ground up, starting with proper genetic architecture and universal lifecycle laws.
+Genesis Engine v2 is a complete reboot focused on building robust artificial life from the ground up, with genetic architecture, universal lifecycle laws, and foundational entity classes.
 
 ## Overview
 
-This implementation introduces two foundational systems:
+This implementation introduces three foundational systems:
 
 1. **CodonTranslator** (Phase 1.1): Translates triplet genetic codes (codons) into phenotypic instructions with **genetic code degeneracy** for mutational robustness
 
-2. **ArtificialImmuneSystem** (Phase 1.2): A stateless universal law that manages entity lifecycles through forgetting and purging rules, ensuring only relevant entities persist
+2. **ArtificialImmuneSystem** (Phase 1.2): A stateless universal law that manages entity lifecycles through forgetting and purging rules
+
+3. **KernelAgent & KernelWorld** (Phase 1.3): Foundational entity classes that own their state, integrate with CodonTranslator for phenotype development, and work seamlessly with AIS
 
 ## Key Features
 
@@ -66,6 +68,34 @@ updated_entities, purged_ids = ais.apply_cycle(entities)
 # purged_ids: IDs of entities that fell below viability threshold
 ```
 
+### KernelAgent and KernelWorld (State Sovereignty)
+
+Foundational entity classes that own their state and integrate with the system:
+- **State ownership**: Each entity owns `id`, `genotype`, `relevance_score`, `age`
+- **CodonTranslator integration**: Develop phenotypes/physics from genotypes
+- **AIS compatibility**: Dictionary conversion for lifecycle management
+
+**Example:**
+```python
+from engine import KernelAgent, KernelWorld, CodonTranslator, ArtificialImmuneSystem
+
+translator = CodonTranslator()
+ais = ArtificialImmuneSystem()
+
+# Create entities
+agent = KernelAgent('AAAAATACA')
+world = KernelWorld('GAAGCTGGA')
+
+# Develop phenotypes
+phenotype = agent.develop(translator)  # ['move_forward', 'move_forward', 'turn_left']
+physics = world.develop_physics(translator)  # ['increase_resources', ...]
+
+# AIS integration
+entities = [agent.to_dict(), world.to_dict()]
+updated, purged = ais.apply_cycle(entities)
+agent.update_from_dict(updated[0])  # Update agent state
+```
+
 ## Project Structure
 
 ```
@@ -73,9 +103,12 @@ genesis_engine_v2/
 ├── engine/
 │   ├── __init__.py
 │   ├── codon_translator.py    # Phase 1.1: Genetic translation
-│   └── ais.py                  # Phase 1.2: Lifecycle management
+│   ├── ais.py                  # Phase 1.2: Lifecycle management
+│   ├── kernel_agent.py         # Phase 1.3: Agent entities
+│   └── kernel_world.py         # Phase 1.3: World entities
 ├── test_codon_translator.py   # CodonTranslator test suite
 ├── test_ais.py                 # AIS test suite
+├── test_kernel_entities.py    # KernelAgent/World test suite
 └── README.md                   # This file
 ```
 
