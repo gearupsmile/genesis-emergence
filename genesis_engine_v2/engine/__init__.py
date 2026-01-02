@@ -9,5 +9,7 @@ from .ais import ArtificialImmuneSystem
 from .kernel_agent import KernelAgent
 from .kernel_world import KernelWorld
 from .evolvable_genome import EvolvableGenome
+from .linkage_structure import LinkageStructure
 
-__all__ = ['CodonTranslator', 'ArtificialImmuneSystem', 'KernelAgent', 'KernelWorld', 'EvolvableGenome']
+__all__ = ['CodonTranslator', 'ArtificialImmuneSystem', 'KernelAgent', 'KernelWorld', 
+           'EvolvableGenome', 'LinkageStructure']
