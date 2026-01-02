@@ -12,7 +12,8 @@ from .evolvable_genome import EvolvableGenome
 from .linkage_structure import LinkageStructure
 from .structurally_evolvable_agent import StructurallyEvolvableAgent
 from .bootstrap_evaluator import calculate_fitness, tournament_selection
+from .genesis_engine import GenesisEngine
 
 __all__ = ['CodonTranslator', 'ArtificialImmuneSystem', 'KernelAgent', 'KernelWorld', 
            'EvolvableGenome', 'LinkageStructure', 'StructurallyEvolvableAgent',
-           'calculate_fitness', 'tournament_selection']
+           'calculate_fitness', 'tournament_selection', 'GenesisEngine']
