@@ -16,6 +16,7 @@ from .structurally_evolvable_agent import StructurallyEvolvableAgent
 from .evolvable_genome import EvolvableGenome
 from .linkage_structure import LinkageStructure
 from .bootstrap_evaluator import calculate_fitness, tournament_selection
+from .pareto_evaluator import ParetoCoevolutionEvaluator
 
 
 class GenesisEngine:
@@ -33,7 +34,9 @@ class GenesisEngine:
     """
     
     def __init__(self, population_size: int = 20, mutation_rate: float = 0.2,
-                 simulation_steps: int = 10):
+                 simulation_steps: int = 10,
+                 transition_start_generation: int = 0,
+                 transition_total_generations: int = 10000):
         """
         Initialize the Genesis Engine.
         
@@ -41,15 +44,26 @@ class GenesisEngine:
             population_size: Number of agents in population
             mutation_rate: Probability of mutations during reproduction
             simulation_steps: Number of simulation steps per cycle (for age increment)
+            transition_start_generation: Generation to start transition (default: 0)
+            transition_total_generations: Generations for complete transition (default: 10000)
         """
         # Core components
         self.translator = CodonTranslator()
         self.ais = ArtificialImmuneSystem()
         
+        # Dual evaluators (Phase 4.2)
+        self.external_evaluator = None  # Uses calculate_fitness function
+        self.internal_evaluator = ParetoCoevolutionEvaluator()
+        
         # Configuration
         self.population_size = population_size
         self.mutation_rate = mutation_rate
         self.simulation_steps = simulation_steps
+        
+        # Transition configuration (Phase 4.2)
+        self.transition_start_generation = transition_start_generation
+        self.transition_total_generations = transition_total_generations
+        self.transition_weight = 1.0  # Starts at 1.0 (100% external)
         
         # State
         self.population: List[StructurallyEvolvableAgent] = []
@@ -84,6 +98,39 @@ class GenesisEngine:
                                   for _ in range(num_codons)])
         self.world = KernelWorld(world_genotype)
     
+    def _normalize_scores(self, score_dict: Dict[str, float]) -> Dict[str, float]:
+        """
+        Normalize scores to [0, 1] range for fair comparison.
+        
+        CRITICAL: Without normalization, external scores (~76) would swamp
+        internal scores (~0-3), making the transition meaningless.
+        
+        Args:
+            score_dict: Dict mapping agent_id to raw score
+            
+        Returns:
+            Dict mapping agent_id to normalized score in [0, 1]
+            
+        Edge case: If all scores are identical (max == min), assign 0.5 to all.
+        """
+        if not score_dict:
+            return {}
+        
+        scores = list(score_dict.values())
+        min_score = min(scores)
+        max_score = max(scores)
+        
+        # Handle edge case: all scores identical
+        if max_score == min_score:
+            return {agent_id: 0.5 for agent_id in score_dict}
+        
+        # Normalize to [0, 1]
+        normalized = {}
+        for agent_id, raw_score in score_dict.items():
+            normalized[agent_id] = (raw_score - min_score) / (max_score - min_score)
+        
+        return normalized
+    
     def run_cycle(self):
         """
         Execute one complete generation cycle.
@@ -108,21 +155,50 @@ class GenesisEngine:
                 agent.age += 1
             self.world.age += 1
         
-        # Step 3: Evaluation
-        fitness_scores = {}
+        # Step 3: Dual Evaluation (Phase 4.2)
+        # Calculate both external fitness and internal Pareto distinction
+        external_scores = {}
         world_state = self.world.to_dict()  # For future use
         
+        # External fitness (BootstrapEvaluator)
         for agent in self.population:
-            fitness_scores[agent.id] = calculate_fitness(agent, world_state)
+            external_scores[agent.id] = calculate_fitness(agent, world_state)
+        
+        # Internal distinction (ParetoCoevolutionEvaluator)
+        internal_scores = self.internal_evaluator.evaluate_population(self.population)
+        
+        # CRITICAL: Normalize both score sets to [0, 1] for fair comparison
+        normalized_external = self._normalize_scores(external_scores)
+        normalized_internal = self._normalize_scores(internal_scores)
+        
+        # Blend scores based on transition weight
+        final_scores = {}
+        for agent in self.population:
+            ext_norm = normalized_external[agent.id]
+            int_norm = normalized_internal[agent.id]
+            final_scores[agent.id] = (
+                self.transition_weight * ext_norm +
+                (1 - self.transition_weight) * int_norm
+            )
+        
+        # Update transition weight (linear decay)
+        if self.generation >= self.transition_start_generation:
+            if self.transition_total_generations > 0:
+                decay = 1.0 / self.transition_total_generations
+                self.transition_weight = max(0.0, self.transition_weight - decay)
         
         # Track statistics BEFORE reproduction (while IDs still match)
-        self._log_statistics(fitness_scores, [])  # No purging yet
+        self._log_statistics(
+            external_scores, internal_scores,
+            normalized_external, normalized_internal,
+            final_scores, []
+        )  # No purging yet
         
         # Step 4: Selection & Reproduction
         num_parents = max(1, len(self.population) // 2)
         parents = tournament_selection(
             self.population, 
-            fitness_scores, 
+            final_scores,  # Use blended scores for selection
             num_parents=num_parents,
             tournament_size=3
         )
@@ -174,28 +250,48 @@ class GenesisEngine:
         # Increment generation
         self.generation += 1
     
-    def _log_statistics(self, fitness_scores: Dict[str, float], purged_ids: List[str]):
-        """Log statistics for this generation."""
+    def _log_statistics(self, external_scores: Dict[str, float],
+                        internal_scores: Dict[str, float],
+                        normalized_external: Dict[str, float],
+                        normalized_internal: Dict[str, float],
+                        final_scores: Dict[str, float],
+                        purged_ids: List[str]):
+        """Log statistics for this generation with dual scores."""
         if len(self.population) == 0:
             # Population extinct - log zeros
             stats = {
                 'generation': self.generation,
                 'population_size': 0,
-                'avg_fitness': 0.0,
-                'max_fitness': 0.0,
+                'transition_weight': self.transition_weight,
+                'avg_external_score': 0.0,
+                'max_external_score': 0.0,
+                'avg_internal_score': 0.0,
+                'max_internal_score': 0.0,
+                'avg_final_score': 0.0,
+                'max_final_score': 0.0,
                 'avg_genome_length': 0.0,
                 'avg_linkage_groups': 0.0,
                 'num_purged': len(purged_ids)
             }
         else:
             # Calculate statistics
-            valid_fitness = [fitness_scores.get(a.id, 0.0) for a in self.population]
+            valid_external = [external_scores.get(a.id, 0.0) for a in self.population]
+            valid_internal = [internal_scores.get(a.id, 0.0) for a in self.population]
+            valid_final = [final_scores.get(a.id, 0.0) for a in self.population]
             
             stats = {
                 'generation': self.generation,
                 'population_size': len(self.population),
-                'avg_fitness': sum(valid_fitness) / len(valid_fitness) if valid_fitness else 0.0,
-                'max_fitness': max(valid_fitness) if valid_fitness else 0.0,
+                'transition_weight': self.transition_weight,
+                # Raw scores
+                'avg_external_score': sum(valid_external) / len(valid_external) if valid_external else 0.0,
+                'max_external_score': max(valid_external) if valid_external else 0.0,
+                'avg_internal_score': sum(valid_internal) / len(valid_internal) if valid_internal else 0.0,
+                'max_internal_score': max(valid_internal) if valid_internal else 0.0,
+                # Final blended score
+                'avg_final_score': sum(valid_final) / len(valid_final) if valid_final else 0.0,
+                'max_final_score': max(valid_final) if valid_final else 0.0,
+                # Genome stats
                 'avg_genome_length': sum(a.genome.get_length() for a in self.population) / len(self.population),
                 'avg_linkage_groups': sum(a.linkage_structure.get_num_groups() for a in self.population) / len(self.population),
                 'num_purged': len(purged_ids)

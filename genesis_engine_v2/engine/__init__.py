@@ -13,7 +13,9 @@ from .linkage_structure import LinkageStructure
 from .structurally_evolvable_agent import StructurallyEvolvableAgent
 from .bootstrap_evaluator import calculate_fitness, tournament_selection
 from .genesis_engine import GenesisEngine
+from .pareto_evaluator import ParetoCoevolutionEvaluator
 
 __all__ = ['CodonTranslator', 'ArtificialImmuneSystem', 'KernelAgent', 'KernelWorld', 
            'EvolvableGenome', 'LinkageStructure', 'StructurallyEvolvableAgent',
-           'calculate_fitness', 'tournament_selection', 'GenesisEngine']
+           'calculate_fitness', 'tournament_selection', 'GenesisEngine',
+           'ParetoCoevolutionEvaluator']
