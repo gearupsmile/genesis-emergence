@@ -101,8 +101,17 @@ def tournament_selection(population: List,
         # Select random tournament
         tournament = random.sample(population, tournament_size)
         
-        # Find winner (highest fitness)
-        winner = max(tournament, key=lambda agent: fitness_scores.get(agent.id, 0.0))
+        # Find winner (highest fitness WITH metabolic cost penalty)
+        # Apply cost penalty: penalized_score = raw_score * (1 - cost)
+        def get_penalized_score(agent):
+            raw_score = fitness_scores.get(agent.id, 0.0)
+            metabolic_cost = agent.genome.metabolic_cost
+            # Cap cost at 0.99 to prevent complete elimination
+            capped_cost = min(metabolic_cost, 0.99)
+            penalized_score = raw_score * (1.0 - capped_cost)
+            return penalized_score
+        
+        winner = max(tournament, key=get_penalized_score)
         
         parents.append(winner)
     

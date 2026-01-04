@@ -34,7 +34,9 @@ def test_basic_creation():
     genome = EvolvableGenome(['AAA', 'ACA', 'AGA'])
     assert genome.get_length() == 3, "Should have 3 genes"
     assert len(genome.innovation_ids) == 3, "Should have 3 innovation IDs"
-    assert abs(genome.metabolic_cost - 0.03) < 0.0001, f"Expected cost ~0.03, got {genome.metabolic_cost}"
+    # With superlinear cost: 0.001 * (3 ** 1.5) ≈ 0.0052
+    expected_cost = 0.001 * (3 ** 1.5)
+    assert abs(genome.metabolic_cost - expected_cost) < 0.0001, f"Expected cost ~{expected_cost:.4f}, got {genome.metabolic_cost}"
     assert genome.get_sequence_string() == 'AAAACAAGA', "Sequence string should be concatenated"
     print("  [PASS] Genome with initial sequence created")
     
@@ -58,8 +60,10 @@ def test_add_gene():
     assert genome.get_length() == initial_length + 1, "Length should increase"
     assert genome.sequence[-1] == 'CAA', "New gene should be appended"
     assert genome.innovation_ids[-1] == new_id, "New innovation ID should be appended"
-    assert genome.metabolic_cost == initial_cost + EvolvableGenome.COST_PER_GENE, \
-        "Cost should increase by COST_PER_GENE"
+    # Cost is recalculated with superlinear formula
+    expected_cost = 0.001 * (2 ** 1.5)
+    assert abs(genome.metabolic_cost - expected_cost) < 0.0001, \
+        f"Cost should be ~{expected_cost:.4f}, got {genome.metabolic_cost}"
     print(f"  [PASS] Gene added: {genome.sequence}, IDs: {genome.innovation_ids}")
     
     # Add random gene
@@ -103,24 +107,29 @@ def test_remove_gene():
 
 
 def test_metabolic_cost():
-    """Test metabolic cost management."""
+    """Test metabolic cost management with superlinear formula."""
     print("Test 4: Metabolic Cost")
     
     genome = EvolvableGenome(['AAA'])
-    assert genome.metabolic_cost == 0.01, "Initial cost should be 0.01"
+    expected_cost_1 = 0.001 * (1 ** 1.5)  # 0.001
+    assert abs(genome.metabolic_cost - expected_cost_1) < 0.0001, \
+        f"Initial cost should be ~{expected_cost_1:.4f}, got {genome.metabolic_cost}"
     
-    # Add 5 genes
+    # Add 5 genes (total 6)
     for i in range(5):
         genome.add_gene()
-    assert abs(genome.metabolic_cost - 0.06) < 0.0001, f"Expected ~0.06, got {genome.metabolic_cost}"
-    print(f"  [PASS] Cost after adding 5 genes: {genome.metabolic_cost}")
+    expected_cost_6 = 0.001 * (6 ** 1.5)  # ~0.0147
+    assert abs(genome.metabolic_cost - expected_cost_6) < 0.0001, \
+        f"Expected ~{expected_cost_6:.4f}, got {genome.metabolic_cost}"
+    print(f"  [PASS] Cost after adding 5 genes: {genome.metabolic_cost:.4f}")
     
-    # Remove 3 genes
+    # Remove 3 genes (length becomes 3, but cost stays at 6-gene level)
     for i in range(3):
         genome.remove_gene()
-    assert abs(genome.metabolic_cost - 0.06) < 0.0001, \
-        "Cost should remain ~0.06 after removals (permanent penalty)"
-    print(f"  [PASS] Cost after removing 3 genes: {genome.metabolic_cost} (unchanged)")
+    # Cost should remain at 6-gene level (permanent penalty)
+    assert abs(genome.metabolic_cost - expected_cost_6) < 0.0001, \
+        f"Cost should remain ~{expected_cost_6:.4f} after removals (permanent penalty)"
+    print(f"  [PASS] Cost after removing 3 genes: {genome.metabolic_cost:.4f} (unchanged)")
     
     print("  PASSED\n")
 

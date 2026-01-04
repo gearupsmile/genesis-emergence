@@ -26,6 +26,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent / 'genesis_engine_v2'))
 from engine.genesis_engine import GenesisEngine
 from engine.codon_translator import CodonTranslator
 from engine.diagnostics.pnct_metrics import PNCTLogger
+from engine.verification.constraint_checker import ConstraintChecker
 
 
 # Global state
@@ -173,7 +174,7 @@ def save_metrics_csv(pnct_logger, run_dir):
             f.write(f"{nnd.get('front_size', 0)}\n")
 
 
-def run_final_deep_probe(dry_run=False):
+def run_final_deep_probe(dry_run=False, skip_verification=False):
     """Execute the final 200k-generation Deep Probe experiment."""
     global shutdown_requested, experiment_state
     
@@ -208,6 +209,27 @@ def run_final_deep_probe(dry_run=False):
     run_dir = create_experiment_directory()
     print(f"Experiment directory: {run_dir}")
     print()
+    
+    # MANDATORY PRE-FLIGHT VERIFICATION
+    if not skip_verification:
+        verification_log = run_dir / "logs" / "verification_report.log"
+        checker = ConstraintChecker(log_file=str(verification_log))
+        
+        if not checker.run_all_checks():
+            print()
+            print("=" * 70)
+            print("CRITICAL: EVOLUTIONARY CONSTRAINT VIOLATED")
+            print("=" * 70)
+            print()
+            print("One or more critical evolutionary constraints failed verification.")
+            print("The experiment CANNOT proceed until these issues are resolved.")
+            print()
+            print(f"See detailed report: {verification_log}")
+            print()
+            sys.exit(1)
+    else:
+        print("[WARNING] Constraint verification SKIPPED (--skip-verification flag)")
+        print()
     
     # Copy config
     try:
@@ -367,11 +389,13 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Launch Final Deep Probe Experiment')
     parser.add_argument('--dry-run', action='store_true', 
                        help='Run 5,000-generation dry run instead of full 200k')
+    parser.add_argument('--skip-verification', action='store_true',
+                       help='Skip pre-flight constraint verification (NOT RECOMMENDED)')
     
     args = parser.parse_args()
     
     try:
-        run_final_deep_probe(dry_run=args.dry_run)
+        run_final_deep_probe(dry_run=args.dry_run, skip_verification=args.skip_verification)
     except Exception as e:
         print(f"\n[ERROR] {e}")
         import traceback

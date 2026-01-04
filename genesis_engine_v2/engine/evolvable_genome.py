@@ -29,7 +29,8 @@ class EvolvableGenome:
     _next_innovation_id = 0
     
     # Constants
-    COST_PER_GENE = 0.01  # Each gene adds 1% metabolic cost
+    COST_COEFFICIENT = 0.005  # Coefficient for superlinear metabolic cost (strong bloat control)
+    COST_EXPONENT = 1.5  # Superlinear exponent (quadratic-like growth)
     NUCLEOTIDES = ['A', 'C', 'G', 'T']
     
     def __init__(self, initial_sequence: Optional[List[str]] = None, 
@@ -65,9 +66,33 @@ class EvolvableGenome:
                 self.innovation_ids = list(innovation_ids)
             
             if metabolic_cost is None:
-                self.metabolic_cost = len(self.sequence) * self.COST_PER_GENE
+                self.metabolic_cost = self._calculate_metabolic_cost(len(self.sequence))
             else:
                 self.metabolic_cost = metabolic_cost
+    
+    @classmethod
+    def _calculate_metabolic_cost(cls, num_genes: int) -> float:
+        """
+        Calculate metabolic cost using superlinear formula.
+        
+        Formula: cost = COST_COEFFICIENT * (num_genes ** COST_EXPONENT)
+        
+        This creates strong pressure against genome bloat:
+        - 10 genes: ~0.003
+        - 50 genes: ~0.035
+        - 100 genes: ~0.100 (10% penalty)
+        - 200 genes: ~0.283 (28% penalty)
+        - 400 genes: ~0.800 (80% penalty - nearly lethal)
+        
+        Args:
+            num_genes: Number of genes in genome
+            
+        Returns:
+            Metabolic cost (0.0 to ~1.0)
+        """
+        if num_genes == 0:
+            return 0.0
+        return cls.COST_COEFFICIENT * (num_genes ** cls.COST_EXPONENT)
     
     @classmethod
     def _get_next_innovation_id(cls) -> int:
@@ -114,8 +139,8 @@ class EvolvableGenome:
         innovation_id = self._get_next_innovation_id()
         self.innovation_ids.append(innovation_id)
         
-        # Increase metabolic cost (permanent penalty)
-        self.metabolic_cost += self.COST_PER_GENE
+        # Recalculate metabolic cost with new length (superlinear growth)
+        self.metabolic_cost = self._calculate_metabolic_cost(len(self.sequence))
         
         return innovation_id
     
