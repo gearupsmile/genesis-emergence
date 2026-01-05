@@ -1,5 +1,3 @@
-I will create a comprehensive, research-grade README for your Genesis Engine project that documents the entire journey from v1.0 to the current hardened v2.0 system ready for the 200k-generation Deep Probe.
-
 # Genesis Engine: A Framework for Constraint-Driven Open-Ended Evolution
 
 ## Abstract
