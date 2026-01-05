@@ -1,0 +1,7 @@
+{
+  "metabolic_cost": {
+    "coefficient": 0.003,
+    "exponent": 1.8,
+    "justification": "Optimized via parameter sweep. Hypervolume: 3.54"
+  }
+}

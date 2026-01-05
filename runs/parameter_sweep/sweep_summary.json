@@ -1,0 +1,290 @@
+{
+  "sweep_config": {
+    "parameters": {
+      "coefficients": [
+        0.001,
+        0.003,
+        0.005,
+        0.005
+      ],
+      "exponents": [
+        1.5,
+        1.3,
+        1.5,
+        1.8
+      ]
+    },
+    "experiment": {
+      "generations": 1000,
+      "population_size": 50
+    },
+    "optimization": {
+      "constraints": {
+        "min_gac": 10,
+        "max_gac": 100,
+        "min_epc": 0.3
+      }
+    },
+    "output": {
+      "results_dir": "runs/parameter_sweep",
+      "summary_file": "sweep_summary.json",
+      "best_params_file": "best_parameters.json"
+    }
+  },
+  "all_results": [
+    {
+      "coefficient": 0.001,
+      "exponent": 1.5,
+      "final_gac_mean": 55.54,
+      "final_gac_median": 55.0,
+      "final_gac_std": 0,
+      "final_epc_mean": 0.4475064925676507,
+      "final_epc_p90": 0.4528301886792453,
+      "hypervolume": 0.9006634571747745,
+      "runtime": 29.969784021377563,
+      "gens_per_sec": 33.3669404920201,
+      "population_size": 50
+    },
+    {
+      "coefficient": 0.001,
+      "exponent": 1.3,
+      "final_gac_mean": 98.96,
+      "final_gac_median": 99.0,
+      "final_gac_std": 0,
+      "final_epc_mean": 0.3840050927345347,
+      "final_epc_p90": 0.3877551020408163,
+      "hypervolume": 0.5053021985609039,
+      "runtime": 43.38112926483154,
+      "gens_per_sec": 23.05149766607587,
+      "population_size": 50
+    },
+    {
+      "coefficient": 0.001,
+      "exponent": 1.5,
+      "final_gac_mean": 59.9,
+      "final_gac_median": 60.0,
+      "final_gac_std": 0,
+      "final_epc_mean": 0.43809941033002997,
+      "final_epc_p90": 0.4519774011299435,
+      "hypervolume": 0.8348198573677873,
+      "runtime": 30.563433408737183,
+      "gens_per_sec": 32.71883713542895,
+      "population_size": 50
+    },
+    {
+      "coefficient": 0.001,
+      "exponent": 1.8,
+      "final_gac_mean": 24.18,
+      "final_gac_median": 24.0,
+      "final_gac_std": 0,
+      "final_epc_mean": 0.5597004087699741,
+      "final_epc_p90": 0.5833333333333334,
+      "hypervolume": 2.0694760312151614,
+      "runtime": 22.402673721313477,
+      "gens_per_sec": 44.637529093173335,
+      "population_size": 50
+    },
+    {
+      "coefficient": 0.003,
+      "exponent": 1.5,
+      "final_gac_mean": 27.98,
+      "final_gac_median": 28.0,
+      "final_gac_std": 0,
+      "final_epc_mean": 0.4594927932858967,
+      "final_epc_p90": 0.4827586206896552,
+      "hypervolume": 1.7896256999705276,
+      "runtime": 20.63274836540222,
+      "gens_per_sec": 48.46664061860213,
+      "population_size": 50
+    },
+    {
+      "coefficient": 0.003,
+      "exponent": 1.3,
+      "final_gac_mean": 50.02,
+      "final_gac_median": 50.0,
+      "final_gac_std": 0,
+      "final_epc_mean": 0.448100200080032,
+      "final_epc_p90": 0.4533333333333333,
+      "hypervolume": 0.9998489395758303,
+      "runtime": 26.989502906799316,
+      "gens_per_sec": 37.051441942195815,
+      "population_size": 50
+    },
+    {
+      "coefficient": 0.003,
+      "exponent": 1.5,
+      "final_gac_mean": 24.94,
+      "final_gac_median": 25.0,
+      "final_gac_std": 0,
+      "final_epc_mean": 0.5611226820415226,
+      "final_epc_p90": 0.5833333333333334,
+      "hypervolume": 2.008911748476966,
+      "runtime": 17.067774534225464,
+      "gens_per_sec": 58.5899466854763,
+      "population_size": 50
+    },
+    {
+      "coefficient": 0.003,
+      "exponent": 1.8,
+      "final_gac_mean": 14.16,
+      "final_gac_median": 14.0,
+      "final_gac_std": 0,
+      "final_epc_mean": 0.6985543345543346,
+      "final_epc_p90": 0.717948717948718,
+      "hypervolume": 3.5397893772893774,
+      "runtime": 12.911848545074463,
+      "gens_per_sec": 77.44824426255171,
+      "population_size": 50
+    },
+    {
+      "coefficient": 0.005,
+      "exponent": 1.5,
+      "final_gac_mean": 19.12,
+      "final_gac_median": 19.0,
+      "final_gac_std": 0,
+      "final_epc_mean": 0.609703572657133,
+      "final_epc_p90": 0.6333333333333333,
+      "hypervolume": 2.62093714678854,
+      "runtime": 14.10050654411316,
+      "gens_per_sec": 70.91943802667795,
+      "population_size": 50
+    },
+    {
+      "coefficient": 0.005,
+      "exponent": 1.3,
+      "final_gac_mean": 32.82,
+      "final_gac_median": 33.0,
+      "final_gac_std": 0,
+      "final_epc_mean": 0.5309896306518698,
+      "final_epc_p90": 0.5490196078431373,
+      "hypervolume": 1.5244601066232946,
+      "runtime": 21.480096578598022,
+      "gens_per_sec": 46.55472550325324,
+      "population_size": 50
+    },
+    {
+      "coefficient": 0.005,
+      "exponent": 1.5,
+      "final_gac_mean": 18.88,
+      "final_gac_median": 19.0,
+      "final_gac_std": 0,
+      "final_epc_mean": 0.630043310891608,
+      "final_epc_p90": 0.6333333333333333,
+      "hypervolume": 2.6520566121185314,
+      "runtime": 16.773210525512695,
+      "gens_per_sec": 59.61887847761535,
+      "population_size": 50
+    },
+    {
+      "coefficient": 0.005,
+      "exponent": 1.8,
+      "final_gac_mean": 8.92,
+      "final_gac_median": 9.0,
+      "final_gac_std": 0,
+      "final_epc_mean": 0.876989417989418,
+      "final_epc_p90": 0.9166666666666666,
+      "hypervolume": 5.665873015873016,
+      "runtime": 12.857452154159546,
+      "gens_per_sec": 77.77590676676076,
+      "population_size": 50
+    },
+    {
+      "coefficient": 0.005,
+      "exponent": 1.5,
+      "final_gac_mean": 18.4,
+      "final_gac_median": 18.0,
+      "final_gac_std": 0,
+      "final_epc_mean": 0.6032938555539175,
+      "final_epc_p90": 0.6296296296296297,
+      "hypervolume": 2.724003636542336,
+      "runtime": 16.360925674438477,
+      "gens_per_sec": 61.121236041207126,
+      "population_size": 50
+    },
+    {
+      "coefficient": 0.005,
+      "exponent": 1.3,
+      "final_gac_mean": 31,
+      "final_gac_median": 31.0,
+      "final_gac_std": 0,
+      "final_epc_mean": 0.5420085532746823,
+      "final_epc_p90": 0.5555555555555556,
+      "hypervolume": 1.6137707722385142,
+      "runtime": 21.199060678482056,
+      "gens_per_sec": 47.17190139537844,
+      "population_size": 50
+    },
+    {
+      "coefficient": 0.005,
+      "exponent": 1.5,
+      "final_gac_mean": 19.1,
+      "final_gac_median": 19.0,
+      "final_gac_std": 0,
+      "final_epc_mean": 0.6472947728799122,
+      "final_epc_p90": 0.6666666666666666,
+      "hypervolume": 2.6240478647599392,
+      "runtime": 17.881349802017212,
+      "gens_per_sec": 55.924189788356415,
+      "population_size": 50
+    },
+    {
+      "coefficient": 0.005,
+      "exponent": 1.8,
+      "final_gac_mean": 9.84,
+      "final_gac_median": 10.0,
+      "final_gac_std": 0,
+      "final_epc_mean": 0.6736430976430976,
+      "final_epc_p90": 0.75,
+      "hypervolume": 5.115404040404041,
+      "runtime": 14.16043496131897,
+      "gens_per_sec": 70.61929967064057,
+      "population_size": 50
+    }
+  ],
+  "top_3": [
+    {
+      "coefficient": 0.003,
+      "exponent": 1.8,
+      "final_gac_mean": 14.16,
+      "final_gac_median": 14.0,
+      "final_gac_std": 0,
+      "final_epc_mean": 0.6985543345543346,
+      "final_epc_p90": 0.717948717948718,
+      "hypervolume": 3.5397893772893774,
+      "runtime": 12.911848545074463,
+      "gens_per_sec": 77.44824426255171,
+      "population_size": 50
+    },
+    {
+      "coefficient": 0.005,
+      "exponent": 1.5,
+      "final_gac_mean": 18.4,
+      "final_gac_median": 18.0,
+      "final_gac_std": 0,
+      "final_epc_mean": 0.6032938555539175,
+      "final_epc_p90": 0.6296296296296297,
+      "hypervolume": 2.724003636542336,
+      "runtime": 16.360925674438477,
+      "gens_per_sec": 61.121236041207126,
+      "population_size": 50
+    },
+    {
+      "coefficient": 0.005,
+      "exponent": 1.5,
+      "final_gac_mean": 18.88,
+      "final_gac_median": 19.0,
+      "final_gac_std": 0,
+      "final_epc_mean": 0.630043310891608,
+      "final_epc_p90": 0.6333333333333333,
+      "hypervolume": 2.6520566121185314,
+      "runtime": 16.773210525512695,
+      "gens_per_sec": 59.61887847761535,
+      "population_size": 50
+    }
+  ],
+  "best_parameters": {
+    "coefficient": 0.003,
+    "exponent": 1.8
+  },
+  "timestamp": "2026-01-05T00:20:45.945525"
+}
