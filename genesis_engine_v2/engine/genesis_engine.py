@@ -138,6 +138,7 @@ class GenesisEngine:
         5-Step Loop:
         1. Development: Translate genotypes to phenotypes
         2. Simulation: Run interactions (placeholder: increment ages)
+        2.5. Physics Enforcement: Apply immutable physical laws (NEW - Phase 2)
         3. Evaluation: Calculate fitness scores
         4. Selection & Reproduction: Evolve population
         5. AIS Culling: Apply lifecycle management
@@ -154,6 +155,29 @@ class GenesisEngine:
             for agent in self.population:
                 agent.age += 1
             self.world.age += 1
+        
+        # Step 2.5: Physics Gatekeeper (NEW - Phase 2: Physical Invariant Architecture)
+        # Enforce immutable physical laws BEFORE evaluation and reproduction
+        # This ensures agents cannot evolve around constraints
+        from .physics.physics_gatekeeper import PhysicalInvariantGatekeeper
+        
+        if not hasattr(self, 'physics_gatekeeper'):
+            self.physics_gatekeeper = PhysicalInvariantGatekeeper(energy_constant=0.5)
+        
+        # Apply physical constraints - agents exceeding metabolic limit are terminated
+        self.population, terminated_ids = self.physics_gatekeeper.enforce_population_constraints(self.population)
+        
+        # Log physics violations if any occurred
+        if len(terminated_ids) > 0:
+            if not hasattr(self, 'physics_violations'):
+                self.physics_violations = []
+            
+            self.physics_violations.append({
+                'generation': self.generation,
+                'terminated_count': len(terminated_ids),
+                'terminated_ids': terminated_ids
+            })
+
         
         # Step 3: Dual Evaluation (Phase 4.2)
         # Calculate both external fitness and internal Pareto distinction
