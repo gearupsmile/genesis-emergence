@@ -71,6 +71,9 @@ class GenesisEngine:
         self.generation = 0
         self.statistics: List[Dict] = []
         
+        # Physics enforcement tracking (Phase 2)
+        self.offspring_terminations_log = []  # Track violating offspring terminated before entering population
+        
         # Initialize population and world
         self._initialize_population()
         self._initialize_world()
@@ -238,7 +241,21 @@ class GenesisEngine:
                 child = parent.reproduce(self.mutation_rate)
                 offspring.append(child)
         
-        self.population = offspring
+        # TIER 2 GATEKEEPER (NEW - Phase 2 Fix): Check offspring BEFORE they enter population
+        # This ensures NO violating agent ever exists in self.population, not even for 1 generation
+        viable_offspring, terminated_offspring_ids = self.physics_gatekeeper.enforce_population_constraints(offspring)
+        
+        # Log offspring terminations (distinct from parent terminations)
+        if len(terminated_offspring_ids) > 0:
+            self.offspring_terminations_log.append({
+                'generation': self.generation,
+                'terminated_count': len(terminated_offspring_ids),
+                'terminated_ids': terminated_offspring_ids,
+                'reason': 'offspring_exceeded_energy_constant'
+            })
+        
+        # Replace population with ONLY viable offspring
+        self.population = viable_offspring
         
         # Step 5: AIS Culling
         # Convert all entities to dicts
