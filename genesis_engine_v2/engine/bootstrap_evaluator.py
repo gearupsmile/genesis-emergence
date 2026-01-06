@@ -102,13 +102,27 @@ def tournament_selection(population: List,
         tournament = random.sample(population, tournament_size)
         
         # Find winner (highest fitness WITH metabolic cost penalty)
-        # Apply cost penalty: penalized_score = raw_score * (1 - cost)
+        # CRITICAL FIX: Use exponential penalty to enforce hard constraint
+        # Linear penalty was too weak, allowing genome bloat to 2000+ genes
         def get_penalized_score(agent):
+            import math
             raw_score = fitness_scores.get(agent.id, 0.0)
             metabolic_cost = agent.genome.metabolic_cost
-            # Cap cost at 0.99 to prevent complete elimination
-            capped_cost = min(metabolic_cost, 0.99)
-            penalized_score = raw_score * (1.0 - capped_cost)
+            
+            # EXPONENTIAL PENALTY: e^(-cost)
+            # This creates a HARD constraint:
+            # - cost=0: penalty=1.0 (no penalty)
+            # - cost=1: penalty=0.37 (63% reduction)
+            # - cost=5: penalty=0.007 (99.3% reduction, effectively dead)
+            # - cost=10: penalty=0.00005 (99.995% reduction, completely dead)
+            #
+            # With formula: cost = 0.005 * genes^1.5
+            # - 10 genes: cost=0.16, penalty=0.85 (viable)
+            # - 50 genes: cost=1.77, penalty=0.17 (struggling)
+            # - 100 genes: cost=5.0, penalty=0.007 (dead)
+            # - 200 genes: cost=14.1, penalty=0.0000007 (extinct)
+            penalty_factor = math.exp(-metabolic_cost)
+            penalized_score = raw_score * penalty_factor
             return penalized_score
         
         winner = max(tournament, key=get_penalized_score)

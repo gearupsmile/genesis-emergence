@@ -1,0 +1,644 @@
+{
+  "gac_history": [
+    {
+      "generation": 1000,
+      "genome_length": {
+        "mean": 19.16,
+        "median": 19.0,
+        "variance": 0.3820408163265306
+      },
+      "linkage_groups": {
+        "mean": 18.78,
+        "median": 19.0,
+        "variance": 0.7057142857142857
+      },
+      "avg_group_size": {
+        "mean": 1.0211833505331958,
+        "median": 1.0,
+        "variance": 0.0010148929003523154
+      }
+    },
+    {
+      "generation": 2000,
+      "genome_length": {
+        "mean": 22.06,
+        "median": 22.0,
+        "variance": 0.7922448979591836
+      },
+      "linkage_groups": {
+        "mean": 21.84,
+        "median": 22.0,
+        "variance": 1.0759183673469388
+      },
+      "avg_group_size": {
+        "mean": 1.0106190476190475,
+        "median": 1.0,
+        "variance": 0.0005102526724975715
+      }
+    },
+    {
+      "generation": 3000,
+      "genome_length": {
+        "mean": 22.14,
+        "median": 22.0,
+        "variance": 0.7759183673469388
+      },
+      "linkage_groups": {
+        "mean": 21.6,
+        "median": 22.0,
+        "variance": 1.9591836734693877
+      },
+      "avg_group_size": {
+        "mean": 1.0276419077998025,
+        "median": 1.0,
+        "variance": 0.002861142766880028
+      }
+    },
+    {
+      "generation": 4000,
+      "genome_length": {
+        "mean": 20.06,
+        "median": 20.0,
+        "variance": 1.1187755102040817
+      },
+      "linkage_groups": {
+        "mean": 19.72,
+        "median": 20.0,
+        "variance": 1.6342857142857143
+      },
+      "avg_group_size": {
+        "mean": 1.0184602683178534,
+        "median": 1.0,
+        "variance": 0.0010864356972790502
+      }
+    },
+    {
+      "generation": 5000,
+      "genome_length": {
+        "mean": 21.2,
+        "median": 21.0,
+        "variance": 0.6122448979591837
+      },
+      "linkage_groups": {
+        "mean": 20.8,
+        "median": 21.0,
+        "variance": 0.9387755102040817
+      },
+      "avg_group_size": {
+        "mean": 1.0200200501253134,
+        "median": 1.0,
+        "variance": 0.0008406293725208644
+      }
+    },
+    {
+      "generation": 6000,
+      "genome_length": {
+        "mean": 21.76,
+        "median": 22.0,
+        "variance": 0.5126530612244898
+      },
+      "linkage_groups": {
+        "mean": 21.38,
+        "median": 21.0,
+        "variance": 0.8934693877551021
+      },
+      "avg_group_size": {
+        "mean": 1.0186334016860332,
+        "median": 1.0,
+        "variance": 0.0008964664237134561
+      }
+    },
+    {
+      "generation": 7000,
+      "genome_length": {
+        "mean": 23.64,
+        "median": 24.0,
+        "variance": 1.133061224489796
+      },
+      "linkage_groups": {
+        "mean": 23.44,
+        "median": 24.0,
+        "variance": 1.4759183673469387
+      },
+      "avg_group_size": {
+        "mean": 1.0090156220591002,
+        "median": 1.0,
+        "variance": 0.0003320668032677596
+      }
+    },
+    {
+      "generation": 8000,
+      "genome_length": {
+        "mean": 24.32,
+        "median": 24.0,
+        "variance": 0.7118367346938775
+      },
+      "linkage_groups": {
+        "mean": 23.96,
+        "median": 24.0,
+        "variance": 0.7330612244897959
+      },
+      "avg_group_size": {
+        "mean": 1.015331884057971,
+        "median": 1.0,
+        "variance": 0.0005812777477720766
+      }
+    },
+    {
+      "generation": 9000,
+      "genome_length": {
+        "mean": 23.98,
+        "median": 24.0,
+        "variance": 1.1220408163265305
+      },
+      "linkage_groups": {
+        "mean": 23.64,
+        "median": 23.0,
+        "variance": 1.296326530612245
+      },
+      "avg_group_size": {
+        "mean": 1.0147957839262187,
+        "median": 1.0,
+        "variance": 0.0005185430627332767
+      }
+    },
+    {
+      "generation": 10000,
+      "genome_length": {
+        "mean": 35.76,
+        "median": 36.0,
+        "variance": 1.1248979591836734
+      },
+      "linkage_groups": {
+        "mean": 35.5,
+        "median": 35.5,
+        "variance": 1.6428571428571428
+      },
+      "avg_group_size": {
+        "mean": 1.0076322892793481,
+        "median": 1.0,
+        "variance": 0.00020673260034189932
+      }
+    },
+    {
+      "generation": 11000,
+      "genome_length": {
+        "mean": 165.64,
+        "median": 166.0,
+        "variance": 1.0922448979591837
+      },
+      "linkage_groups": {
+        "mean": 165.44,
+        "median": 165.0,
+        "variance": 1.3942857142857144
+      },
+      "avg_group_size": {
+        "mean": 1.0012172949002218,
+        "median": 1.0,
+        "variance": 6.0482498514128105e-06
+      }
+    },
+    {
+      "generation": 12000,
+      "genome_length": {
+        "mean": 297.28,
+        "median": 297.0,
+        "variance": 1.9608163265306122
+      },
+      "linkage_groups": {
+        "mean": 297.02,
+        "median": 297.0,
+        "variance": 2.1016326530612246
+      },
+      "avg_group_size": {
+        "mean": 1.0008772485272117,
+        "median": 1.0,
+        "variance": 2.235034684382918e-06
+      }
+    },
+    {
+      "generation": 13000,
+      "genome_length": {
+        "mean": 447.2,
+        "median": 447.0,
+        "variance": 0.8571428571428571
+      },
+      "linkage_groups": {
+        "mean": 446.92,
+        "median": 447.0,
+        "variance": 1.2179591836734693
+      },
+      "avg_group_size": {
+        "mean": 1.000627905261967,
+        "median": 1.0,
+        "variance": 1.0345192167818328e-06
+      }
+    },
+    {
+      "generation": 14000,
+      "genome_length": {
+        "mean": 584.74,
+        "median": 585.0,
+        "variance": 0.726938775510204
+      },
+      "linkage_groups": {
+        "mean": 584.64,
+        "median": 585.0,
+        "variance": 0.7657142857142857
+      },
+      "avg_group_size": {
+        "mean": 1.0001712328767123,
+        "median": 1.0,
+        "variance": 2.6927171694347067e-07
+      }
+    },
+    {
+      "generation": 15000,
+      "genome_length": {
+        "mean": 715.5,
+        "median": 715.0,
+        "variance": 1.1122448979591837
+      },
+      "linkage_groups": {
+        "mean": 715.36,
+        "median": 715.0,
+        "variance": 1.2146938775510203
+      },
+      "avg_group_size": {
+        "mean": 1.0001959218347651,
+        "median": 1.0,
+        "variance": 2.406082653756272e-07
+      }
+    }
+  ],
+  "epc_history": [
+    {
+      "generation": 1000,
+      "lz_complexity": {
+        "mean": 0.6168471177944862,
+        "median": 0.631578947368421,
+        "variance": 0.00045290522944013386,
+        "p90": 0.631578947368421
+      },
+      "instruction_diversity": {
+        "mean": 0.3177543859649123,
+        "median": 0.3157894736842105,
+        "variance": 9.568281606271314e-05,
+        "p90": 0.3333333333333333
+      },
+      "control_flow_estimate": {
+        "mean": 0.0,
+        "median": 0.0,
+        "variance": 0.0,
+        "p90": 0.0
+      }
+    },
+    {
+      "generation": 2000,
+      "lz_complexity": {
+        "mean": 0.578487546270155,
+        "median": 0.5757575757575758,
+        "variance": 8.830216955655855e-05,
+        "p90": 0.6
+      },
+      "instruction_diversity": {
+        "mean": 0.2757647280255976,
+        "median": 0.2727272727272727,
+        "variance": 9.048216363720966e-05,
+        "p90": 0.2857142857142857
+      },
+      "control_flow_estimate": {
+        "mean": 0.0,
+        "median": 0.0,
+        "variance": 0.0,
+        "p90": 0.0
+      }
+    },
+    {
+      "generation": 3000,
+      "lz_complexity": {
+        "mean": 0.5701852688374427,
+        "median": 0.5714285714285714,
+        "variance": 0.0007576908492815067,
+        "p90": 0.6349206349206349
+      },
+      "instruction_diversity": {
+        "mean": 0.2733777526821005,
+        "median": 0.2727272727272727,
+        "variance": 0.0001142750119173487,
+        "p90": 0.2857142857142857
+      },
+      "control_flow_estimate": {
+        "mean": 0.0,
+        "median": 0.0,
+        "variance": 0.0,
+        "p90": 0.0
+      }
+    },
+    {
+      "generation": 4000,
+      "lz_complexity": {
+        "mean": 0.6238243797253085,
+        "median": 0.631578947368421,
+        "variance": 0.00047421098374477247,
+        "p90": 0.6363636363636364
+      },
+      "instruction_diversity": {
+        "mean": 0.30173050272740676,
+        "median": 0.3,
+        "variance": 0.00024239489998444905,
+        "p90": 0.3157894736842105
+      },
+      "control_flow_estimate": {
+        "mean": 0.0,
+        "median": 0.0,
+        "variance": 0.0,
+        "p90": 0.0
+      }
+    },
+    {
+      "generation": 5000,
+      "lz_complexity": {
+        "mean": 0.6141259802998933,
+        "median": 0.6060606060606061,
+        "variance": 0.0003556721190771434,
+        "p90": 0.6349206349206349
+      },
+      "instruction_diversity": {
+        "mean": 0.28685714285714287,
+        "median": 0.2857142857142857,
+        "variance": 9.483927151565641e-05,
+        "p90": 0.3
+      },
+      "control_flow_estimate": {
+        "mean": 0.0,
+        "median": 0.0,
+        "variance": 0.0,
+        "p90": 0.0
+      }
+    },
+    {
+      "generation": 6000,
+      "lz_complexity": {
+        "mean": 0.5688688123470732,
+        "median": 0.5714285714285714,
+        "variance": 0.00036361324798335644,
+        "p90": 0.5797101449275363
+      },
+      "instruction_diversity": {
+        "mean": 0.2777526821005082,
+        "median": 0.2727272727272727,
+        "variance": 6.48759507469564e-05,
+        "p90": 0.2857142857142857
+      },
+      "control_flow_estimate": {
+        "mean": 0.0,
+        "median": 0.0,
+        "variance": 0.0,
+        "p90": 0.0
+      }
+    },
+    {
+      "generation": 7000,
+      "lz_complexity": {
+        "mean": 0.5096685739381391,
+        "median": 0.5217391304347826,
+        "variance": 0.00041785340224573123,
+        "p90": 0.5277777777777778
+      },
+      "instruction_diversity": {
+        "mean": 0.2558581404103143,
+        "median": 0.2608695652173913,
+        "variance": 0.00018076874458724067,
+        "p90": 0.2727272727272727
+      },
+      "control_flow_estimate": {
+        "mean": 0.0,
+        "median": 0.0,
+        "variance": 0.0,
+        "p90": 0.0
+      }
+    },
+    {
+      "generation": 8000,
+      "lz_complexity": {
+        "mean": 0.5435086584912672,
+        "median": 0.5333333333333333,
+        "variance": 0.0002915345951177333,
+        "p90": 0.56
+      },
+      "instruction_diversity": {
+        "mean": 0.1710407114624506,
+        "median": 0.16666666666666666,
+        "variance": 0.00015370726368942812,
+        "p90": 0.2
+      },
+      "control_flow_estimate": {
+        "mean": 0.0,
+        "median": 0.0,
+        "variance": 0.0,
+        "p90": 0.0
+      }
+    },
+    {
+      "generation": 9000,
+      "lz_complexity": {
+        "mean": 0.5588096993720182,
+        "median": 0.5555555555555556,
+        "variance": 0.00047829318638322057,
+        "p90": 0.5797101449275363
+      },
+      "instruction_diversity": {
+        "mean": 0.2515000709435492,
+        "median": 0.25,
+        "variance": 0.0001901285608316912,
+        "p90": 0.2727272727272727
+      },
+      "control_flow_estimate": {
+        "mean": 0.0,
+        "median": 0.0,
+        "variance": 0.0,
+        "p90": 0.0
+      }
+    },
+    {
+      "generation": 10000,
+      "lz_complexity": {
+        "mean": 0.5888084782635866,
+        "median": 0.5915343915343916,
+        "variance": 0.00014959965351252113,
+        "p90": 0.5964912280701754
+      },
+      "instruction_diversity": {
+        "mean": 0.32021524399233375,
+        "median": 0.3333333333333333,
+        "variance": 0.0008682748599113198,
+        "p90": 0.3333333333333333
+      },
+      "control_flow_estimate": {
+        "mean": 0.0,
+        "median": 0.0,
+        "variance": 0.0,
+        "p90": 0.0
+      }
+    },
+    {
+      "generation": 11000,
+      "lz_complexity": {
+        "mean": 0.4568955802649884,
+        "median": 0.45656565656565656,
+        "variance": 2.8200878062647032e-06,
+        "p90": 0.45934959349593496
+      },
+      "instruction_diversity": {
+        "mean": 0.13935366958622772,
+        "median": 0.13953488372093023,
+        "variance": 1.873696897561349e-06,
+        "p90": 0.13953488372093023
+      },
+      "control_flow_estimate": {
+        "mean": 0.0,
+        "median": 0.0,
+        "variance": 0.0,
+        "p90": 0.0
+      }
+    },
+    {
+      "generation": 12000,
+      "lz_complexity": {
+        "mean": 0.4137521718572602,
+        "median": 0.41387024608501116,
+        "variance": 2.0995646290918685e-06,
+        "p90": 0.4152637485970819
+      },
+      "instruction_diversity": {
+        "mean": 0.08348321125072042,
+        "median": 0.08333333333333333,
+        "variance": 9.168229100128078e-07,
+        "p90": 0.08450704225352113
+      },
+      "control_flow_estimate": {
+        "mean": 0.0,
+        "median": 0.0,
+        "variance": 0.0,
+        "p90": 0.0
+      }
+    },
+    {
+      "generation": 13000,
+      "lz_complexity": {
+        "mean": 0.38404932237264244,
+        "median": 0.3841554559043348,
+        "variance": 5.08376877498719e-07,
+        "p90": 0.38478747203579416
+      },
+      "instruction_diversity": {
+        "mean": 0.05733174372797015,
+        "median": 0.057692307692307696,
+        "variance": 1.8925292229846123e-07,
+        "p90": 0.057692307692307696
+      },
+      "control_flow_estimate": {
+        "mean": 0.0,
+        "median": 0.0,
+        "variance": 0.0,
+        "p90": 0.0
+      }
+    },
+    {
+      "generation": 14000,
+      "lz_complexity": {
+        "mean": 0.3744797094095949,
+        "median": 0.3746789993365336,
+        "variance": 3.6785249293416155e-07,
+        "p90": 0.3749287749287749
+      },
+      "instruction_diversity": {
+        "mean": 0.0440602526845923,
+        "median": 0.04411764705882353,
+        "variance": 4.1275620003154936e-08,
+        "p90": 0.044444444444444446
+      },
+      "control_flow_estimate": {
+        "mean": 0.0,
+        "median": 0.0,
+        "variance": 0.0,
+        "p90": 0.0
+      }
+    },
+    {
+      "generation": 15000,
+      "lz_complexity": {
+        "mean": 0.3609783370957272,
+        "median": 0.36083916083916084,
+        "variance": 2.5204894839724694e-07,
+        "p90": 0.36169223616922364
+      },
+      "instruction_diversity": {
+        "mean": 0.03591964092469106,
+        "median": 0.03592814371257485,
+        "variance": 3.6823427872978037e-09,
+        "p90": 0.03592814371257485
+      },
+      "control_flow_estimate": {
+        "mean": 0.0,
+        "median": 0.0,
+        "variance": 0.0,
+        "p90": 0.0
+      }
+    }
+  ],
+  "nnd_history": [
+    {
+      "generation": 2000,
+      "mean_nnd": 0.0,
+      "max_nnd": 0.0,
+      "min_nnd": 0.0,
+      "front_size": 24
+    },
+    {
+      "generation": 4000,
+      "mean_nnd": 5.265151515151516,
+      "max_nnd": 5.666666666666667,
+      "min_nnd": 4.833333333333333,
+      "front_size": 22
+    },
+    {
+      "generation": 6000,
+      "mean_nnd": 3.8421052631578947,
+      "max_nnd": 4.0,
+      "min_nnd": 3.6666666666666665,
+      "front_size": 19
+    },
+    {
+      "generation": 8000,
+      "mean_nnd": 2.6280701754385967,
+      "max_nnd": 2.8421052631578947,
+      "min_nnd": 2.3684210526315788,
+      "front_size": 15
+    },
+    {
+      "generation": 10000,
+      "mean_nnd": 1.7515873015873016,
+      "max_nnd": 1.9333333333333333,
+      "min_nnd": 1.6666666666666667,
+      "front_size": 28
+    },
+    {
+      "generation": 12000,
+      "mean_nnd": 9.359405300581772,
+      "max_nnd": 9.483516483516484,
+      "min_nnd": 9.285714285714286,
+      "front_size": 17
+    },
+    {
+      "generation": 14000,
+      "mean_nnd": 13.233446519524618,
+      "max_nnd": 13.25438596491228,
+      "min_nnd": 13.201754385964913,
+      "front_size": 31
+    }
+  ],
+  "final_generation": 15000,
+  "total_time": 5456.692611694336
+}
