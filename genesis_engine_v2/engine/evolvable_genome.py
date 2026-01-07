@@ -70,6 +70,89 @@ class EvolvableGenome:
             else:
                 self.metabolic_cost = metabolic_cost
     
+    def mutate(self, mutation_rate: float = 0.1):
+        """
+        Apply mutations to the genome.
+        
+        Track 2 Enhancement: Codon-aware mutations
+        - 80% within-codon: Change one base (AAA → AAC)
+        - 20% between-codon: Add/remove entire codon
+        
+        Args:
+            mutation_rate: Probability of mutation occurring
+        """
+        if random.random() < mutation_rate:
+            if random.random() < 0.8:
+                # Within-codon mutation (safer - preserves structure)
+                self._mutate_within_codon()
+            else:
+                # Between-codon mutation (riskier - structural change)
+                self._mutate_between_codons()
+    
+    def _mutate_within_codon(self):
+        """
+        Mutate a single base within a codon.
+        
+        Changes one letter in a 3-letter codon (e.g., AAA → AAC).
+        This is safer as it preserves codon structure.
+        """
+        if len(self.sequence) == 0:
+            return
+        
+        # Pick random codon
+        codon_idx = random.randint(0, len(self.sequence) - 1)
+        old_codon = self.sequence[codon_idx]
+        
+        # Mutate one base in the codon
+        if len(old_codon) == 3:
+            base_idx = random.randint(0, 2)
+            bases = list(old_codon)
+            # Change to different base
+            current_base = bases[base_idx]
+            new_base = random.choice([b for b in ['A', 'C', 'G', 'T'] if b != current_base])
+            bases[base_idx] = new_base
+            new_codon = ''.join(bases)
+            
+            self.sequence[codon_idx] = new_codon
+            
+            # Update metabolic cost
+            self.metabolic_cost = self._calculate_metabolic_cost(len(self.sequence))
+    
+    def _mutate_between_codons(self):
+        """
+        Add or remove entire codon.
+        
+        This is riskier as it changes genome structure.
+        50% chance to add, 50% to remove (if possible).
+        """
+        if random.random() < 0.5 and len(self.sequence) > 0:
+            # Remove a codon
+            codon_idx = random.randint(0, len(self.sequence) - 1)
+            removed = self.sequence.pop(codon_idx)
+            # The innovation ID for the removed codon is also implicitly removed
+            # by the pop operation on self.sequence.
+            # We don't need to explicitly remove from innovation_ids here
+            # because the add_gene method handles assigning new IDs,
+            # and the remove_gene method (which this replaces for structural mutation)
+            # handles removing both.
+            # For _mutate_between_codons, we just need to ensure sequence and innovation_ids
+            # remain consistent. If we remove a codon, we should also remove its ID.
+            self.innovation_ids.pop(codon_idx) # Ensure innovation_ids stays in sync
+        else:
+            # Add a new random codon
+            new_codon = self._random_codon()
+            insert_pos = random.randint(0, len(self.sequence))
+            self.sequence.insert(insert_pos, new_codon)
+            # Assign a new innovation ID for the added codon
+            self.innovation_ids.insert(insert_pos, self._get_next_innovation_id())
+        
+        # Update metabolic cost
+        self.metabolic_cost = self._calculate_metabolic_cost(len(self.sequence))
+    
+    def _random_codon(self) -> str:
+        """Generate random 3-letter codon."""
+        return ''.join(random.choice(['A', 'C', 'G', 'T']) for _ in range(3))
+    
     @classmethod
     def _calculate_metabolic_cost(cls, num_genes: int) -> float:
         """
