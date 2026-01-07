@@ -1,261 +1,153 @@
 """
-CodonTranslator - Core Genetic Architecture for Genesis Engine v2
+CodonTranslator - Track 2: Codon-Based Genetic System
 
-This module implements the foundational genetic translation system that maps
-triplet genetic codes (codons) to phenotypic instructions. A critical feature
-is degeneracy - multiple different codons map to the same instruction to ensure
-mutational robustness, similar to biological genetic codes.
-
-Phase 1.1: Foundational Genetic Architecture
+Maps gene sequences (codons) to behavioral traits.
+Provides structured genetic encoding for evolvable behaviors.
 """
+
+from typing import Dict, List
+import random
 
 
 class CodonTranslator:
     """
-    Translates triplet genetic codes (codons) to phenotypic instructions.
+    Translates gene sequences into behavioral trait values.
     
-    Features:
-    - Degeneracy: Multiple codons map to the same instruction for mutational robustness
-    - Separate tables for agent behaviors and world/environment parameters
-    - Extensible design for future genetic complexity
+    Track 2 Enhancement:
+    - Comprehensive codon table (48 codons)
+    - 5 behavioral traits
+    - Codon block structure (3 genes per block)
     """
     
-    def __init__(self):
-        """
-        Initialize the CodonTranslator with degenerate codon tables.
+    # Comprehensive codon table: 3-letter gene sequences → trait modifiers
+    # Each codon affects one of 5 behavioral traits
+    CODON_TABLE = {
+        # Aggression trait (8 codons)
+        'AAA': {'trait': 'aggression', 'modifier': +0.15},
+        'AAC': {'trait': 'aggression', 'modifier': +0.10},
+        'AAG': {'trait': 'aggression', 'modifier': +0.08},
+        'AAT': {'trait': 'aggression', 'modifier': +0.05},
+        'ACA': {'trait': 'aggression', 'modifier': -0.05},
+        'ACC': {'trait': 'aggression', 'modifier': -0.08},
+        'ACG': {'trait': 'aggression', 'modifier': -0.10},
+        'ACT': {'trait': 'aggression', 'modifier': -0.15},
         
-        Degeneracy ensures that single-point mutations don't always change
-        the phenotype, providing evolutionary stability while allowing for
-        gradual adaptation.
-        """
+        # Exploration trait (8 codons)
+        'CAA': {'trait': 'exploration', 'modifier': +0.15},
+        'CAC': {'trait': 'exploration', 'modifier': +0.10},
+        'CAG': {'trait': 'exploration', 'modifier': +0.08},
+        'CAT': {'trait': 'exploration', 'modifier': +0.05},
+        'CCA': {'trait': 'exploration', 'modifier': -0.05},
+        'CCC': {'trait': 'exploration', 'modifier': -0.08},
+        'CCG': {'trait': 'exploration', 'modifier': -0.10},
+        'CCT': {'trait': 'exploration', 'modifier': -0.15},
         
-        # Agent behavior table - maps codons to agent actions/traits
-        # Note: Multiple codons map to the same instruction (degeneracy)
-        self.agent_table = {
-            # Movement instructions (4 codons -> 2 instructions)
-            'AAA': 'move_forward',
-            'AAT': 'move_forward',      # Degenerate with AAA
-            'ACA': 'turn_left',
-            'ACT': 'turn_left',          # Degenerate with ACA
-            
-            # Energy management (4 codons -> 2 instructions)
-            'AGA': 'consume_energy',
-            'AGT': 'consume_energy',     # Degenerate with AGA
-            'ATA': 'store_energy',
-            'ATT': 'store_energy',       # Degenerate with ATA
-            
-            # Reproduction (2 codons -> 1 instruction)
-            'CAA': 'reproduce',
-            'CAT': 'reproduce',          # Degenerate with CAA
-            
-            # Sensing (2 codons -> 1 instruction)
-            'CCA': 'sense_environment',
-            'CCT': 'sense_environment',  # Degenerate with CCA
-        }
+        # Social tendency trait (8 codons)
+        'GAA': {'trait': 'social_tendency', 'modifier': +0.15},
+        'GAC': {'trait': 'social_tendency', 'modifier': +0.10},
+        'GAG': {'trait': 'social_tendency', 'modifier': +0.08},
+        'GAT': {'trait': 'social_tendency', 'modifier': +0.05},
+        'GCA': {'trait': 'social_tendency', 'modifier': -0.05},
+        'GCC': {'trait': 'social_tendency', 'modifier': -0.08},
+        'GCG': {'trait': 'social_tendency', 'modifier': -0.10},
+        'GCT': {'trait': 'social_tendency', 'modifier': -0.15},
         
-        # World/environment table - maps codons to world parameters
-        # Note: Multiple codons map to the same instruction (degeneracy)
-        self.world_table = {
-            # Resource distribution (4 codons -> 2 instructions)
-            'GAA': 'increase_resources',
-            'GAT': 'increase_resources',     # Degenerate with GAA
-            'GCA': 'decrease_resources',
-            'GCT': 'decrease_resources',     # Degenerate with GCA
-            
-            # Environmental conditions (4 codons -> 2 instructions)
-            'GGA': 'raise_temperature',
-            'GGT': 'raise_temperature',      # Degenerate with GGA
-            'GTA': 'lower_temperature',
-            'GTT': 'lower_temperature',      # Degenerate with GTA
-            
-            # Spatial parameters (2 codons -> 1 instruction)
-            'TAA': 'expand_space',
-            'TAT': 'expand_space',           # Degenerate with TAA
-            
-            # Mutation rate (2 codons -> 1 instruction)
-            'TCA': 'increase_mutation',
-            'TCT': 'increase_mutation',      # Degenerate with TCA
-        }
+        # Risk taking trait (8 codons)
+        'TAA': {'trait': 'risk_taking', 'modifier': +0.15},
+        'TAC': {'trait': 'risk_taking', 'modifier': +0.10},
+        'TAG': {'trait': 'risk_taking', 'modifier': +0.08},
+        'TAT': {'trait': 'risk_taking', 'modifier': +0.05},
+        'TCA': {'trait': 'risk_taking', 'modifier': -0.05},
+        'TCC': {'trait': 'risk_taking', 'modifier': -0.08},
+        'TCG': {'trait': 'risk_taking', 'modifier': -0.10},
+        'TCT': {'trait': 'risk_taking', 'modifier': -0.15},
+        
+        # Learning rate trait (16 codons)
+        'AGA': {'trait': 'learning_rate', 'modifier': +0.12},
+        'AGC': {'trait': 'learning_rate', 'modifier': +0.08},
+        'AGG': {'trait': 'learning_rate', 'modifier': +0.06},
+        'AGT': {'trait': 'learning_rate', 'modifier': +0.04},
+        'CGA': {'trait': 'learning_rate', 'modifier': -0.04},
+        'CGC': {'trait': 'learning_rate', 'modifier': -0.06},
+        'CGG': {'trait': 'learning_rate', 'modifier': -0.08},
+        'CGT': {'trait': 'learning_rate', 'modifier': -0.12},
+        'GGA': {'trait': 'learning_rate', 'modifier': +0.10},
+        'GGC': {'trait': 'learning_rate', 'modifier': +0.05},
+        'GGG': {'trait': 'learning_rate', 'modifier': +0.03},
+        'GGT': {'trait': 'learning_rate', 'modifier': +0.02},
+        'TGA': {'trait': 'learning_rate', 'modifier': -0.02},
+        'TGC': {'trait': 'learning_rate', 'modifier': -0.03},
+        'TGG': {'trait': 'learning_rate', 'modifier': -0.05},
+        'TGT': {'trait': 'learning_rate', 'modifier': -0.10},
+    }
     
-    def translate_agent(self, codon):
+    # Base trait values (neutral starting point)
+    BASE_TRAITS = {
+        'aggression': 0.5,
+        'exploration': 0.5,
+        'social_tendency': 0.5,
+        'risk_taking': 0.5,
+        'learning_rate': 0.5
+    }
+    
+    def translate_genome_to_traits(self, genome) -> Dict[str, float]:
         """
-        Translate a codon using the agent behavior table.
+        Translate genome into behavioral trait values.
+        
+        Each gene in the genome is a 3-letter codon.
+        Each codon modifies one behavioral trait.
         
         Args:
-            codon (str): A three-character genetic code (e.g., 'AAA')
+            genome: EvolvableGenome instance
             
         Returns:
-            str: The phenotypic instruction, or None if codon is invalid
-            
-        Example:
-            >>> translator = CodonTranslator()
-            >>> translator.translate_agent('AAA')
-            'move_forward'
-            >>> translator.translate_agent('AAT')  # Degenerate codon
-            'move_forward'
+            Dict mapping trait_name -> value in [0, 1]
         """
-        if not self._validate_codon(codon):
-            return None
-        return self.agent_table.get(codon.upper())
+        # Start with base values
+        traits = self.BASE_TRAITS.copy()
+        
+        # Get genes from genome (each gene is already a 3-letter codon)
+        genes = genome.sequence if hasattr(genome, 'sequence') else []
+        
+        # Process each gene as a codon
+        for gene in genes:
+            if gene in self.CODON_TABLE:
+                codon_info = self.CODON_TABLE[gene]
+                trait_name = codon_info['trait']
+                modifier = codon_info['modifier']
+                
+                # Apply modifier
+                traits[trait_name] += modifier
+        
+        # Clamp all traits to [0, 1]
+        for trait in traits:
+            traits[trait] = max(0.0, min(1.0, traits[trait]))
+        
+        return traits
     
-    def translate_world(self, codon):
-        """
-        Translate a codon using the world/environment table.
-        
-        Args:
-            codon (str): A three-character genetic code (e.g., 'GAA')
-            
-        Returns:
-            str: The phenotypic instruction, or None if codon is invalid
-            
-        Example:
-            >>> translator = CodonTranslator()
-            >>> translator.translate_world('GAA')
-            'increase_resources'
-            >>> translator.translate_world('GAT')  # Degenerate codon
-            'increase_resources'
-        """
-        if not self._validate_codon(codon):
-            return None
-        return self.world_table.get(codon.upper())
+    def get_codon_count(self, genome) -> int:
+        """Get number of codons in genome."""
+        genes = genome.sequence if hasattr(genome, 'sequence') else []
+        return len(genes)
     
-    def translate_sequence(self, sequence, table_type='agent'):
-        """
-        Translate a sequence of codons (DNA-like string).
-        
-        Args:
-            sequence (str): A string of nucleotides (length must be multiple of 3)
-            table_type (str): Either 'agent' or 'world' to select translation table
-            
-        Returns:
-            list: List of translated instructions, or None if sequence is invalid
-            
-        Example:
-            >>> translator = CodonTranslator()
-            >>> translator.translate_sequence('AAAAATACA', 'agent')
-            ['move_forward', 'move_forward', 'turn_left']
-        """
-        if not sequence or len(sequence) % 3 != 0:
-            return None
-        
-        # Split sequence into codons
-        codons = [sequence[i:i+3] for i in range(0, len(sequence), 3)]
-        
-        # Select translation method
-        translate_func = self.translate_agent if table_type == 'agent' else self.translate_world
-        
-        # Translate each codon
-        instructions = []
-        for codon in codons:
-            instruction = translate_func(codon)
-            if instruction is None:
-                return None  # Invalid codon found
-            instructions.append(instruction)
-        
-        return instructions
-    
-    def _validate_codon(self, codon):
-        """
-        Validate that a codon is properly formatted.
-        
-        Args:
-            codon (str): The codon to validate
-            
-        Returns:
-            bool: True if valid, False otherwise
-        """
-        if not isinstance(codon, str):
-            return False
-        if len(codon) != 3:
-            return False
-        # Check that all characters are valid nucleotides
-        valid_nucleotides = set('ACGT')
-        return all(c.upper() in valid_nucleotides for c in codon)
-    
-    def get_degenerate_codons(self, instruction, table_type='agent'):
-        """
-        Get all codons that map to a given instruction (demonstrates degeneracy).
-        
-        Args:
-            instruction (str): The phenotypic instruction
-            table_type (str): Either 'agent' or 'world'
-            
-        Returns:
-            list: List of all codons that produce this instruction
-            
-        Example:
-            >>> translator = CodonTranslator()
-            >>> translator.get_degenerate_codons('move_forward', 'agent')
-            ['AAA', 'AAT']
-        """
-        table = self.agent_table if table_type == 'agent' else self.world_table
-        return [codon for codon, instr in table.items() if instr == instruction]
-    
-    def get_degeneracy_stats(self):
-        """
-        Calculate degeneracy statistics for both tables.
-        
-        Returns:
-            dict: Statistics about degeneracy in the codon tables
-        """
-        def calc_stats(table):
-            instruction_counts = {}
-            for instruction in table.values():
-                instruction_counts[instruction] = instruction_counts.get(instruction, 0) + 1
-            
-            total_codons = len(table)
-            unique_instructions = len(instruction_counts)
-            avg_degeneracy = total_codons / unique_instructions if unique_instructions > 0 else 0
-            
-            return {
-                'total_codons': total_codons,
-                'unique_instructions': unique_instructions,
-                'average_degeneracy': avg_degeneracy,
-                'instruction_counts': instruction_counts
-            }
-        
-        return {
-            'agent_table': calc_stats(self.agent_table),
-            'world_table': calc_stats(self.world_table)
-        }
+    def get_trait_summary(self, traits: Dict[str, float]) -> str:
+        """Get human-readable summary of traits."""
+        return (f"Aggression: {traits['aggression']:.2f}, "
+                f"Exploration: {traits['exploration']:.2f}, "
+                f"Social: {traits['social_tendency']:.2f}, "
+                f"Risk: {traits['risk_taking']:.2f}, "
+                f"Learning: {traits['learning_rate']:.2f}")
 
 
-if __name__ == '__main__':
-    # Quick demonstration
-    translator = CodonTranslator()
-    
-    print("=== CodonTranslator Demonstration ===\n")
-    
-    # Demonstrate degeneracy
-    print("Degeneracy Example (Agent Table):")
-    print(f"  'AAA' -> {translator.translate_agent('AAA')}")
-    print(f"  'AAT' -> {translator.translate_agent('AAT')} (degenerate)")
-    print()
-    
-    print("Degeneracy Example (World Table):")
-    print(f"  'GAA' -> {translator.translate_world('GAA')}")
-    print(f"  'GAT' -> {translator.translate_world('GAT')} (degenerate)")
-    print()
-    
-    # Show all degenerate codons for an instruction
-    print("All codons for 'move_forward':")
-    print(f"  {translator.get_degenerate_codons('move_forward', 'agent')}")
-    print()
-    
-    # Translate a sequence
-    print("Sequence Translation:")
-    sequence = 'AAAAATACA'
-    result = translator.translate_sequence(sequence, 'agent')
-    print(f"  Sequence: {sequence}")
-    print(f"  Codons: {[sequence[i:i+3] for i in range(0, len(sequence), 3)]}")
-    print(f"  Instructions: {result}")
-    print()
-    
-    # Show degeneracy statistics
-    print("Degeneracy Statistics:")
-    stats = translator.get_degeneracy_stats()
-    for table_name, table_stats in stats.items():
-        print(f"\n  {table_name}:")
-        print(f"    Total codons: {table_stats['total_codons']}")
-        print(f"    Unique instructions: {table_stats['unique_instructions']}")
-        print(f"    Average degeneracy: {table_stats['average_degeneracy']:.2f}")
+# Singleton instance for easy access
+_translator = CodonTranslator()
+
+
+def translate_genome(genome) -> Dict[str, float]:
+    """Convenience function to translate genome to traits."""
+    return _translator.translate_genome_to_traits(genome)
+
+
+def get_trait_summary(traits: Dict[str, float]) -> str:
+    """Convenience function to get trait summary."""
+    return _translator.get_trait_summary(traits)
