@@ -74,6 +74,10 @@ class GenesisEngine:
         # Physics enforcement tracking (Phase 2)
         self.offspring_terminations_log = []  # Track violating offspring terminated before entering population
         
+        # Environmental systems (Week 3)
+        from .environment.resource_niches import ResourceNicheSystem
+        self.resource_system = ResourceNicheSystem()
+        
         # Initialize population and world
         self._initialize_population()
         self._initialize_world()
@@ -158,6 +162,18 @@ class GenesisEngine:
             for agent in self.population:
                 agent.age += 1
             self.world.age += 1
+        
+        # Step 2.4: Resource Interactions (Week 3)
+        # Agents consume resources based on specialization
+        for agent in self.population:
+            resource_energy = self.resource_system.agent_consumes_resource(agent)
+            # Resource energy contributes to agent fitness (tracked in evaluation)
+            if not hasattr(agent, 'resource_energy'):
+                agent.resource_energy = 0.0
+            agent.resource_energy += resource_energy
+        
+        # Regenerate resources for next generation
+        self.resource_system.regenerate_resources()
         
         # Step 2.5: Physics Gatekeeper (NEW - Phase 2: Physical Invariant Architecture)
         # Enforce immutable physical laws BEFORE evaluation and reproduction
