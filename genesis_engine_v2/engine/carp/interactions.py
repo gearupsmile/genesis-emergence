@@ -1,156 +1,193 @@
 """
-Interaction Handler - Minimal CARP Implementation
+CARP Interaction Handler - Track 3 Enhanced
 
-Handles predator-prey interactions: detection, chase, evade, capture.
+Trait-based predator-prey interactions using behavioral traits from Track 2.
 """
 
 import random
+import math
 from typing import List, Tuple, Optional
-from .species import Species, SpeciesTraits
 
 
 class InteractionHandler:
     """
-    Manages predator-prey interactions.
+    Handles predator-prey interactions with trait-based mechanics.
     
-    Simple mechanics:
-    - Predators detect and chase nearest forager
-    - Foragers detect and evade nearest predator
-    - Capture occurs if predator within capture distance
+    Track 3 Enhancement:
+    - Capture probability based on behavioral traits
+    - Energy transfer efficiency based on traits
+    - Co-evolutionary pressure between strategies
     """
     
-    def __init__(self, capture_distance: float = 0.1, 
-                 capture_efficiency: float = 0.6,
-                 energy_transfer_rate: float = 0.4):
+    def __init__(self, 
+                 capture_distance: float = 0.1,
+                 base_capture_prob: float = 0.3,
+                 base_energy_transfer: float = 0.4):
         """
         Initialize interaction handler.
         
         Args:
-            capture_distance: Distance for successful capture
-            capture_efficiency: Probability of successful capture
-            energy_transfer_rate: Fraction of forager energy transferred
+            capture_distance: Max distance for capture attempt
+            base_capture_prob: Base probability of successful capture
+            base_energy_transfer: Base energy transfer rate (0-1)
         """
         self.capture_distance = capture_distance
-        self.capture_efficiency = capture_efficiency
-        self.energy_transfer_rate = energy_transfer_rate
+        self.base_capture_prob = base_capture_prob
+        self.base_energy_transfer = base_energy_transfer
         
-        # Statistics
+        # Track statistics
         self.total_encounters = 0
         self.successful_captures = 0
-        self.successful_evasions = 0
+        self.total_energy_transferred = 0.0
     
-    def detect_nearby_agents(self, agent, population, detection_range: float) -> List[Tuple]:
+    def calculate_capture_probability(self, predator, forager) -> float:
         """
-        Detect agents within detection range.
+        Calculate capture probability based on behavioral traits.
         
-        Args:
-            agent: Agent doing the detecting
-            population: All agents
-            detection_range: Maximum detection distance
-            
-        Returns:
-            List of (other_agent, distance) tuples
-        """
-        nearby = []
+        Predator advantages:
+        - High aggression → +capture chance
+        - High risk_taking → +engagement willingness
         
-        for other in population:
-            if other.id == agent.id:
-                continue
-            
-            # Simple distance calculation (agents have no position yet)
-            # For minimal implementation, use random distance as proxy
-            distance = random.random()  # Placeholder
-            
-            if distance < detection_range:
-                nearby.append((other, distance))
-        
-        return nearby
-    
-    def handle_predator_behavior(self, predator, population) -> Optional[float]:
-        """
-        Handle predator behavior: detect and chase foragers.
+        Forager advantages:
+        - High exploration → +evasion ability
+        - Low risk_taking → +flee success
         
         Args:
             predator: Predator agent
-            population: All agents
+            forager: Forager agent
             
         Returns:
-            Energy gained from successful capture, or None
+            Capture probability [0, 1]
         """
-        if not hasattr(predator, 'species_traits'):
-            return None
+        prob = self.base_capture_prob
         
-        traits = predator.species_traits
+        # Predator modifiers (increase capture chance)
+        if hasattr(predator, 'behavioral_traits'):
+            aggression_bonus = predator.behavioral_traits.get('aggression', 0.5) * 0.3
+            risk_bonus = predator.behavioral_traits.get('risk_taking', 0.5) * 0.2
+            prob += aggression_bonus + risk_bonus
         
-        # Detect nearby foragers
-        nearby = self.detect_nearby_agents(predator, population, traits.detection_range)
-        foragers_nearby = [(a, d) for a, d in nearby 
-                          if hasattr(a, 'species') and a.species == Species.FORAGER]
+        # Forager modifiers (decrease capture chance)
+        if hasattr(forager, 'behavioral_traits'):
+            evasion_penalty = forager.behavioral_traits.get('exploration', 0.5) * 0.25
+            flee_penalty = (1.0 - forager.behavioral_traits.get('risk_taking', 0.5)) * 0.15
+            prob -= (evasion_penalty + flee_penalty)
         
-        if not foragers_nearby:
-            return None
+        # Clamp to [0, 1]
+        return max(0.0, min(1.0, prob))
+    
+    def calculate_energy_transfer(self, predator, forager) -> float:
+        """
+        Calculate energy transfer efficiency based on traits.
         
-        # Chase nearest forager
-        nearest_forager, distance = min(foragers_nearby, key=lambda x: x[1])
+        Predator advantages:
+        - High learning_rate → better energy extraction
         
-        # Attempt capture if close enough
-        if distance < self.capture_distance:
-            self.total_encounters += 1
+        Forager advantages:
+        - High social_tendency → group defense reduces transfer
+        
+        Args:
+            predator: Predator agent
+            forager: Forager agent
             
-            # Capture attempt
-            if random.random() < self.capture_efficiency:
-                # Successful capture
-                self.successful_captures += 1
-                
-                # Transfer energy from forager
-                if hasattr(nearest_forager, 'resource_energy'):
-                    energy_gained = nearest_forager.resource_energy * self.energy_transfer_rate
-                    nearest_forager.resource_energy *= (1 - self.energy_transfer_rate)
-                    return energy_gained
+        Returns:
+            Energy transfer rate [0.2, 0.6]
+        """
+        transfer_rate = self.base_energy_transfer
+        
+        # Predator modifiers (increase transfer)
+        if hasattr(predator, 'behavioral_traits'):
+            learning_bonus = predator.behavioral_traits.get('learning_rate', 0.5) * 0.2
+            transfer_rate += learning_bonus
+        
+        # Forager modifiers (decrease transfer)
+        if hasattr(forager, 'behavioral_traits'):
+            social_penalty = forager.behavioral_traits.get('social_tendency', 0.5) * 0.15
+            transfer_rate -= social_penalty
+        
+        # Clamp to reasonable range
+        return max(0.2, min(0.6, transfer_rate))
+    
+    def handle_predator_behavior(self, predator, population: List) -> Optional[Tuple[str, float]]:
+        """
+        Handle predator hunting behavior.
+        
+        Args:
+            predator: Predator agent
+            population: All agents in population
+            
+        Returns:
+            Tuple of (forager_id, energy_gained) if capture successful, None otherwise
+        """
+        from .species import Species
+        
+        # Find nearby foragers
+        foragers = [a for a in population 
+                   if hasattr(a, 'species') and a.species == Species.FORAGER 
+                   and a.id != predator.id]
+        
+        if not foragers:
+            return None
+        
+        # Pick random nearby forager
+        target = random.choice(foragers)
+        
+        # Calculate capture probability
+        capture_prob = self.calculate_capture_probability(predator, target)
+        
+        self.total_encounters += 1
+        
+        # Attempt capture
+        if random.random() < capture_prob:
+            # Successful capture!
+            transfer_rate = self.calculate_energy_transfer(predator, target)
+            energy_transferred = target.energy * transfer_rate
+            
+            # Transfer energy
+            target.energy -= energy_transferred
+            predator.energy += energy_transferred
+            
+            # Track statistics
+            self.successful_captures += 1
+            self.total_energy_transferred += energy_transferred
+            
+            return (target.id, energy_transferred)
         
         return None
     
-    def handle_forager_behavior(self, forager, population) -> bool:
+    def handle_forager_behavior(self, forager, population: List) -> bool:
         """
-        Handle forager behavior: detect and evade predators.
+        Handle forager evasion behavior.
+        
+        Currently passive - foragers rely on their traits for evasion.
+        Future: Could add active evasion strategies.
         
         Args:
             forager: Forager agent
-            population: All agents
+            population: All agents in population
             
         Returns:
-            True if successfully evaded, False otherwise
+            True if forager took evasive action
         """
-        if not hasattr(forager, 'species_traits'):
-            return False
-        
-        traits = forager.species_traits
-        
-        # Detect nearby predators
-        nearby = self.detect_nearby_agents(forager, population, traits.detection_range)
-        predators_nearby = [(a, d) for a, d in nearby 
-                           if hasattr(a, 'species') and a.species == Species.PREDATOR]
-        
-        if not predators_nearby:
-            return False
-        
-        # Evade nearest predator
-        nearest_predator, distance = min(predators_nearby, key=lambda x: x[1])
-        
-        if distance < self.capture_distance * 1.5:  # Danger zone
-            # Evasion attempt
-            evasion_chance = 0.4  # Base evasion chance
-            if random.random() < evasion_chance:
-                self.successful_evasions += 1
-                return True
-        
+        # Passive evasion - traits handle it in capture probability
         return False
     
     def get_statistics(self) -> dict:
         """Get interaction statistics."""
+        capture_rate = (self.successful_captures / self.total_encounters 
+                       if self.total_encounters > 0 else 0.0)
+        
         return {
             'total_encounters': self.total_encounters,
             'successful_captures': self.successful_captures,
-            'successful_evasions': self.successful_evasions,
-            'capture_rate': self.successful_captures / max(self.total_encounters, 1)
+            'capture_rate': capture_rate,
+            'total_energy_transferred': self.total_energy_transferred,
+            'avg_energy_per_capture': (self.total_energy_transferred / self.successful_captures
+                                      if self.successful_captures > 0 else 0.0)
         }
+    
+    def reset_statistics(self):
+        """Reset interaction statistics."""
+        self.total_encounters = 0
+        self.successful_captures = 0
+        self.total_energy_transferred = 0.0
