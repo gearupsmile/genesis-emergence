@@ -78,9 +78,16 @@ class GenesisEngine:
         from .environment.resource_niches import ResourceNicheSystem
         from .environment.spatial_regions import SpatialEnvironment
         from .environment.temporal_cycles import TemporalEnvironment
+        from .pressure.functional_stagnation_detector import FunctionalStagnationDetector
+        from .behavior.behavioral_tracker import BehavioralTracker
         self.resource_system = ResourceNicheSystem()
         self.spatial_env = SpatialEnvironment(migration_rate=0.1)
         self.temporal_env = TemporalEnvironment(cycle_length=500)
+        self.fsd = FunctionalStagnationDetector(window_size=100, innovation_threshold=2)
+        self.behavioral_tracker = BehavioralTracker(window_size=100)  # NEW: Action-based tracking
+        
+        # Base energy constant for FSD pressure application
+        self.base_energy_constant = 0.5
         
         # Initialize population and world
         self._initialize_population()
@@ -185,9 +192,12 @@ class GenesisEngine:
             # Get agent's region
             region = self.spatial_env.get_region_for_agent(agent.id)
             
+            # Determine best resource for agent
+            best_resource, _ = self.resource_system.get_best_resource_for_agent(agent)
+            
             # Apply regional resource multipliers
             # (This modifies resource availability for this agent)
-            resource_energy = self.resource_system.agent_consumes_resource(agent)
+            resource_energy = self.resource_system.agent_consumes_resource(agent, best_resource)
             
             # Apply regional fitness modifier
             regional_modifier = region.calculate_fitness_modifier(agent)
@@ -197,12 +207,37 @@ class GenesisEngine:
             if not hasattr(agent, 'resource_energy'):
                 agent.resource_energy = 0.0
             agent.resource_energy += resource_energy
+            
+            # BEHAVIORAL TRACKING (Emergency Fix)
+            # Record resource acquisition action
+            if best_resource:
+                self.behavioral_tracker.action_recorder.record_resource_acquisition(
+                    agent.id, best_resource
+                )
+            
+            # Record energy intake
+            self.behavioral_tracker.action_recorder.record_energy_intake(
+                agent.id, resource_energy
+            )
+            
+            # Record constraint pressure
+            self.behavioral_tracker.action_recorder.record_constraint_check(
+                agent.id, agent.genome.metabolic_cost, region.energy_constant
+            )
         
         # Regenerate resources for next generation
         self.resource_system.regenerate_resources()
         
         # Step 2.45: Migration (every 100 generations)
         self.spatial_env.allow_migration(self.population, self.generation)
+        
+        # Step 2.6: Innovation Tracking (Week 3 - FSD)
+        innovation_count = self.fsd.track_innovation(
+            self.generation, 
+            self.population, 
+            self.resource_system, 
+            self.spatial_env
+        )
         
         # Step 2.5: Physics Gatekeeper (NEW - Phase 2: Physical Invariant Architecture)
         # Enforce immutable physical laws BEFORE evaluation and reproduction
