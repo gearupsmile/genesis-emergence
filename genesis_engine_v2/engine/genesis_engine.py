@@ -72,7 +72,11 @@ class GenesisEngine:
         self.statistics: List[Dict] = []
         
         # Physics enforcement tracking (Phase 2)
-        self.offspring_terminations_log = []  # Track violating offspring terminated before entering population
+        self.generation = 0
+        self.statistics_log = []
+        
+        # Offspring termination tracking
+        self.offspring_terminations_log = []
         
         # Environmental systems (Week 3)
         from .environment.resource_niches import ResourceNicheSystem
@@ -86,6 +90,19 @@ class GenesisEngine:
         self.fsd = FunctionalStagnationDetector(window_size=100, innovation_threshold=2)
         self.behavioral_tracker = BehavioralTracker(window_size=100)  # NEW: Action-based tracking
         
+        # CARP: Co-Evolutionary Arms Race (Step 1)
+        from .carp import SpeciesAssigner, InteractionHandler
+        self.species_assigner = SpeciesAssigner(forager_ratio=0.7)
+        self.interaction_handler = InteractionHandler(
+            capture_distance=0.1,
+            capture_efficiency=0.6,
+            energy_transfer_rate=0.4
+        )
+        
+        # Track 1: Physics Gatekeeper v2
+        from .physics.physics_gatekeeper import PhysicalInvariantGatekeeper
+        self.physics_gatekeeper = PhysicalInvariantGatekeeper(energy_constant=0.5)
+        
         # Base energy constant for FSD pressure application
         self.base_energy_constant = 0.5
         
@@ -95,6 +112,9 @@ class GenesisEngine:
         
         # Initialize spatial assignments after population creation
         self.spatial_env.initialize_agents(self.population)
+        
+        # CARP: Assign species to initial population
+        self.species_assigner.assign_species_to_population(self.population)
     
     def _initialize_population(self):
         """Create initial population of random agents."""
@@ -230,6 +250,24 @@ class GenesisEngine:
         
         # Step 2.45: Migration (every 100 generations)
         self.spatial_env.allow_migration(self.population, self.generation)
+        
+        # Step 2.5: CARP Predator-Prey Interactions
+        # Process interactions between predators and foragers
+        for agent in self.population:
+            if not hasattr(agent, 'species'):
+                continue
+            
+            from .carp import Species
+            
+            if agent.species == Species.PREDATOR:
+                # Predator attempts to hunt
+                energy_gained = self.interaction_handler.handle_predator_behavior(agent, self.population)
+                if energy_gained and hasattr(agent, 'resource_energy'):
+                    agent.resource_energy += energy_gained
+            
+            elif agent.species == Species.FORAGER:
+                # Forager attempts to evade
+                self.interaction_handler.handle_forager_behavior(agent, self.population)
         
         # Step 2.6: Innovation Tracking (Week 3 - FSD)
         innovation_count = self.fsd.track_innovation(

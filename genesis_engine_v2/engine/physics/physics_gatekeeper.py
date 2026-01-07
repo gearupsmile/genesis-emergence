@@ -52,10 +52,21 @@ class PhysicalInvariantGatekeeper:
         
         self.log_violations = log_violations
         
-        # Statistics tracking
+        # Statistics tracking (legacy)
         self.total_checks = 0
         self.total_violations = 0
         self.violation_log = []
+        
+        # Enhanced logging (Track 1)
+        from .gatekeeper_logger import GatekeeperLogger
+        self.logger = GatekeeperLogger(window_size=100)
+        
+        # Per-generation tracking
+        self.current_gen_parent_checks = 0
+        self.current_gen_parent_rejections = 0
+        self.current_gen_offspring_checks = 0
+        self.current_gen_offspring_rejections = 0
+        self.current_gen_boundary_agents = []
     
     def check_viability(self, agent) -> bool:
         """
@@ -163,6 +174,95 @@ class PhysicalInvariantGatekeeper:
         self.total_checks = 0
         self.total_violations = 0
         self.violation_log = []
+        self.logger.reset()
+    
+    def check_viability_with_tracking(self, agent, agent_type: str = 'unknown') -> bool:
+        """
+        Check viability with enhanced tracking for logging.
+        
+        Args:
+            agent: Agent to check
+            agent_type: 'parent' or 'offspring' for tracking
+            
+        Returns:
+            True if viable, False if rejected
+        """
+        is_viable = self.check_viability(agent)
+        
+        # Track for current generation
+        if agent_type == 'parent':
+            self.current_gen_parent_checks += 1
+            if not is_viable:
+                self.current_gen_parent_rejections += 1
+        elif agent_type == 'offspring':
+            self.current_gen_offspring_checks += 1
+            if not is_viable:
+                self.current_gen_offspring_rejections += 1
+        
+        # Check if agent is near boundary (within 10% of threshold)
+        if is_viable:
+            metabolic_cost = agent.genome.metabolic_cost
+            distance_from_boundary = self.energy_constant - metabolic_cost
+            boundary_threshold = self.energy_constant * 0.1  # 10% threshold
+            
+            if distance_from_boundary < boundary_threshold:
+                # Agent is near viability boundary
+                boundary_info = {
+                    'id': agent.id,
+                    'metabolic_cost': metabolic_cost,
+                    'distance_from_boundary': distance_from_boundary,
+                    'genome_length': agent.genome.get_length(),
+                    'agent_type': agent_type
+                }
+                self.current_gen_boundary_agents.append(boundary_info)
+        
+        return is_viable
+    
+    def finalize_generation(self, generation: int, population: List):
+        """
+        Finalize logging for current generation.
+        
+        Args:
+            generation: Generation number
+            population: Current population (for diversity calculation)
+        """
+        # Calculate genetic diversity
+        genetic_diversity = self._calculate_genetic_diversity(population)
+        
+        # Log to enhanced logger
+        self.logger.log_generation(
+            generation=generation,
+            parent_checked=self.current_gen_parent_checks,
+            parent_rejected=self.current_gen_parent_rejections,
+            offspring_checked=self.current_gen_offspring_checks,
+            offspring_rejected=self.current_gen_offspring_rejections,
+            boundary_agents=self.current_gen_boundary_agents.copy(),
+            genetic_diversity_score=genetic_diversity
+        )
+        
+        # Reset for next generation
+        self.current_gen_parent_checks = 0
+        self.current_gen_parent_rejections = 0
+        self.current_gen_offspring_checks = 0
+        self.current_gen_offspring_rejections = 0
+        self.current_gen_boundary_agents = []
+    
+    def _calculate_genetic_diversity(self, population: List) -> float:
+        """
+        Calculate genetic diversity score for population.
+        
+        Args:
+            population: List of agents
+            
+        Returns:
+            Diversity score (variance in metabolic costs)
+        """
+        if len(population) < 2:
+            return 0.0
+        
+        import numpy as np
+        costs = [agent.genome.metabolic_cost for agent in population]
+        return float(np.var(costs))
     
     def __repr__(self) -> str:
         """String representation for debugging."""
