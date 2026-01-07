@@ -76,11 +76,18 @@ class GenesisEngine:
         
         # Environmental systems (Week 3)
         from .environment.resource_niches import ResourceNicheSystem
+        from .environment.spatial_regions import SpatialEnvironment
+        from .environment.temporal_cycles import TemporalEnvironment
         self.resource_system = ResourceNicheSystem()
+        self.spatial_env = SpatialEnvironment(migration_rate=0.1)
+        self.temporal_env = TemporalEnvironment(cycle_length=500)
         
         # Initialize population and world
         self._initialize_population()
         self._initialize_world()
+        
+        # Initialize spatial assignments after population creation
+        self.spatial_env.initialize_agents(self.population)
     
     def _initialize_population(self):
         """Create initial population of random agents."""
@@ -163,17 +170,39 @@ class GenesisEngine:
                 agent.age += 1
             self.world.age += 1
         
+        # Step 2.2: Temporal Phase Update (Week 3)
+        phase_changed = self.temporal_env.update_phase(self.generation)
+        if phase_changed:
+            current_phase = self.temporal_env.get_current_phase()
+            print(f"  {current_phase.get_log_prefix()} Entering {current_phase.name} phase")
+        
+        # Apply temporal modifiers to resources
+        self.temporal_env.apply_resource_modifiers(self.resource_system)
+        
         # Step 2.4: Resource Interactions (Week 3)
-        # Agents consume resources based on specialization
+        # Agents consume resources based on specialization AND regional modifiers
         for agent in self.population:
+            # Get agent's region
+            region = self.spatial_env.get_region_for_agent(agent.id)
+            
+            # Apply regional resource multipliers
+            # (This modifies resource availability for this agent)
             resource_energy = self.resource_system.agent_consumes_resource(agent)
-            # Resource energy contributes to agent fitness (tracked in evaluation)
+            
+            # Apply regional fitness modifier
+            regional_modifier = region.calculate_fitness_modifier(agent)
+            resource_energy *= regional_modifier
+            
+            # Track resource energy for fitness calculation
             if not hasattr(agent, 'resource_energy'):
                 agent.resource_energy = 0.0
             agent.resource_energy += resource_energy
         
         # Regenerate resources for next generation
         self.resource_system.regenerate_resources()
+        
+        # Step 2.45: Migration (every 100 generations)
+        self.spatial_env.allow_migration(self.population, self.generation)
         
         # Step 2.5: Physics Gatekeeper (NEW - Phase 2: Physical Invariant Architecture)
         # Enforce immutable physical laws BEFORE evaluation and reproduction
