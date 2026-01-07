@@ -277,6 +277,30 @@ class GenesisEngine:
             self.spatial_env
         )
         
+        # Step 3: Evaluation - Calculate fitness scores
+        external_scores = {}
+        for agent in self.population:
+            external_scores[agent.id] = calculate_fitness(agent, self.world)
+        
+        # Step 3.5: TRACK 1 - Parent Viability Check (Tier 1)
+        # Binary life/death enforcement BEFORE reproduction
+        viable_parents = []
+        for agent in self.population:
+            if self.physics_gatekeeper.check_viability_with_tracking(agent, 'parent'):
+                viable_parents.append(agent)
+        
+        # Only viable parents can reproduce
+        if len(viable_parents) < len(self.population):
+            rejected_count = len(self.population) - len(viable_parents)
+            print(f"  [GATEKEEPER] Gen {self.generation}: Rejected {rejected_count} parents (metabolic cost > {self.physics_gatekeeper.energy_constant})")
+        
+        self.population = viable_parents
+        
+        # If no viable parents, simulation ends
+        if len(self.population) == 0:
+            print(f"  [CRITICAL] Gen {self.generation}: All parents rejected - population extinct!")
+            return
+        
         # Step 2.5: Physics Gatekeeper (NEW - Phase 2: Physical Invariant Architecture)
         # Enforce immutable physical laws BEFORE evaluation and reproduction
         # This ensures agents cannot evolve around constraints
@@ -359,21 +383,32 @@ class GenesisEngine:
                 child = parent.reproduce(self.mutation_rate)
                 offspring.append(child)
         
-        # TIER 2 GATEKEEPER (NEW - Phase 2 Fix): Check offspring BEFORE they enter population
-        # This ensures NO violating agent ever exists in self.population, not even for 1 generation
-        viable_offspring, terminated_offspring_ids = self.physics_gatekeeper.enforce_population_constraints(offspring)
+        # Step 4.5: TRACK 1 - Offspring Viability Check (Tier 2)
+        # Binary life/death enforcement AFTER reproduction
+        viable_offspring = []
+        for child in offspring:
+            if self.physics_gatekeeper.check_viability_with_tracking(child, 'offspring'):
+                viable_offspring.append(child)
         
-        # Log offspring terminations (distinct from parent terminations)
-        if len(terminated_offspring_ids) > 0:
+        # Log offspring rejections
+        if len(viable_offspring) < len(offspring):
+            rejected_count = len(offspring) - len(viable_offspring)
+            print(f"  [GATEKEEPER] Gen {self.generation}: Rejected {rejected_count} offspring (metabolic cost > {self.physics_gatekeeper.energy_constant})")
+            
+            # Track for analysis
             self.offspring_terminations_log.append({
                 'generation': self.generation,
-                'terminated_count': len(terminated_offspring_ids),
-                'terminated_ids': terminated_offspring_ids,
-                'reason': 'offspring_exceeded_energy_constant'
+                'terminated_count': rejected_count,
+                'reason': 'physics_gatekeeper_tier2'
             })
         
         # Replace population with ONLY viable offspring
         self.population = viable_offspring
+        
+        # If no viable offspring, simulation ends
+        if len(self.population) == 0:
+            print(f"  [CRITICAL] Gen {self.generation}: All offspring rejected - population extinct!")
+            return
         
         # Step 5: AIS Culling
         # Convert all entities to dicts
@@ -405,8 +440,14 @@ class GenesisEngine:
         if self.statistics:
             self.statistics[-1]['num_purged'] = len(purged_ids)
             self.statistics[-1]['population_size'] = len(self.population)  # Update after purging
+           # Step 5.6: Advance Behavioral Tracker (Emergency Fix)
+        self.behavioral_tracker.advance_generation()
         
-        # Increment generation
+        # Step 5.7: TRACK 1 - Finalize Gatekeeper Logging
+        # Complete logging for this generation
+        self.physics_gatekeeper.finalize_generation(self.generation, self.population)
+        
+        # Increment generation counter
         self.generation += 1
     
     def _log_statistics(self, external_scores: Dict[str, float],
