@@ -5,6 +5,7 @@ Assigns species to agents maintaining 70/30 forager/predator ratio.
 """
 
 import random
+from typing import List, Dict
 from .species import Species, SpeciesTraits
 
 
@@ -25,33 +26,59 @@ class SpeciesAssigner:
         self.forager_ratio = forager_ratio
         self.predator_ratio = 1.0 - forager_ratio
         
+        # Pre-load species traits for efficiency
+        self.species_traits = {
+            Species.FORAGER: SpeciesTraits.get_forager_traits(),
+            Species.PREDATOR: SpeciesTraits.get_predator_traits()
+        }
+        
         # Track assignments
         self.assignments = {}  # agent_id -> species
     
-    def assign_species_to_population(self, population):
+    def assign_species_to_population(self, population: List) -> Dict[str, int]:
         """
-        Assign species to entire population.
+        Assign species to population maintaining target ratio.
+        
+        Track 3 Fix: Properly sets agent.species attribute
         
         Args:
             population: List of agents
+            
+        Returns:
+            Dict with species counts
         """
+        if not population:
+            return {'forager': 0, 'predator': 0}
+        
+        # Calculate target counts
         total = len(population)
-        num_foragers = int(total * self.forager_ratio)
+        target_foragers = int(total * self.forager_ratio)
+        target_predators = total - target_foragers
         
         # Shuffle population for random assignment
-        shuffled = list(population)
+        shuffled = population.copy()
         random.shuffle(shuffled)
         
         # Assign species
+        forager_count = 0
+        predator_count = 0
+        
         for i, agent in enumerate(shuffled):
-            if i < num_foragers:
+            if i < target_foragers:
+                # Assign as forager
                 agent.species = Species.FORAGER
-                agent.species_traits = SpeciesTraits.get_forager_traits()
+                agent.species_traits = self.species_traits[Species.FORAGER].copy()
+                forager_count += 1
             else:
+                # Assign as predator
                 agent.species = Species.PREDATOR
-                agent.species_traits = SpeciesTraits.get_predator_traits()
-            
-            self.assignments[agent.id] = agent.species
+                agent.species_traits = self.species_traits[Species.PREDATOR].copy()
+                predator_count += 1
+        
+        return {
+            'forager': forager_count,
+            'predator': predator_count
+        }
     
     def assign_species_to_offspring(self, parent):
         """
