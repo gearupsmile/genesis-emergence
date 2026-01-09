@@ -67,12 +67,12 @@ class SpeciesAssigner:
             if i < target_foragers:
                 # Assign as forager
                 agent.species = Species.FORAGER
-                agent.species_traits = self.species_traits[Species.FORAGER].copy()
+                agent.species_traits = self.species_traits[Species.FORAGER]
                 forager_count += 1
             else:
                 # Assign as predator
                 agent.species = Species.PREDATOR
-                agent.species_traits = self.species_traits[Species.PREDATOR].copy()
+                agent.species_traits = self.species_traits[Species.PREDATOR]
                 predator_count += 1
         
         return {

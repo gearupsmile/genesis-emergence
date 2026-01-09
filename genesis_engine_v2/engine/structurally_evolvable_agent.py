@@ -70,8 +70,8 @@ class StructurallyEvolvableAgent:
             species=self.species  # CRITICAL: Inherit species from parent
         )
         
-        # Inherit species traits
-        child.species_traits = self.species_traits.copy()
+        # Inherit species traits (dataclass, just assign reference)
+        child.species_traits = self.species_traits
         
         return child
     

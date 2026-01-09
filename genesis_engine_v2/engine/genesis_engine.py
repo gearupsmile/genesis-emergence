@@ -95,8 +95,8 @@ class GenesisEngine:
         self.species_assigner = SpeciesAssigner(forager_ratio=0.7)
         self.interaction_handler = InteractionHandler(
             capture_distance=0.1,
-            capture_efficiency=0.6,
-            energy_transfer_rate=0.4
+            base_capture_prob=0.3,
+            base_energy_transfer=0.4
         )
         
         # Track 1: Physics Gatekeeper v2
@@ -185,9 +185,8 @@ class GenesisEngine:
         5. AIS Culling: Apply lifecycle management
         """
         # Step 1: Development
-        for agent in self.population:
-            agent.develop(self.translator)
-        self.world.develop_physics(self.translator)
+        # Track 2: Agents get traits directly from genome via CodonTranslator
+        # World physics not used in current implementation
         
         # Step 2: Simulation (placeholder)
         # Currently just increments age for AIS forgetting
@@ -251,22 +250,32 @@ class GenesisEngine:
         # Step 2.45: Migration (every 100 generations)
         self.spatial_env.allow_migration(self.population, self.generation)
         
-        # Step 2.5: CARP Predator-Prey Interactions
-        # Process interactions between predators and foragers
+        # Step 2.48: TRACK 2 - Update Behavioral Traits
+        # Ensure all agents have current traits from genome before CARP interactions
+        from .codon_translator import translate_genome
+        for agent in self.population:
+            if hasattr(agent, 'genome'):
+                agent.behavioral_traits = translate_genome(agent.genome)
+        
+        # Step 2.5: TRACK 3 - CARP Predator-Prey Interactions (Enhanced)
+        # Trait-based interactions with energy transfer
+        from .carp import Species
+        
         for agent in self.population:
             if not hasattr(agent, 'species'):
                 continue
             
-            from .carp import Species
-            
             if agent.species == Species.PREDATOR:
-                # Predator attempts to hunt
-                energy_gained = self.interaction_handler.handle_predator_behavior(agent, self.population)
-                if energy_gained and hasattr(agent, 'resource_energy'):
-                    agent.resource_energy += energy_gained
+                # Predator attempts to hunt (returns tuple or None)
+                result = self.interaction_handler.handle_predator_behavior(agent, self.population)
+                if result:
+                    forager_id, energy_gained = result
+                    # Energy already transferred in handler, just track it
+                    if hasattr(agent, 'resource_energy'):
+                        agent.resource_energy += energy_gained
             
             elif agent.species == Species.FORAGER:
-                # Forager attempts to evade
+                # Forager evasion (passive, handled in capture probability)
                 self.interaction_handler.handle_forager_behavior(agent, self.population)
         
         # Step 2.6: Innovation Tracking (Week 3 - FSD)
@@ -409,6 +418,38 @@ class GenesisEngine:
         if len(self.population) == 0:
             print(f"  [CRITICAL] Gen {self.generation}: All offspring rejected - population extinct!")
             return
+        
+        # Step 4.6: TRACK 2 - Basic Complexification
+        # Simple plateau detection: add codon if fitness stagnant
+        for agent in self.population:
+            # Initialize fitness history if needed
+            if not hasattr(agent, 'fitness_history'):
+                agent.fitness_history = []
+            
+            # Add current fitness (use resource energy as proxy)
+            current_fitness = getattr(agent, 'resource_energy', 0.0)
+            agent.fitness_history.append(current_fitness)
+            
+            # Keep only last 20 generations
+            if len(agent.fitness_history) > 20:
+                agent.fitness_history = agent.fitness_history[-20:]
+            
+            # Check for plateau (10+ generations, no improvement)
+            if len(agent.fitness_history) >= 10:
+                recent_avg = sum(agent.fitness_history[-10:]) / 10
+                if len(agent.fitness_history) >= 20:
+                    older_avg = sum(agent.fitness_history[:10]) / 10
+                else:
+                    older_avg = recent_avg
+                
+                # If plateau detected, add random codon
+                if recent_avg - older_avg < 0.01:  # Plateau threshold
+                    import random
+                    new_codon = ''.join(random.choice(['A', 'C', 'G', 'T']) for _ in range(3))
+                    agent.genome.sequence.append(new_codon)
+                    agent.genome.metabolic_cost = agent.genome._calculate_metabolic_cost(len(agent.genome.sequence))
+                    # Reset fitness history after complexification
+                    agent.fitness_history = []
         
         # Step 5: AIS Culling
         # Convert all entities to dicts

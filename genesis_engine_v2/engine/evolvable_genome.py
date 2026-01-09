@@ -29,8 +29,9 @@ class EvolvableGenome:
     _next_innovation_id = 0
     
     # Constants
-    COST_COEFFICIENT = 0.005  # Coefficient for superlinear metabolic cost (strong bloat control)
-    COST_EXPONENT = 1.5  # Superlinear exponent (quadratic-like growth)
+    MAX_GENOME_SIZE = 100  # Hard limit to prevent runaway bloat
+    COST_COEFFICIENT = 0.02  # Coefficient for superlinear metabolic cost (4x stronger bloat control)
+    COST_EXPONENT = 1.8  # Superlinear exponent (more aggressive than quadratic)
     NUCLEOTIDES = ['A', 'C', 'G', 'T']
     
     def __init__(self, initial_sequence: Optional[List[str]] = None, 
@@ -192,12 +193,12 @@ class EvolvableGenome:
             codon: Optional codon to add. If None, generates random codon.
             
         Returns:
-            Innovation ID of the newly added gene
+            Innovation ID of the newly added gene, or None if rejected due to size limit
             
         Side Effects:
-            - Appends codon to sequence
+            - Appends codon to sequence (if within size limit)
             - Assigns new innovation ID
-            - Increases metabolic_cost by COST_PER_GENE
+            - Recalculates metabolic_cost
             
         Example:
             >>> genome = EvolvableGenome(['AAA'])
@@ -207,6 +208,10 @@ class EvolvableGenome:
             >>> genome.metabolic_cost
             0.02
         """
+        # HARD CONSTRAINT: Reject if at maximum size
+        if len(self.sequence) >= self.MAX_GENOME_SIZE:
+            return None  # Mutation rejected - genome too large
+        
         if codon is None:
             # Generate random codon
             codon = ''.join(random.choice(self.NUCLEOTIDES) for _ in range(3))
