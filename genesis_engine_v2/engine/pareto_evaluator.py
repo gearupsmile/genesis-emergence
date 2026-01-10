@@ -47,9 +47,9 @@ class ParetoCoevolutionEvaluator:
             >>> profile = evaluator.calculate_profile(agent)
             >>> # [5.0, 10.0, 0.05, 0.5, 8.0, 15.0]
         """
-        # 1. Phenotype length
-        if agent.phenotype is not None:
-            phenotype_length = float(len(agent.phenotype))
+        # 1. Behavioral traits length (replaces phenotype)
+        if hasattr(agent, 'behavioral_traits') and agent.behavioral_traits is not None:
+            phenotype_length = float(len(agent.behavioral_traits))
         else:
             phenotype_length = 0.0
         

@@ -40,9 +40,9 @@ def calculate_fitness(agent, world_state: Optional[Dict] = None) -> float:
         >>> # Agent with 5 instructions and 0.03 cost:
         >>> # fitness = (1 + 5) / (1 + 0.03) = 5.83
     """
-    # Get phenotype complexity
-    if agent.phenotype is not None:
-        phenotype_complexity = len(agent.phenotype)
+    # Get behavioral traits complexity (replaces phenotype)
+    if hasattr(agent, 'behavioral_traits') and agent.behavioral_traits is not None:
+        phenotype_complexity = len(agent.behavioral_traits)
     else:
         phenotype_complexity = 0
     
