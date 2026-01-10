@@ -117,7 +117,7 @@ def create_phase_transition_plot(data, output_path='phase_transition_plot.pdf'):
     
     plt.tight_layout()
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
-    print(f"✓ Figure saved to: {output_path}")
+    print(f"Figure saved to: {output_path}")
     
     return fig
 
@@ -136,6 +136,6 @@ if __name__ == '__main__':
     # Also save as PNG for easy viewing
     png_path = output_dir / 'figure_2_phase_transition.png'
     fig.savefig(png_path, dpi=300, bbox_inches='tight')
-    print(f"✓ PNG version saved to: {png_path}")
+    print(f"PNG version saved to: {png_path}")
     
-    print("\n✓ Phase 1 Figure 2 generation complete!")
+    print("\nPhase 1 Figure 2 generation complete!")
