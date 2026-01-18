@@ -374,12 +374,7 @@ class GenesisEngine:
         
         # Step 4: Selection & Reproduction
         num_parents = max(1, len(self.population) // 2)
-        parents = tournament_selection(
-            self.population, 
-            final_scores,  # Use blended scores for selection
-            num_parents=num_parents,
-            tournament_size=3
-        )
+        parents = self.select_parents(final_scores, num_parents)
         
         # Reproduce to maintain population size
         offspring = []
