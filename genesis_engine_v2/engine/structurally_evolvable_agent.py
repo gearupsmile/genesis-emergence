@@ -8,6 +8,7 @@ Track 3: Enhanced with species identity and inheritance
 import uuid
 from typing import Dict, Optional
 from .evolvable_genome import EvolvableGenome
+from .linkage_structure import LinkageStructure
 from .codon_translator import translate_genome, get_trait_summary
 
 
@@ -48,6 +49,9 @@ class StructurallyEvolvableAgent:
         
         # Energy for CARP interactions
         self.energy = 1.0
+        
+        # TRACK 2.2: Linkage Structure for building block discovery
+        self.linkage_structure = LinkageStructure(genome_length=genome.get_length())
     
     def reproduce(self, mutation_rate: float = 0.1) -> 'StructurallyEvolvableAgent':
         """
@@ -72,6 +76,9 @@ class StructurallyEvolvableAgent:
         
         # Inherit species traits (dataclass, just assign reference)
         child.species_traits = self.species_traits
+        
+        # Evolve linkage structure
+        child.linkage_structure = self.linkage_structure.create_offspring(mutation_rate)
         
         return child
     

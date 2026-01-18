@@ -56,6 +56,7 @@ class ConstraintChecker:
         for i in range(5):
             genome = EvolvableGenome(['AAA', 'CAA', 'GAA', 'TAA', 'ACA'])  # 5 codons
             agent = StructurallyEvolvableAgent(genome=genome)
+            agent.id = f"short_{i}"  # EXPLICT ID FOR TEST
             population.append(agent)
         
         # Bloated genomes (~50 genes, high cost)
@@ -64,6 +65,7 @@ class ConstraintChecker:
             codons = ['AAA', 'CAA', 'GAA', 'TAA', 'ACA', 'AGA', 'ATA', 'ATT', 'CAT', 'CCA'] * 5
             genome = EvolvableGenome(codons)
             agent = StructurallyEvolvableAgent(genome=genome)
+            agent.id = f"bloat_{i}"  # EXPLICIT ID FOR TEST
             population.append(agent)
         
         # Assign equal base fitness to all agents
