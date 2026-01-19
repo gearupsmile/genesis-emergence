@@ -1,18 +1,19 @@
 """
 MAP-Elites (Quality-Diversity) Baseline
-Fills behavior space but doesn't achieve unbounded growth without objectives
+Fills behavior space but doesn't achieve unbounded growth without objectives.
 """
 
 import numpy as np
 import json
+import argparse
 from pathlib import Path
+import sys
+
+# Define strict 2D behavior space:
+# Dimension 1: GAC (Genome Length / Complexity)
+# Dimension 2: EPC (LZ Complexity)
 
 class MAPElitesBaseline:
-    """
-    MAP-Elites baseline using a 2D behavior space grid.
-    Demonstrates quality-diversity but not open-ended evolution.
-    """
-    
     def __init__(self, grid_size=(20, 20), generations=10000, seed=42):
         self.grid_size = grid_size
         self.generations = generations
@@ -20,166 +21,149 @@ class MAPElitesBaseline:
         
         np.random.seed(seed)
         
-        # Grid archive: [gene_count_bin, lz_complexity_bin] -> agent
+        # [bin_x, bin_y] -> agent_dict
         self.archive = {}
         
-        # Behavior space bounds
-        self.gene_count_bounds = (5, 100)
-        self.lz_complexity_bounds = (5, 50)
-        
-        # Metrics tracking
-        self.metrics = {
-            'generation': [],
-            'archive_size': [],
-            'mean_gac': [],
-            'coverage': []
-        }
-        
-    def behavior_to_bin(self, gene_count, lz_complexity):
-        """Convert continuous behavior to discrete grid bin"""
-        # Normalize to [0, 1]
-        gene_norm = (gene_count - self.gene_count_bounds[0]) / \
-                   (self.gene_count_bounds[1] - self.gene_count_bounds[0])
-        lz_norm = (lz_complexity - self.lz_complexity_bounds[0]) / \
-                 (self.lz_complexity_bounds[1] - self.lz_complexity_bounds[0])
-        
-        # Clip and convert to bin
-        gene_norm = np.clip(gene_norm, 0, 0.999)
-        lz_norm = np.clip(lz_norm, 0, 0.999)
-        
-        bin_x = int(gene_norm * self.grid_size[0])
-        bin_y = int(lz_norm * self.grid_size[1])
-        
-        return (bin_x, bin_y)
+        # Bounds for normalization
+        # GAC: 0 to 200 (Expected range for simple agents)
+        # EPC: 0 to 100
+        self.bounds_gac = (0, 200)
+        self.bounds_epc = (0, 100)
     
+    def get_bin(self, gac, epc):
+        """Map GAC/EPC to grid coordinates."""
+        # Normalize
+        x = (gac - self.bounds_gac[0]) / (self.bounds_gac[1] - self.bounds_gac[0])
+        y = (epc - self.bounds_epc[0]) / (self.bounds_epc[1] - self.bounds_epc[0])
+        
+        # Clip
+        x = np.clip(x, 0, 0.99)
+        y = np.clip(y, 0, 0.99)
+        
+        bin_x = int(x * self.grid_size[0])
+        bin_y = int(y * self.grid_size[1])
+        return (bin_x, bin_y)
+
     def create_random_agent(self):
-        """Create random agent"""
-        gene_count = np.random.randint(10, 30)
-        lz_complexity = gene_count * 0.6 + np.random.normal(0, 2)
-        lz_complexity = max(5, lz_complexity)
+        """Simple agent rep: {'genome': [...], 'gac': float, 'epc': float}"""
+        # Simulate Genome
+        length = np.random.randint(10, 50)
+        # Simulate EPC (correlated but noisy)
+        complexity = length * 0.5 + np.random.normal(0, 5)
+        complexity = max(1, complexity)
         
         return {
-            'gene_count': gene_count,
-            'lz_complexity': lz_complexity,
-            'quality': np.random.random()  # Minimal quality metric
+            'gac': length,
+            'epc': complexity,
+            'genome_len': length # Store for mutation logic
         }
-    
+
     def mutate(self, agent):
-        """Mutate an agent"""
+        """Mutate agent."""
         child = agent.copy()
         
-        # Mutate gene count
+        # Mutate length
         if np.random.random() < 0.5:
-            child['gene_count'] += np.random.randint(-3, 4)
-            child['gene_count'] = max(5, min(100, child['gene_count']))
-        
-        # Mutate LZ complexity (correlated with gene count)
+            change = np.random.randint(-5, 6)
+            child['gac'] = max(1, child['gac'] + change)
+            
+        # Mutate complexity
         if np.random.random() < 0.5:
-            child['lz_complexity'] += np.random.normal(0, 2)
-            child['lz_complexity'] = max(5, min(50, child['lz_complexity']))
-        
-        # Mutate quality slightly
-        child['quality'] = agent['quality'] + np.random.normal(0, 0.1)
-        child['quality'] = np.clip(child['quality'], 0, 1)
-        
+            change = np.random.normal(0, 2)
+            child['epc'] = max(1, child['epc'] + change)
+            
         return child
-    
-    def add_to_archive(self, agent):
-        """Add agent to archive if it's better in its bin"""
-        bin_coords = self.behavior_to_bin(agent['gene_count'], agent['lz_complexity'])
-        
-        # If bin is empty or agent is better, add it
-        if bin_coords not in self.archive or \
-           agent['quality'] > self.archive[bin_coords]['quality']:
-            self.archive[bin_coords] = agent.copy()
-            return True
-        return False
-    
+
     def run(self):
-        """Execute MAP-Elites experiment"""
-        print(f"Starting MAP-Elites Baseline (seed={self.seed})...")
+        print(f"Starting MAP-Elites (Seed={self.seed}, Gens={self.generations})")
         
-        # Initialize with random agents
-        for _ in range(100):
+        # Init
+        for _ in range(50):
             agent = self.create_random_agent()
-            self.add_to_archive(agent)
-        
-        for gen in range(self.generations):
-            # Sample random agent from archive
-            if len(self.archive) > 0:
-                parent = np.random.choice(list(self.archive.values()))
+            b = self.get_bin(agent['gac'], agent['epc'])
+            if b not in self.archive:
+                self.archive[b] = agent
                 
-                # Create and mutate offspring
-                for _ in range(10):  # 10 offspring per generation
-                    child = self.mutate(parent)
-                    self.add_to_archive(child)
+        # Logging history
+        stats_history = []
+                
+        # Loop
+        for gen in range(self.generations):
+            if not self.archive:
+                continue
+                
+            # Select random parent from archive
+            keys = list(self.archive.keys())
+            parent_key = keys[np.random.randint(0, len(keys))]
+            parent = self.archive[parent_key]
             
-            # Track metrics
-            if len(self.archive) > 0:
-                mean_gac = np.mean([a['gene_count'] for a in self.archive.values()])
-                coverage = len(self.archive) / (self.grid_size[0] * self.grid_size[1])
+            # Mutate
+            child = self.mutate(parent)
+            
+            # Evaluate & Add
+            b_child = self.get_bin(child['gac'], child['epc'])
+            
+            if b_child not in self.archive:
+                self.archive[b_child] = child
             else:
-                mean_gac = 0
-                coverage = 0
+                existing = self.archive[b_child]
+                if child['epc'] > existing['epc']:
+                    self.archive[b_child] = child
             
-            self.metrics['generation'].append(gen)
-            self.metrics['archive_size'].append(len(self.archive))
-            self.metrics['mean_gac'].append(mean_gac)
-            self.metrics['coverage'].append(coverage)
-            
-            if gen % 1000 == 0:
-                print(f"Gen {gen}: Archive = {len(self.archive)}, "
-                      f"GAC = {mean_gac:.2f}, Coverage = {coverage*100:.1f}%")
+            # Log every 50 generations
+            if (gen+1) % 50 == 0:
+                # Calculate metrics for current archive
+                current_gac = np.mean([a['gac'] for a in self.archive.values()]) if self.archive else 0
+                current_epc = np.mean([a['epc'] for a in self.archive.values()]) if self.archive else 0
+                
+                stats_history.append({
+                    'generation': gen + 1,
+                    'mean_gac': current_gac,
+                    'mean_epc': current_epc,
+                    'archive_size': len(self.archive)
+                })
+                    
+            if (gen+1) % 1000 == 0:
+                print(f"Gen {gen+1}: Archive Size={len(self.archive)}")
+                
+        # Metrics
+        final_gac = np.mean([a['gac'] for a in self.archive.values()]) if self.archive else 0
+        final_epc = np.mean([a['epc'] for a in self.archive.values()]) if self.archive else 0
         
-        return self.metrics
-    
-    def save_results(self, output_dir='results/baselines'):
-        """Save metrics and archive state"""
-        output_path = Path(output_dir)
-        output_path.mkdir(parents=True, exist_ok=True)
-        
-        # Save metrics JSON
-        json_file = output_path / f'mapelites_seed_{self.seed}.json'
-        with open(json_file, 'w') as f:
-            json.dump(self.metrics, f, indent=2)
-        
-        # Save CSV
-        csv_file = output_path / f'mapelites_seed_{self.seed}.csv'
-        with open(csv_file, 'w') as f:
-            f.write('generation,archive_size,mean_gac,coverage\n')
-            for i in range(len(self.metrics['generation'])):
-                f.write(f"{self.metrics['generation'][i]},"
-                       f"{self.metrics['archive_size'][i]},"
-                       f"{self.metrics['mean_gac'][i]},"
-                       f"{self.metrics['coverage'][i]}\n")
-        
-        # Save final archive state
-        archive_file = output_path / f'mapelites_archive_seed_{self.seed}.json'
-        archive_data = {
-            f"{k[0]},{k[1]}": {
-                'gene_count': v['gene_count'],
-                'lz_complexity': v['lz_complexity'],
-                'quality': v['quality']
-            }
-            for k, v in self.archive.items()
+        return {
+            'seed': self.seed,
+            'final_gac': final_gac,
+            'final_epc': final_epc,
+            'generations': self.generations,
+            'history': stats_history
         }
-        with open(archive_file, 'w') as f:
-            json.dump(archive_data, f, indent=2)
-        
-        print(f"Results saved to {json_file}, {csv_file}, and {archive_file}")
-        return json_file, csv_file
 
 if __name__ == '__main__':
-    # Run with 3 different seeds
-    seeds = [42, 123, 456]
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--seed', type=int, required=True)
+    parser.add_argument('--generations', type=int, default=10000)
+    args = parser.parse_args()
     
-    for seed in seeds:
-        exp = MAPElitesBaseline(
-            grid_size=(20, 20),
-            generations=10000,
-            seed=seed
-        )
-        metrics = exp.run()
-        exp.save_results()
+    exp = MAPElitesBaseline(generations=args.generations, seed=args.seed)
+    result = exp.run()
     
-    print("\nMAP-Elites baseline complete!")
+    # Save Summary
+    root_dir = Path(__file__).parent.parent.parent
+    results_dir = root_dir / 'results' / 'baselines'
+    results_dir.mkdir(parents=True, exist_ok=True)
+    
+    out_file = results_dir / f'map_elites_seed_{args.seed}.json'
+    
+    # Extract history for separate file
+    history = result.pop('history')
+    
+    with open(out_file, 'w') as f:
+        json.dump(result, f, indent=2)
+        
+    # Save Time Series
+    history_file = results_dir / f'map_elites_seed_{args.seed}_timeseries.json'
+    with open(history_file, 'w') as f:
+        json.dump(history, f, indent=2)
+        
+    print(f"Saved to {out_file}")
+    print(f"Saved timeseries to {history_file}")

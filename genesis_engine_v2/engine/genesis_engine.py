@@ -486,6 +486,21 @@ class GenesisEngine:
         # Increment generation counter
         self.generation += 1
     
+    def select_parents(self, scores: Dict[str, float], num_parents: int) -> List[StructurallyEvolvableAgent]:
+        """
+        Select parents for reproduction using tournament selection.
+        Can be overridden by subclasses (e.g. Novelty Search).
+        
+        Args:
+            scores: Dict mapping agent_id to fitness/score
+            num_parents: Number of parents to select
+            
+        Returns:
+            List of selected parent agents
+        """
+        # Default implementation uses tournament selection
+        return tournament_selection(self.population, scores, num_parents, tournament_size=3)
+    
     def _log_statistics(self, external_scores: Dict[str, float],
                         internal_scores: Dict[str, float],
                         normalized_external: Dict[str, float],

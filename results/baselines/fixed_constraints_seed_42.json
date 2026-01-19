@@ -1,0 +1,6 @@
+{
+  "seed": 42,
+  "final_gac": 0.4,
+  "final_epc": 0.0,
+  "generations": 10000
+}

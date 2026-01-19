@@ -13,6 +13,8 @@ differences:
 import sys
 import os
 import gc
+import json
+import argparse
 from pathlib import Path
 import time
 from datetime import datetime
@@ -61,16 +63,28 @@ class NoveltyGenesisEngine(GenesisEngine):
         return self.novelty_search.select_parents(self.population, num_parents)
 
 def run_novelty_baseline():
-    """Run the 200k Novelty Search baseline."""
+    """Run the Novelty Search baseline."""
     global shutdown_requested
+    
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--seed', type=int, default=42, help='Random seed')
+    parser.add_argument('--generations', type=int, default=200000, help='Total generations')
+    args = parser.parse_args()
+    
+    # Set seeds
+    import numpy as np
+    import random
+    np.random.seed(args.seed)
+    random.seed(args.seed)
+    
     signal.signal(signal.SIGINT, signal_handler)
     
     print("=" * 70)
-    print("NOVELTY SEARCH BASELINE (200k)")
+    print(f"NOVELTY SEARCH BASELINE (Seed={args.seed})")
     print("=" * 70)
     
-    # Configuration (Matches launch_final_overnight.py)
-    total_gens = 200000 
+    # Configuration
+    total_gens = args.generations
     population_size = 50
     mutation_rate = 0.3
     checkpoint_interval = 10000
@@ -78,13 +92,18 @@ def run_novelty_baseline():
     
     # Create run directory
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    run_dir = Path("runs") / f"novelty_baseline_{timestamp}"
+    run_dir = Path("runs") / f"novelty_search_seed_{args.seed}_{timestamp}"
     run_dir.mkdir(parents=True, exist_ok=True)
+    
+    # Also ensure results/baselines exists for final JSON
+    results_dir = Path("results/baselines")
+    results_dir.mkdir(parents=True, exist_ok=True)
+    
     (run_dir / "logs").mkdir(exist_ok=True)
     (run_dir / "checkpoints").mkdir(exist_ok=True)
     
     # Logging
-    log_file = open(run_dir / "run.log", 'w', buffering=1)
+    log_file = open(run_dir / "logs" / "run.log", 'w', buffering=1)
     def log_print(msg):
         print(msg)
         log_file.write(msg + "\n")
@@ -96,7 +115,8 @@ def run_novelty_baseline():
     # Initialize components
     profiler = ResourceProfiler(log_file=str(run_dir / "logs" / "resource_profile.log"))
     translator = CodonTranslator()
-    pnct_logger = PNCTLogger(gac_interval=1000, nnd_interval=2000, translator=translator)
+    # Log every 50 generations for high-res plots
+    pnct_logger = PNCTLogger(gac_interval=50, nnd_interval=50, translator=translator)
     
     # Initialize Engine
     engine = NoveltyGenesisEngine(
@@ -109,7 +129,6 @@ def run_novelty_baseline():
     log_print("-" * 80)
     
     start_time = time.time()
-    last_report = start_time
     
     try:
         for gen in range(total_gens):
@@ -127,10 +146,10 @@ def run_novelty_baseline():
                 
             if (gen + 1) % checkpoint_interval == 0:
                 log_print(f"  [CHECKPOINT] Generation {gen+1}")
-                # Save checkpoint logic here if needed (using pickle or custom save)
+                # Save checkpoint logic here if needed
                 
-            # Reporting
-            if (gen + 1) % 1000 == 0: # More frequent than 5000 for verify
+            # Reporting (Console every 1000)
+            if (gen + 1) % 1000 == 0 or (gen+1) == total_gens: 
                 current_time = time.time()
                 elapsed = current_time - start_time
                 gens_per_sec = (gen + 1) / elapsed
@@ -143,8 +162,8 @@ def run_novelty_baseline():
                 
                 # Novelty Metrics
                 archive_size = len(engine.novelty_search.archive)
-                # Quick re-calc for logging current average novelty
-                # (Ideally we cache this from the select_parents call, but re-calc is cheap for N=50)
+                
+                # Quick re-calc for logging
                 scores, _ = engine.novelty_search.calculate_novelty_scores(engine.population)
                 avg_novelty = sum(scores.values()) / len(scores) if scores else 0
                 
@@ -164,6 +183,41 @@ def run_novelty_baseline():
         log_print("-" * 80)
         log_print(f"Complete. Total time: {total_time:.2f}s")
         log_print(f"Final Archive Size: {len(engine.novelty_search.archive)}")
+        
+        # Calculate Final Metrics
+        final_gac = 0.0
+        final_epc = 0.0
+        if engine.population:
+            final_gac = sum(a.genome.get_length() for a in engine.population) / len(engine.population)
+            epc_hist = pnct_logger.get_epc_history()
+            if epc_hist:
+                 final_epc = epc_hist[-1]['lz_complexity']['mean']
+        
+        # Save JSON result (Summary)
+        result = {
+            'seed': args.seed,
+            'final_gac': final_gac,
+            'final_epc': final_epc,
+            'archive_size': len(engine.novelty_search.archive),
+            'generations': total_gens
+        }
+        json_path = results_dir / f"novelty_search_seed_{args.seed}.json"
+        with open(json_path, 'w') as f:
+            json.dump(result, f, indent=2)
+            
+        # NEW: Save detailed time-series logs
+        logs_path = results_dir / f"novelty_search_seed_{args.seed}_timeseries.json"
+        timeseries_data = {
+            'gac_history': pnct_logger.get_gac_history(),
+            'epc_history': pnct_logger.get_epc_history(),
+            'nnd_history': pnct_logger.get_nnd_history()
+        }
+        with open(logs_path, 'w') as f:
+            json.dump(timeseries_data, f, indent=2)
+            
+        log_print(f"Saved metrics to {json_path}")
+        log_print(f"Saved timeseries to {logs_path}")
+        
         log_file.close()
         profiler.cleanup()
 
