@@ -17,7 +17,7 @@ import sys
 from pathlib import Path
 import time
 
-sys.path.insert(0, str(Path(__file__).parent / 'genesis_engine_v2'))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / 'genesis_engine_v2'))
 
 from engine.genesis_engine import GenesisEngine
 
@@ -141,18 +141,19 @@ def run_experiment(name, **kwargs):
 
 def print_results_summary(all_results):
     """Print comparison of all experiments."""
-    print("\n" + "="*70)
-    print("EXPERIMENT COMPARISON")
-    print("="*70)
-    print()
+    output = []
+    output.append("\n" + "="*70)
+    output.append("EXPERIMENT COMPARISON")
+    output.append("="*70)
+    output.append("")
     
     # Table header
-    print(f"{'Experiment':<25} {'Pop':>5} {'Genome':>7} {'Internal':>9} {'Variance':>9} {'Novelty':>8} {'Explore':>8}")
-    print("-"*70)
+    output.append(f"{'Experiment':<25} {'Pop':>5} {'Genome':>7} {'Internal':>9} {'Variance':>9} {'Novelty':>8} {'Explore':>8}")
+    output.append("-"*70)
     
     # Baseline first
     baseline = [r for r in all_results if 'Baseline' in r['name']][0]
-    print(f"{baseline['name']:<25} "
+    output.append(f"{baseline['name']:<25} "
           f"{baseline['final_population']:5d} "
           f"{baseline['final_genome_length']:7.1f} "
           f"{baseline['final_internal_score']:9.2f} "
@@ -160,14 +161,14 @@ def print_results_summary(all_results):
           f"{baseline['vigor']['novelty_events']:8d} "
           f"{baseline['vigor']['exploration_score']:8.2f}")
     
-    print("-"*70)
+    output.append("-"*70)
     
     # Other experiments
     for result in all_results:
         if 'Baseline' in result['name']:
             continue
         
-        print(f"{result['name']:<25} "
+        output.append(f"{result['name']:<25} "
               f"{result['final_population']:5d} "
               f"{result['final_genome_length']:7.1f} "
               f"{result['final_internal_score']:9.2f} "
@@ -175,15 +176,22 @@ def print_results_summary(all_results):
               f"{result['vigor']['novelty_events']:8d} "
               f"{result['vigor']['exploration_score']:8.2f}")
     
-    print()
+    output.append("")
     
     # Find best performer
     best = max(all_results, key=lambda r: r['vigor']['exploration_score'])
-    print(f"Best Exploration Score: {best['name']}")
-    print(f"  Exploration Score: {best['vigor']['exploration_score']:.2f}")
-    print(f"  Metric Variance: {best['vigor']['metric_variance']:.2f}")
-    print(f"  Novelty Events: {best['vigor']['novelty_events']}")
-    print()
+    output.append(f"Best Exploration Score: {best['name']}")
+    output.append(f"  Exploration Score: {best['vigor']['exploration_score']:.2f}")
+    output.append(f"  Metric Variance: {best['vigor']['metric_variance']:.2f}")
+    output.append(f"  Novelty Events: {best['vigor']['novelty_events']}")
+    output.append("")
+    
+    # Write to file
+    out_path = Path(__file__).parent.parent.parent / 'analysis' / 'latex_figures' / 'data' / 'param_exploration_results.txt'
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(out_path, 'w') as f:
+        f.write('\n'.join(output))
+    print(f"Results saved to {out_path}")
 
 
 def run_parameter_exploration():
@@ -197,6 +205,10 @@ def run_parameter_exploration():
     print()
     
     all_results = []
+    
+    # Set seed for reproducibility
+    import random
+    random.seed(42)
     
     # Baseline (from Genesis Moment test)
     print("\n[1/7] Running Baseline...")

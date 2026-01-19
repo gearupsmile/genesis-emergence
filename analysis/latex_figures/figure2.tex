@@ -1,0 +1,61 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{fillbetween}
+\pgfplotsset{compat=1.18}
+
+% Define Colors
+\definecolor{colorGenesis}{HTML}{d62728}
+\definecolor{colorNovelty}{HTML}{1f77b4}
+\definecolor{colorMapElites}{HTML}{2ca02c}
+\definecolor{colorRandom}{HTML}{7f7f7f}
+\definecolor{colorFixed}{HTML}{ff7f0e}
+
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+    width=12cm,
+    height=8cm,
+    xlabel={Generation},
+    ylabel={Genome Architecture Complexity (GAC)},
+    title={Evolutionary Trajectories Baseline Comparison},
+    grid=major,
+    grid style={dashed, gray!30},
+    legend pos=north west,
+    col sep=comma
+]
+
+% Genesis System
+\addplot[thick, colorGenesis] table [x=generation, y=gac] {data/fig1_aggregated.csv};
+\addlegendentry{Genesis}
+
+% Novelty Search
+\addplot[name path=NovTop, draw=none, forget plot] table [x=generation, y=p75] {data/fig2_baseline_novelty_search.csv};
+\addplot[name path=NovBot, draw=none, forget plot] table [x=generation, y=p25] {data/fig2_baseline_novelty_search.csv};
+\addplot[colorNovelty, opacity=0.2] fill between[of=NovTop and NovBot];
+\addplot[thick, colorNovelty] table [x=generation, y=median] {data/fig2_baseline_novelty_search.csv};
+\addlegendentry{Novelty Search}
+
+% MAP-Elites
+\addplot[name path=MapTop, draw=none, forget plot] table [x=generation, y=p75] {data/fig2_baseline_map_elites.csv};
+\addplot[name path=MapBot, draw=none, forget plot] table [x=generation, y=p25] {data/fig2_baseline_map_elites.csv};
+\addplot[colorMapElites, opacity=0.2] fill between[of=MapTop and MapBot];
+\addplot[thick, colorMapElites] table [x=generation, y=median] {data/fig2_baseline_map_elites.csv};
+\addlegendentry{MAP-Elites}
+
+% Fixed Constraints
+\addplot[name path=FixTop, draw=none, forget plot] table [x=generation, y=p75] {data/fig2_baseline_fixed_constraints.csv};
+\addplot[name path=FixBot, draw=none, forget plot] table [x=generation, y=p25] {data/fig2_baseline_fixed_constraints.csv};
+\addplot[colorFixed, opacity=0.2] fill between[of=FixTop and FixBot];
+\addplot[thick, colorFixed] table [x=generation, y=median] {data/fig2_baseline_fixed_constraints.csv};
+\addlegendentry{Fixed Constraints}
+
+% Random Search
+\addplot[name path=RndTop, draw=none, forget plot] table [x=generation, y=p75] {data/fig2_baseline_random_search.csv};
+\addplot[name path=RndBot, draw=none, forget plot] table [x=generation, y=p25] {data/fig2_baseline_random_search.csv};
+\addplot[colorRandom, opacity=0.2] fill between[of=RndTop and RndBot];
+\addplot[thick, colorRandom] table [x=generation, y=median] {data/fig2_baseline_random_search.csv};
+\addlegendentry{Random Search}
+
+\end{axis}
+\end{tikzpicture}
+\end{document}
