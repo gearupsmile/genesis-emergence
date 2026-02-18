@@ -1,0 +1,59 @@
+% Table 4: Baseline Comparison (Calculated from Data)
+\begin{table}[h]
+\centering
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lccccccc}
+\toprule
+\textbf{Method} & \textbf{Final GAC} & \textbf{Final EPC} & \textbf{Final NND} & \textbf{Pop. Var} & \textbf{Nov. Events} & \textbf{Exp. Score} & \textbf{Mode} \\
+ & (mean $\pm$ SD) & (mean $\pm$ SD) & (mean $\pm$ SD) & & & & \\
+\midrule
+Novelty Search & 3.1 $\pm$ 0.5 & 0.0 $\pm$ 0.0 & 0.50 $\pm$ 0.03 & 0.23 & 0 & 0.16 & Stable \\
+Random Search & 74.2 $\pm$ 10.4 & 9.9 $\pm$ 8.3 & 0.00 $\pm$ 0.00 & 537.04 & 37 & 387.02 & Metabolic \\
+Fixed Constraints & 0.5 $\pm$ 0.1 & 0.0 $\pm$ 0.0 & 0.42 $\pm$ 0.18 & 0.02 & 0 & 0.01 & Neutral Drift \\
+MAP-Elites & 34.0 $\pm$ 3.0 & 55.4 $\pm$ 1.7 & 0.00 $\pm$ 0.00 & 4.81 & 0 & 3.36 & Dominance \\
+\bottomrule
+\end{tabular}
+}
+\caption{Comparison of evolutionary dynamics across baseline methods.}
+\label{tab:baseline_comparison}
+\end{table}
+
+% Section 4.3 (Copied from Artifact)
+\subsection{Parameter Exploration Results}
+\label{sec:param_exploration}
+
+The Genesis Engine's behavior was analyzed across a range of mutation rates and transition periods to identify optimal configurations for open-ended evolution. Table \ref{tab:param_exploration} summarizes the results of the 2,000-generation exploration experiments.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Configuration} & \textbf{Mut. Rate} & \textbf{Final Genome} & \textbf{Variance} & \textbf{Nov. Events} & \textbf{Exp. Score} \\
+\midrule
+\textbf{Baseline} & 0.1 & 23.0 & 1.62 & 90 & 28.14 \\
+Moderate & 0.2 & 57.8 & 69.33 & 4 & 49.73 \\
+\textbf{High Mutation} & 0.3 & 248.5 & 964.32 & 3 & \textbf{675.92} \\
+Very High Mutation & 0.5 & 473.6 & 7773.09 & 0 & \textbf{5441.16} \\
+Fast Transition & 0.1 & 17.0 & 1.50 & 96 & 29.85 \\
+Slow Transition & 0.1 & 26.9 & 1.68 & 93 & 29.07 \\
+Combined & 0.3 + Fast & 266.5 & 945.14 & 1 & 661.90 \\
+\bottomrule
+\end{tabular}
+\caption{Parameter exploration results showing the impact of mutation rate on exploratory vigor.}
+\label{tab:param_exploration}
+\end{table}
+
+\subsubsection{Key Observations}
+
+\paragraph{1. Mutation Rate is the Primary Lever}
+Mutation rate has a dramatic, non-linear effect on exploratory vigor. Increasing the rate from 0.1 to 0.2 produced a +77\% increase in exploration score, while the jump to 0.3 resulted in a +1260\% increase. Higher mutation rates allow the population to escape local optima in the Pareto landscape and explore distant regions of metric-space.
+
+\paragraph{2. Transition Speed Has Minimal Impact}
+The transition period duration (500 vs 1000 vs 1500 generations) had a negligible effect on final exploration dynamics. Once the transition completes, the system's behavior is determined primarily by the mutation rate and Pareto dynamics, rather than the transition history.
+
+\paragraph{3. Population Stability is Robust}
+A critical finding is that all configurations maintained 100\% population survival across 2,000 generations, even at a mutation rate of 0.5. This suggests that the Pareto-based fitness provides strong stabilizing selection that prevents population collapse even under extreme mutation pressure.
+
+\paragraph{4. Novelty Event Paradox}
+Higher mutation rates produced fewer discrete novelty events but much higher continuous variance. The Baseline configuration (0.1) recorded 90 novelty events with a variance of 1.62, while the Very High configuration (0.5) showed 0 discrete events but a variance of 7773.09. This indicates that at high mutation rates, the population is in constant flux rather than exhibiting punctuated equilibrium.

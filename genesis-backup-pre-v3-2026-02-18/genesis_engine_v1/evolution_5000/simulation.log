@@ -1,0 +1,63 @@
+[2025-12-02 18:02:06] Initialized with pattern: random
+[2025-12-02 18:02:06] Grid size: (256, 256)
+[2025-12-02 18:02:06] Parameters: F=0.0367, k=0.0649, Du=0.16, Dv=0.08
+[2025-12-02 18:02:06] Agent system enabled: spawned 100 agents (max: 1000)
+[2025-12-02 18:02:06] Starting simulation for 5000 cycles
+[2025-12-02 18:02:11] Cycle 100/5000 | V: [0.000, 0.426] mean=0.024 | Mass error: 0.121379 | 19.2 cycles/sec | Agents: 998 (births: 1645, deaths: 588) Energy: 25.8 | Genes: metab=0.845, cons=1.130, speed=0.923
+[2025-12-02 18:02:16] Cycle 200/5000 | V: [0.000, 0.572] mean=0.006 | Mass error: 0.075899 | 19.2 cycles/sec | Agents: 994 (births: 2116, deaths: 830) Energy: 35.9 | Genes: metab=0.836, cons=1.136, speed=0.922
+[2025-12-02 18:02:21] Cycle 300/5000 | V: [0.000, 0.365] mean=0.008 | Mass error: 0.077912 | 20.1 cycles/sec | Agents: 998 (births: 2859, deaths: 1190) Energy: 36.1 | Genes: metab=0.830, cons=1.137, speed=0.925
+[2025-12-02 18:02:25] Cycle 400/5000 | V: [0.000, 0.420] mean=0.007 | Mass error: 0.077175 | 20.7 cycles/sec | Agents: 997 (births: 3541, deaths: 1493) Energy: 36.4 | Genes: metab=0.819, cons=1.137, speed=0.921
+[2025-12-02 18:02:30] Cycle 500/5000 | V: [0.000, 0.379] mean=0.007 | Mass error: 0.077578 | 21.0 cycles/sec | Agents: 998 (births: 4116, deaths: 1723) Energy: 42.1 | Genes: metab=0.802, cons=1.160, speed=0.932
+[2025-12-02 18:02:35] Cycle 600/5000 | V: [0.000, 0.392] mean=0.007 | Mass error: 0.077860 | 21.1 cycles/sec | Agents: 994 (births: 4791, deaths: 1943) Energy: 40.9 | Genes: metab=0.786, cons=1.177, speed=0.934
+[2025-12-02 18:02:39] Cycle 700/5000 | V: [0.000, 0.404] mean=0.008 | Mass error: 0.078276 | 21.4 cycles/sec | Agents: 999 (births: 5415, deaths: 2101) Energy: 43.5 | Genes: metab=0.770, cons=1.208, speed=0.949
+[2025-12-02 18:02:43] Cycle 800/5000 | V: [0.000, 0.398] mean=0.008 | Mass error: 0.078827 | 21.4 cycles/sec | Agents: 1000 (births: 6073, deaths: 2243) Energy: 44.4 | Genes: metab=0.754, cons=1.226, speed=0.954
+[2025-12-02 18:02:48] Cycle 900/5000 | V: [0.000, 0.401] mean=0.009 | Mass error: 0.079594 | 21.3 cycles/sec | Agents: 1000 (births: 6721, deaths: 2329) Energy: 44.3 | Genes: metab=0.742, cons=1.242, speed=0.964
+[2025-12-02 18:02:53] Cycle 1000/5000 | V: [0.000, 0.407] mean=0.009 | Mass error: 0.080779 | 21.3 cycles/sec | Agents: 1000 (births: 7351, deaths: 2380) Energy: 45.8 | Genes: metab=0.735, cons=1.258, speed=0.970
+[2025-12-02 18:02:53] Checkpoint saved: checkpoint_001000.npz
+[2025-12-02 18:02:58] Cycle 1100/5000 | V: [0.000, 0.405] mean=0.010 | Mass error: 0.082114 | 21.3 cycles/sec | Agents: 1000 (births: 8016, deaths: 2431) Energy: 46.5 | Genes: metab=0.725, cons=1.273, speed=0.977
+[2025-12-02 18:03:02] Cycle 1200/5000 | V: [0.000, 0.403] mean=0.011 | Mass error: 0.083303 | 21.3 cycles/sec | Agents: 999 (births: 8643, deaths: 2452) Energy: 48.5 | Genes: metab=0.720, cons=1.278, speed=0.977
+[2025-12-02 18:03:07] Cycle 1300/5000 | V: [0.000, 0.397] mean=0.011 | Mass error: 0.084423 | 21.4 cycles/sec | Agents: 999 (births: 9307, deaths: 2479) Energy: 49.8 | Genes: metab=0.715, cons=1.290, speed=0.978
+[2025-12-02 18:03:11] Cycle 1400/5000 | V: [0.000, 0.403] mean=0.012 | Mass error: 0.085414 | 21.4 cycles/sec | Agents: 1000 (births: 9991, deaths: 2492) Energy: 49.9 | Genes: metab=0.714, cons=1.297, speed=0.976
+[2025-12-02 18:03:16] Cycle 1500/5000 | V: [0.000, 0.403] mean=0.012 | Mass error: 0.086319 | 21.5 cycles/sec | Agents: 1000 (births: 10714, deaths: 2514) Energy: 47.6 | Genes: metab=0.707, cons=1.301, speed=0.980
+[2025-12-02 18:03:20] Cycle 1600/5000 | V: [0.000, 0.400] mean=0.013 | Mass error: 0.087093 | 21.5 cycles/sec | Agents: 999 (births: 11417, deaths: 2525) Energy: 47.3 | Genes: metab=0.706, cons=1.306, speed=0.979
+[2025-12-02 18:03:25] Cycle 1700/5000 | V: [0.000, 0.404] mean=0.013 | Mass error: 0.087994 | 21.5 cycles/sec | Agents: 1000 (births: 12122, deaths: 2554) Energy: 48.5 | Genes: metab=0.703, cons=1.319, speed=0.980
+[2025-12-02 18:03:30] Cycle 1800/5000 | V: [0.000, 0.403] mean=0.014 | Mass error: 0.089027 | 21.5 cycles/sec | Agents: 1000 (births: 12855, deaths: 2565) Energy: 48.0 | Genes: metab=0.701, cons=1.324, speed=0.980
+[2025-12-02 18:03:34] Cycle 1900/5000 | V: [0.000, 0.402] mean=0.015 | Mass error: 0.089903 | 21.6 cycles/sec | Agents: 1000 (births: 13586, deaths: 2571) Energy: 47.7 | Genes: metab=0.699, cons=1.325, speed=0.981
+[2025-12-02 18:03:39] Cycle 2000/5000 | V: [0.000, 0.397] mean=0.015 | Mass error: 0.090967 | 21.6 cycles/sec | Agents: 1000 (births: 14292, deaths: 2574) Energy: 48.4 | Genes: metab=0.698, cons=1.326, speed=0.980
+[2025-12-02 18:03:39] Checkpoint saved: checkpoint_002000.npz
+[2025-12-02 18:03:43] Cycle 2100/5000 | V: [0.000, 0.404] mean=0.016 | Mass error: 0.092130 | 21.6 cycles/sec | Agents: 1000 (births: 15025, deaths: 2577) Energy: 48.0 | Genes: metab=0.698, cons=1.326, speed=0.979
+[2025-12-02 18:03:48] Cycle 2200/5000 | V: [0.000, 0.408] mean=0.017 | Mass error: 0.093659 | 21.5 cycles/sec | Agents: 1000 (births: 15762, deaths: 2583) Energy: 47.0 | Genes: metab=0.697, cons=1.328, speed=0.980
+[2025-12-02 18:03:54] Cycle 2300/5000 | V: [0.000, 0.403] mean=0.018 | Mass error: 0.095297 | 21.4 cycles/sec | Agents: 1000 (births: 16488, deaths: 2591) Energy: 47.1 | Genes: metab=0.694, cons=1.330, speed=0.980
+[2025-12-02 18:03:58] Cycle 2400/5000 | V: [0.000, 0.404] mean=0.019 | Mass error: 0.097057 | 21.4 cycles/sec | Agents: 1000 (births: 17209, deaths: 2592) Energy: 48.1 | Genes: metab=0.694, cons=1.331, speed=0.980
+[2025-12-02 18:04:03] Cycle 2500/5000 | V: [0.000, 0.403] mean=0.020 | Mass error: 0.098700 | 21.4 cycles/sec | Agents: 1000 (births: 17937, deaths: 2594) Energy: 48.1 | Genes: metab=0.694, cons=1.333, speed=0.980
+[2025-12-02 18:04:08] Cycle 2600/5000 | V: [0.000, 0.403] mean=0.021 | Mass error: 0.100230 | 21.3 cycles/sec | Agents: 1000 (births: 18622, deaths: 2594) Energy: 50.6 | Genes: metab=0.694, cons=1.333, speed=0.980
+[2025-12-02 18:04:12] Cycle 2700/5000 | V: [0.000, 0.399] mean=0.021 | Mass error: 0.101430 | 21.4 cycles/sec | Agents: 1000 (births: 19338, deaths: 2595) Energy: 52.0 | Genes: metab=0.694, cons=1.334, speed=0.980
+[2025-12-02 18:04:17] Cycle 2800/5000 | V: [0.000, 0.395] mean=0.022 | Mass error: 0.102568 | 21.4 cycles/sec | Agents: 1000 (births: 20097, deaths: 2596) Energy: 49.4 | Genes: metab=0.693, cons=1.334, speed=0.979
+[2025-12-02 18:04:22] Cycle 2900/5000 | V: [0.000, 0.400] mean=0.022 | Mass error: 0.103541 | 21.4 cycles/sec | Agents: 1000 (births: 20827, deaths: 2597) Energy: 49.6 | Genes: metab=0.693, cons=1.334, speed=0.980
+[2025-12-02 18:04:26] Cycle 3000/5000 | V: [0.000, 0.405] mean=0.023 | Mass error: 0.104569 | 21.4 cycles/sec | Agents: 1000 (births: 21551, deaths: 2600) Energy: 50.8 | Genes: metab=0.692, cons=1.336, speed=0.981
+[2025-12-02 18:04:26] Checkpoint saved: checkpoint_003000.npz
+[2025-12-02 18:04:31] Cycle 3100/5000 | V: [0.000, 0.401] mean=0.024 | Mass error: 0.105502 | 21.4 cycles/sec | Agents: 1000 (births: 22302, deaths: 2600) Energy: 49.4 | Genes: metab=0.692, cons=1.336, speed=0.981
+[2025-12-02 18:04:36] Cycle 3200/5000 | V: [0.000, 0.400] mean=0.024 | Mass error: 0.106426 | 21.4 cycles/sec | Agents: 1000 (births: 23066, deaths: 2603) Energy: 47.6 | Genes: metab=0.692, cons=1.337, speed=0.980
+[2025-12-02 18:04:40] Cycle 3300/5000 | V: [0.000, 0.402] mean=0.025 | Mass error: 0.107294 | 21.4 cycles/sec | Agents: 1000 (births: 23790, deaths: 2606) Energy: 49.2 | Genes: metab=0.691, cons=1.338, speed=0.981
+[2025-12-02 18:04:45] Cycle 3400/5000 | V: [0.000, 0.403] mean=0.025 | Mass error: 0.108145 | 21.4 cycles/sec | Agents: 1000 (births: 24536, deaths: 2608) Energy: 48.5 | Genes: metab=0.691, cons=1.339, speed=0.981
+[2025-12-02 18:04:49] Cycle 3500/5000 | V: [0.000, 0.399] mean=0.026 | Mass error: 0.108984 | 21.4 cycles/sec | Agents: 1000 (births: 25243, deaths: 2608) Energy: 51.0 | Genes: metab=0.691, cons=1.339, speed=0.981
+[2025-12-02 18:04:54] Cycle 3600/5000 | V: [0.000, 0.399] mean=0.026 | Mass error: 0.109960 | 21.4 cycles/sec | Agents: 1000 (births: 26014, deaths: 2608) Energy: 48.4 | Genes: metab=0.691, cons=1.339, speed=0.981
+[2025-12-02 18:04:59] Cycle 3700/5000 | V: [0.000, 0.401] mean=0.027 | Mass error: 0.111179 | 21.4 cycles/sec | Agents: 1000 (births: 26737, deaths: 2608) Energy: 49.4 | Genes: metab=0.691, cons=1.339, speed=0.981
+[2025-12-02 18:05:03] Cycle 3800/5000 | V: [0.000, 0.401] mean=0.028 | Mass error: 0.112565 | 21.5 cycles/sec | Agents: 1000 (births: 27475, deaths: 2608) Energy: 49.8 | Genes: metab=0.691, cons=1.339, speed=0.981
+[2025-12-02 18:05:08] Cycle 3900/5000 | V: [0.000, 0.400] mean=0.029 | Mass error: 0.114205 | 21.5 cycles/sec | Agents: 1000 (births: 28228, deaths: 2608) Energy: 48.2 | Genes: metab=0.691, cons=1.339, speed=0.981
+[2025-12-02 18:05:13] Cycle 4000/5000 | V: [0.000, 0.404] mean=0.030 | Mass error: 0.115822 | 21.4 cycles/sec | Agents: 1000 (births: 28948, deaths: 2608) Energy: 49.9 | Genes: metab=0.691, cons=1.339, speed=0.981
+[2025-12-02 18:05:13] Checkpoint saved: checkpoint_004000.npz
+[2025-12-02 18:05:18] Cycle 4100/5000 | V: [0.000, 0.403] mean=0.031 | Mass error: 0.117574 | 21.3 cycles/sec | Agents: 1000 (births: 29693, deaths: 2608) Energy: 49.9 | Genes: metab=0.691, cons=1.339, speed=0.981
+[2025-12-02 18:05:22] Cycle 4200/5000 | V: [0.000, 0.404] mean=0.032 | Mass error: 0.119195 | 21.4 cycles/sec | Agents: 1000 (births: 30442, deaths: 2608) Energy: 49.1 | Genes: metab=0.691, cons=1.339, speed=0.981
+[2025-12-02 18:05:27] Cycle 4300/5000 | V: [0.000, 0.405] mean=0.032 | Mass error: 0.120623 | 21.4 cycles/sec | Agents: 1000 (births: 31170, deaths: 2609) Energy: 49.2 | Genes: metab=0.691, cons=1.340, speed=0.982
+[2025-12-02 18:05:31] Cycle 4400/5000 | V: [0.000, 0.403] mean=0.033 | Mass error: 0.122155 | 21.4 cycles/sec | Agents: 1000 (births: 31874, deaths: 2609) Energy: 52.1 | Genes: metab=0.691, cons=1.340, speed=0.982
+[2025-12-02 18:05:36] Cycle 4500/5000 | V: [0.000, 0.401] mean=0.034 | Mass error: 0.123487 | 21.4 cycles/sec | Agents: 1000 (births: 32651, deaths: 2609) Energy: 49.3 | Genes: metab=0.691, cons=1.340, speed=0.982
+[2025-12-02 18:05:41] Cycle 4600/5000 | V: [0.000, 0.402] mean=0.035 | Mass error: 0.124675 | 21.4 cycles/sec | Agents: 1000 (births: 33388, deaths: 2609) Energy: 50.0 | Genes: metab=0.691, cons=1.340, speed=0.982
+[2025-12-02 18:05:46] Cycle 4700/5000 | V: [0.000, 0.400] mean=0.035 | Mass error: 0.125706 | 21.4 cycles/sec | Agents: 1000 (births: 34115, deaths: 2610) Energy: 50.6 | Genes: metab=0.690, cons=1.340, speed=0.982
+[2025-12-02 18:05:50] Cycle 4800/5000 | V: [0.000, 0.403] mean=0.036 | Mass error: 0.126595 | 21.4 cycles/sec | Agents: 1000 (births: 34857, deaths: 2611) Energy: 50.4 | Genes: metab=0.690, cons=1.340, speed=0.982
+[2025-12-02 18:05:55] Cycle 4900/5000 | V: [0.000, 0.399] mean=0.036 | Mass error: 0.127455 | 21.4 cycles/sec | Agents: 1000 (births: 35596, deaths: 2613) Energy: 51.4 | Genes: metab=0.688, cons=1.339, speed=0.982
+[2025-12-02 18:05:59] Cycle 5000/5000 | V: [0.000, 0.402] mean=0.037 | Mass error: 0.128313 | 21.5 cycles/sec | Agents: 1000 (births: 36374, deaths: 2613) Energy: 48.0 | Genes: metab=0.688, cons=1.339, speed=0.982
+[2025-12-02 18:05:59] Checkpoint saved: checkpoint_005000.npz
+[2025-12-02 18:05:59] Checkpoint saved: checkpoint_005000.npz
+[2025-12-02 18:05:59] Simulation completed successfully in 233.0 seconds
+[2025-12-02 18:05:59] Average: 21.5 cycles/second

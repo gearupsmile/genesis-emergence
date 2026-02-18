@@ -40,7 +40,7 @@ python scripts/run_all_baselines.py
 The main results (Figures 1, 3, 4) form the "Full Genesis" condition. These runs are computationally expensive (200,000 generations).
 To replicate a single run:
 ```bash
-python experiments/launch_final_overnight.py
+python experiments/explorations/run_50k_exploration.py
 ```
 
 ## 4. Analysis & Figure Generation

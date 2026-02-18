@@ -1,0 +1,20 @@
+======================================================================
+EVOLUTIONARY CONSTRAINT VERIFICATION REPORT
+======================================================================
+Timestamp: 2026-01-04T21:44:53.394225
+
+[PASS] metabolic_cost
+  PASS - Short genomes selected 93/100 times, bloated 7/100 times (ratio: 13.29). Cost penalty is applied.
+
+[FAIL] ais_purging
+  cannot import name 'AIS' from 'engine.ais' (E:\Anushka\Projects\genesis-emergence\genesis_engine_v2\engine\ais.py)
+
+[FAIL] pareto_dominance
+  No module named 'engine.pareto_coevolution_evaluator'
+
+[FAIL] linkage_inheritance
+  'LinkageStructure' object has no attribute 'add_gene'
+
+======================================================================
+Overall: FAILED
+======================================================================

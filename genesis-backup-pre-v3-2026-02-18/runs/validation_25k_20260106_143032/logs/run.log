@@ -1,0 +1,39 @@
+Running pre-flight constraint verification...
+
+Pre-flight checks PASSED
+
+Initializing GenesisEngine...
+  Engine initialized
+
+======================================================================
+RUNNING EVOLUTION
+======================================================================
+
+     Gen   Pop     GAC      EPC    Gen/s          ETA          Status
+----------------------------------------------------------------------
+       1    50     0.0    0.000     83.8       5.0 min    [OK] Healthy
+     500    50    21.2    0.509     57.0       7.2 min    [OK] Healthy
+    1000    50    27.0    0.490     57.0       7.0 min    [OK] Healthy
+    1500    50    27.9    0.524     50.5       7.8 min    [OK] Healthy
+    2000    50    28.2    0.509     47.5       8.1 min    [OK] Healthy
+    2500    50    30.8    0.511     46.5       8.1 min    [OK] Healthy
+    3000    50    31.0    0.483     45.4       8.1 min    [OK] Healthy
+    3500    50    31.9    0.525     45.1       8.0 min    [OK] Healthy
+    4000    50    32.6    0.500     44.2       7.9 min    [OK] Healthy
+    4500    50    35.5    0.532     43.5       7.9 min    [OK] Healthy
+    5000    50    34.8    0.485     43.6       7.6 min    [OK] Healthy
+    5500    50    35.0    0.466     43.7       7.4 min    [OK] Healthy
+    6000    50    38.8    0.462     39.7       8.0 min    [OK] Healthy
+    6500    50    40.0    0.503     38.5       8.0 min    [OK] Healthy
+    7000    50    40.9    0.521     38.2       7.8 min        [!] High
+    7500    50    45.2    0.513     37.6       7.8 min        [!] High
+    8000    50    50.3    0.468     36.5       7.8 min       [!] BLOAT
+
+======================================================================
+VALIDATION FAILED: GENOME BLOAT DETECTED
+======================================================================
+GAC exceeded 50 for 100 consecutive generations
+Current GAC: 50.3
+Max GAC seen: 50.3
+
+The exponential penalty is NOT strong enough.

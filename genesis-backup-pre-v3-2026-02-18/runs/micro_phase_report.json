@@ -1,0 +1,19 @@
+{
+  "mutation_operators": {
+    "add_gene": 10000,
+    "point_mutation": 20000
+  },
+  "efficiency": {
+    "average_gac_epc_ratio": 0.44648858741017583,
+    "junk_dna_percentage": 33.50785340314136,
+    "total_genes_added": 200,
+    "expressed_genes": 133,
+    "unique_genes": 100
+  },
+  "linkage": {
+    "total_events": 0,
+    "formation_rate": 0.0
+  },
+  "gac_epc_correlation": -0.2131227127099031,
+  "generations_profiled": 1901
+}
