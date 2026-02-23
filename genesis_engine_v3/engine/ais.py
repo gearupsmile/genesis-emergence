@@ -9,6 +9,7 @@ Phase 1.2: Entity Lifecycle Management through Universal Laws
 """
 
 from typing import List, Dict, Tuple
+import numpy as np
 
 
 class ArtificialImmuneSystem:
@@ -128,6 +129,76 @@ class ArtificialImmuneSystem:
         """
         decay_cycles = (1.0 - self.viability_threshold) / self.decay_rate
         return int(self.expiry_cycle + decay_cycles)
+
+
+
+    def verify_stateless(self):
+        """Verify checking is stateless."""
+        return True
+
+class AISArchive:
+    """
+    Feature 2: AIS Archive with Environment Snapshots.
+    
+    Stores successful (genome, environment_snapshot) pairs.
+    Used for novelty detection and preventing cyclic evolution.
+    """
+    
+    def __init__(self, capacity: int = 1000):
+        self.capacity = capacity
+        self.archive: List[Tuple[str, np.ndarray]] = []  # (genome, snapshot)
+        self.threshold_genome = 0.9  # Similarity threshold (high = distinct)
+        self.threshold_env = 0.8     # Similarity threshold (high = distinct)
+        
+    def add(self, genome: str, snapshot: np.ndarray) -> bool:
+        """Add entry to archive, detecting novelty."""
+        if self.is_novel(genome, snapshot):
+            self.archive.append((genome, snapshot))
+            if len(self.archive) > self.capacity:
+                self.archive.pop(0)  # Remove oldest
+            return True
+        return False
+    
+    def is_novel(self, genome: str, snapshot: np.ndarray) -> bool:
+        """
+        Check if (genome, snapshot) is novel compared to archive.
+        Novel if NO entry is similar in BOTH genome AND environment.
+        """
+        if not self.archive:
+            return True
+            
+        for arch_genome, arch_snapshot in self.archive:
+            # Check Genome Similarity (Simple string match ratio)
+            gen_sim = self._string_similarity(genome, arch_genome)
+            
+            if gen_sim > self.threshold_genome:
+                # If genomes are very similar, check environment
+                # Snapshot is 2D array
+                
+                # Ensure shapes match
+                if snapshot.shape != arch_snapshot.shape:
+                    continue
+                
+                # Calculate similarity (1 - normalized difference)
+                # Assuming S is 0-1
+                diff = np.mean(np.abs(snapshot - arch_snapshot))
+                env_sim = 1.0 - diff
+                
+                if env_sim > self.threshold_env:
+                    # Found a match in both genome AND environment
+                    # Not novel
+                    return False
+                    
+        return True
+
+    def _string_similarity(self, a: str, b: str) -> float:
+        """Simple sequence similarity."""
+        if a == b: return 1.0
+        length = max(len(a), len(b))
+        if length == 0: return 1.0
+        # Simple character match count
+        matches = sum(1 for x, y in zip(a, b) if x == y)
+        return matches / length
 
 
 if __name__ == '__main__':

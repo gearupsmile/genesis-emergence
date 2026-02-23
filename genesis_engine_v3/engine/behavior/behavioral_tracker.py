@@ -22,6 +22,7 @@ class BehavioralTracker:
     3. Risk-taking profile
     4. Environmental response time
     5. Constraint pressure tolerance
+    6. LZ Complexity (Feature 3)
     """
     
     def __init__(self, window_size: int = 100):
@@ -227,6 +228,81 @@ class BehavioralTracker:
         
         return float(mean_variance)
     
+    
+    def calculate_lz_complexity(self, agent_id: str) -> float:
+        """
+        Feature 3: Calculate Lempel-Ziv complexity of action trace.
+        
+        Args:
+            agent_id: Agent identifier
+            
+        Returns:
+            Normalized complexity score [0, 1]
+        """
+        history = self.action_recorder.get_history(agent_id)
+        if len(history.action_trace) < 10:
+            return 0.0
+            
+        # Extract action sequence string
+        # History stores (gen, code), we just want code
+        sequence = "".join([code for _, code in history.action_trace])
+        
+        # Calculate raw LZ76 complexity
+        raw_complexity = self._lz76_complexity(sequence)
+        
+        # Normalize by sequence length (C / n) -> tends to 0 for repetitive, 1/log(n) for random
+        # Theoretical max complexity for binary string is n / log2(n)
+        # For alphabet size A, max is n / log_A(n)
+        # We normalize simplistically by length for now, or better:
+        # Normalized LZ = C * log_A(n) / n
+        
+        n = len(sequence)
+        if n == 0: return 0.0
+        
+        # Alphabet size (M, S, I, etc.) - assume ~4-5 possible actions
+        # Using simple C/n ratio for now as a rough proxy, scaled up
+        # Typically LZ / n is small. 
+        # Let's return raw_complexity / n
+        
+        return raw_complexity / n
+
+    def _lz76_complexity(self, s: str) -> int:
+        """
+        Calculate Lempel-Ziv 1976 complexity.
+        
+        Counts number of unique patterns in the sequence.
+        """
+        n = len(s)
+        if n == 0: return 0
+        
+        i, k, l = 0, 1, 1
+        c = 1
+        k_max = 1
+        
+        while True:
+            if s[i + k - 1] == s[l + k - 1]:
+                k += 1
+                if l + k > n:
+                    c += 1
+                    break
+            else:
+                if k > k_max:
+                    k_max = k
+                i += 1
+                
+                if i == l:
+                    c += 1
+                    l += k_max
+                    if l + 1 > n:
+                        break
+                    i = 0
+                    k = 1
+                    k_max = 1
+                else:
+                    k = 1
+        return c
+
     def advance_generation(self):
         """Advance to next generation."""
         self.action_recorder.advance_generation()
+

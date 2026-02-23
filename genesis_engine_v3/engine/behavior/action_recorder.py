@@ -26,6 +26,7 @@ class ActionHistory:
         self.energy_intakes = deque(maxlen=window_size)  # (gen, energy_amount)
         self.phase_responses = deque(maxlen=window_size)  # (gen, phase_name, response_time)
         self.constraint_violations = deque(maxlen=window_size)  # (gen, violation_margin)
+        self.action_trace = deque(maxlen=window_size)  # (gen, action_code)
         
         # Derived metrics
         self.total_distance_traveled = 0.0
@@ -47,6 +48,10 @@ class ActionHistory:
         """Record constraint pressure."""
         margin = limit - cost
         self.constraint_violations.append((generation, margin))
+    
+    def record_action(self, generation: int, action_code: str):
+        """Record generic action code (e.g., 'M', 'S', 'E')."""
+        self.action_trace.append((generation, action_code))
 
 
 class ActionRecorder:
@@ -92,6 +97,11 @@ class ActionRecorder:
         """Record agent's constraint pressure."""
         history = self.get_or_create_history(agent_id)
         history.record_constraint_check(self.current_generation, metabolic_cost, energy_limit)
+
+    def record_action(self, agent_id: str, action_code: str):
+        """Record raw action code for LZ complexity."""
+        history = self.get_or_create_history(agent_id)
+        history.record_action(self.current_generation, action_code)
     
     def advance_generation(self):
         """Advance to next generation."""

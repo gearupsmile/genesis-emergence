@@ -10,8 +10,9 @@ Phase 3.2: Bootstrap Evolution - Integrated Simulation Loop
 import random
 from typing import List, Dict, Optional
 from .codon_translator import CodonTranslator
-from .ais import ArtificialImmuneSystem
+from .ais import ArtificialImmuneSystem, AISArchive
 from .kernel_world import KernelWorld
+from .substrate import Substrate  # Feature 1: Secretion Physics
 from .structurally_evolvable_agent import StructurallyEvolvableAgent
 from .evolvable_genome import EvolvableGenome
 from .linkage_structure import LinkageStructure
@@ -36,7 +37,8 @@ class GenesisEngine:
     def __init__(self, population_size: int = 20, mutation_rate: float = 0.2,
                  simulation_steps: int = 10,
                  transition_start_generation: int = 0,
-                 transition_total_generations: int = 10000):
+                 transition_total_generations: int = 10000,
+                 enable_secretion: bool = True):
         """
         Initialize the Genesis Engine.
         
@@ -46,10 +48,12 @@ class GenesisEngine:
             simulation_steps: Number of simulation steps per cycle (for age increment)
             transition_start_generation: Generation to start transition (default: 0)
             transition_total_generations: Generations for complete transition (default: 10000)
+            enable_secretion: Toggle for chemical physics (Feature 4 - Sham Control)
         """
         # Core components
         self.translator = CodonTranslator()
         self.ais = ArtificialImmuneSystem()
+        self.ais_archive = AISArchive()  # Feature 2
         
         # Dual evaluators (Phase 4.2)
         self.external_evaluator = None  # Uses calculate_fitness function
@@ -59,6 +63,7 @@ class GenesisEngine:
         self.population_size = population_size
         self.mutation_rate = mutation_rate
         self.simulation_steps = simulation_steps
+        self.enable_secretion = enable_secretion
         
         # Transition configuration (Phase 4.2)
         self.transition_start_generation = transition_start_generation
@@ -110,6 +115,9 @@ class GenesisEngine:
         self._initialize_population()
         self._initialize_world()
         
+        # Feature 1: Substrate for Secretion Physics
+        self.substrate = Substrate(enable_secretion=self.enable_secretion)
+        
         # Initialize spatial assignments after population creation
         self.spatial_env.initialize_agents(self.population)
         
@@ -130,6 +138,18 @@ class GenesisEngine:
             # Create agent with uniform linkage
             agent = StructurallyEvolvableAgent(genome)
             self.population.append(agent)
+            
+        # Initialize spatial assignments after population creation
+        # (Move this here so we can grab snapshots)
+        # Note: Spatial initialization moved to __init__ but we need to do it before 
+        # archiving if archiving needs position.
+        # But for initial population, let's just use random snapshots or wait for first cycle?
+        # Actually, let's wait for first cycle to archive.
+        # Or better: Archive AFTER they have settled?
+        # Let's archive successful agents (parents) only?
+        # User requirement: "Modify... to store genome & env snapshot"
+        # "Snapshot at reproduction" implies archiving parents.
+
     
     def _initialize_world(self):
         """Create initial world with random genotype."""
@@ -191,9 +211,18 @@ class GenesisEngine:
         # Step 2: Simulation (placeholder)
         # Currently just increments age for AIS forgetting
         # Future: Real physics, agent-world interactions, energy transfer
+        # Future: Real physics, agent-world interactions, energy transfer
         for step in range(self.simulation_steps):
+            # Feature 1.2: Diffuse secretion
+            self.substrate.diffuse_secretion()
+            
             for agent in self.population:
                 agent.age += 1
+                # Feature 1.4: Agent Step (Secretion + Movement)
+                if hasattr(agent, 'step'):
+                    action_code = agent.step(self.substrate)
+                    # Feature 3: Record action trace
+                    self.behavioral_tracker.action_recorder.record_action(agent.id, action_code)
             self.world.age += 1
         
         # Step 2.2: Temporal Phase Update (Week 3)
@@ -382,6 +411,18 @@ class GenesisEngine:
         remainder = self.population_size % len(parents)
         
         for i, parent in enumerate(parents):
+            # Feature 2.3: Integrate Snapshot Capture at Reproduction
+            # Capture environment snapshot for successful parent
+            # Assuming parent has x, y from spatial_env or its own state
+            # If agent position is stored in spatial_env only, we need to correct this.
+            # StructurallyEvolvableAgent.step updates self.x, self.y.
+            
+            if hasattr(parent, 'x') and hasattr(parent, 'y'):
+                snapshot = self.substrate.get_snapshot(int(parent.x), int(parent.y))
+                # Add to AIS Archive
+                # (We only archive parents, as they survived and were selected)
+                self.ais_archive.add(parent.genome.to_string(), snapshot)
+            
             num_offspring = offspring_per_parent + (1 if i < remainder else 0)
             for _ in range(num_offspring):
                 child = parent.reproduce(self.mutation_rate)

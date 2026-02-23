@@ -323,6 +323,10 @@ class EvolvableGenome:
         """
         return ''.join(self.sequence)
     
+    def to_string(self) -> str:
+        """Alias for get_sequence_string (for AIS compatibility)."""
+        return self.get_sequence_string()
+    
     def get_length(self) -> int:
         """
         Get number of genes in genome.
