@@ -26,7 +26,7 @@ class ActionHistory:
         self.energy_intakes = deque(maxlen=window_size)  # (gen, energy_amount)
         self.phase_responses = deque(maxlen=window_size)  # (gen, phase_name, response_time)
         self.constraint_violations = deque(maxlen=window_size)  # (gen, violation_margin)
-        self.action_trace = deque(maxlen=window_size)  # (gen, action_code)
+        self.action_trace = deque(maxlen=10000)      # (gen, action_code) — large window for LZ
         
         # Derived metrics
         self.total_distance_traveled = 0.0

@@ -221,8 +221,8 @@ class GenesisEngine:
                 # Feature 1.4: Agent Step (Secretion + Movement)
                 if hasattr(agent, 'step'):
                     action_code = agent.step(self.substrate)
-                    # Feature 3: Record action trace
-                    self.behavioral_tracker.action_recorder.record_action(agent.id, action_code)
+                    # Feature 3: Record action trace using lineage_id for continuity
+                    self.behavioral_tracker.action_recorder.record_action(agent.lineage_id, action_code)
             self.world.age += 1
         
         # Step 2.2: Temporal Phase Update (Week 3)
@@ -256,21 +256,18 @@ class GenesisEngine:
                 agent.resource_energy = 0.0
             agent.resource_energy += resource_energy
             
-            # BEHAVIORAL TRACKING (Emergency Fix)
-            # Record resource acquisition action
+            # BEHAVIORAL TRACKING — use lineage_id for cross-generation continuity
             if best_resource:
                 self.behavioral_tracker.action_recorder.record_resource_acquisition(
-                    agent.id, best_resource
+                    agent.lineage_id, best_resource
                 )
-            
-            # Record energy intake
+
             self.behavioral_tracker.action_recorder.record_energy_intake(
-                agent.id, resource_energy
+                agent.lineage_id, resource_energy
             )
-            
-            # Record constraint pressure
+
             self.behavioral_tracker.action_recorder.record_constraint_check(
-                agent.id, agent.genome.metabolic_cost, region.energy_constant
+                agent.lineage_id, agent.genome.metabolic_cost, region.energy_constant
             )
         
         # Regenerate resources for next generation

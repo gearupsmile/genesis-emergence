@@ -84,47 +84,39 @@ def run_experiment(mode: str, generations: int, seed: int, log_dir: str):
         else:
             avg_fit = 0.0
             
-        # 3. Average LZ Complexity
-        # Note: BehavioralTracker calculates on history window.
-        # We need to ask for LZ of agents active in the LAST generation (parents/active),
-        # not the current newborn population (which has 0 steps).
-        
+        # 3. LZ Complexity from lineage histories
+        # With lineage tracking, recorder has ~pop_size histories (one per lineage).
+        # Each lineage accumulates actions continuously across all generations.
+        # NOTE: LZ on a long trace is O(n^2) — sample every LZ_SAMPLE_INTERVAL gens only.
+        LZ_SAMPLE_INTERVAL = 100
         lz_scores = []
         trace_lens = []
-        
-        # Get recorder
+
         recorder = engine.behavioral_tracker.action_recorder
-        last_gen = recorder.current_generation - 1
-        
-        # Iterate all histories to find those active in last_gen
-        # This might be slow if history grows large, but for 2000 gens it's manageable
-        # Optimization: track active agents in recorder?
-        # For now, just check specific histories if we can or iterate all
-        
-        # We can iterate engine.behavioral_tracker.action_recorder.agent_histories
-        count_active = 0
-        
-        # To avoid performance hit of checking 1000s of histories, we can try to
-        # use the IDs from the population *before* replacement?
-        # But we lost them.
-        # Let's iterate. Archive cleaning should keep it reasonable?
-        # AIS doesn't clean recorder yet.
-        
-        for agent_id, history in recorder.agent_histories.items():
-            if len(history.action_trace) > 0:
-                # Check if last action was in last_gen
-                last_action_gen = history.action_trace[-1][0]
-                if last_action_gen >= last_gen:
-                    # This agent was active recently
-                    trace_len = len(history.action_trace)
-                    trace_lens.append(trace_len)
-                    
-                    lz = engine.behavioral_tracker.calculate_lz_complexity(agent_id)
-                    if lz > 0: lz_scores.append(lz)
-                    count_active += 1
-        
-        avg_lz = np.mean(lz_scores) if lz_scores else 0.0
-        avg_trace = np.mean(trace_lens) if trace_lens else 0.0
+        active_lineage_ids = {agent.lineage_id for agent in agents}
+
+        if gen % LZ_SAMPLE_INTERVAL == 0:
+            for lineage_id, history in recorder.agent_histories.items():
+                if lineage_id not in active_lineage_ids:
+                    continue
+                if len(history.action_trace) < 5:
+                    continue
+                action_str = ''.join(a for _, a in history.action_trace)
+                trace_lens.append(len(action_str))
+                lz = engine.behavioral_tracker.calculate_lz_complexity(lineage_id)
+                if lz > 0:
+                    lz_scores.append(lz)
+            avg_lz = float(np.mean(lz_scores)) if lz_scores else 0.0
+            avg_trace = float(np.mean(trace_lens)) if trace_lens else 0.0
+        else:
+            # Reuse last values for non-sample gens (fast path)
+            if data['avg_lz']:
+                avg_lz = data['avg_lz'][-1]
+                avg_trace = data.get('trace_len', [0.0])[-1] if 'trace_len' in data else 0.0
+            else:
+                avg_lz = 0.0
+                avg_trace = 0.0
+
         
         # 4. Archive Size
         
@@ -139,11 +131,15 @@ def run_experiment(mode: str, generations: int, seed: int, log_dir: str):
         data['avg_lz'].append(avg_lz)
         data['archive_size'].append(archive_size)
         
-        # Print progress
-        if gen % 100 == 0:
+        # Print progress and save periodically
+        if gen % 1000 == 0:
             print(f"Gen {gen}: S={s_mean:.4f}, Pop={agent_count}, LZ={avg_lz:.3f}, TrLen={avg_trace:.1f}")
+            # Save to CSV periodically so monitor can read it
+            df = pd.DataFrame(data)
+            filename = os.path.join(log_dir, f"metrics_{mode}_{seed}.csv")
+            df.to_csv(filename, index=False)
             
-    # Save to CSV
+    # Final save
     df = pd.DataFrame(data)
     filename = os.path.join(log_dir, f"metrics_{mode}_{seed}.csv")
     df.to_csv(filename, index=False)
