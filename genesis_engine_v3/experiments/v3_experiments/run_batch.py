@@ -21,6 +21,21 @@ def run_single_experiment(args: Tuple[str, int, int, str]) -> str:
     log_dir = os.path.join(base_log_dir, f"seed_{seed}")
     os.makedirs(log_dir, exist_ok=True)
 
+    # Check if already completed
+    filename = os.path.join(log_dir, f"metrics_{mode}_{seed}.csv")
+    if os.path.exists(filename):
+        try:
+            with open(filename, 'r') as f:
+                lines = f.readlines()
+                if len(lines) > 1:
+                    last_line = lines[-1].strip()
+                    if last_line:
+                        gen = int(last_line.split(',')[0])
+                        if gen >= generations:
+                            return f"[{mode.upper()} S{seed}] Skipping (Already completed {gen} gens)"
+        except Exception:
+            pass
+
     cmd = [
         "python",
         os.path.join(SCRIPT_DIR, "run_sham_comparison.py"),

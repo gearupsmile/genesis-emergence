@@ -65,7 +65,7 @@ def check_progress(log_dir: str, target_gens: int = 50000):
         print(f"[{mode.upper()}] {len(stats[mode]['files'])} active | Avg Gen: {avg_gen:.0f} ({pct:.1f}%) | EPC: {avg_epc:.4f} | LZ: {avg_lz:.4f}")
         
     if stalled_files:
-        print(f"\n⚠️ WARNING: {len(stalled_files)} runs appear stalled (no updates in >5 mins).")
+        print(f"\n[!] WARNING: {len(stalled_files)} runs appear stalled (no updates in >5 mins).")
         for sf in stalled_files:
             print(f"  - {sf}")
             
