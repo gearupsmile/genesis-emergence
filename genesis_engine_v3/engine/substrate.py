@@ -8,7 +8,44 @@ Feature 1: Secretion Physics
 """
 
 import numpy as np
+import random
+from numba import njit
 from scipy.ndimage import laplace
+
+@njit
+def _compute_diffusion_and_decay(field, width, height, diffusion_rate, decay_rate, dt):
+    # This function implements a 4-neighbor diffusion and decay,
+    # which is different from the laplacian-based diffusion.
+    # It's assumed the user wants to switch to this Numba-optimized method.
+
+    # First, apply decay
+    field *= (1.0 - decay_rate * dt)
+
+    # Then, apply diffusion
+    new_field = np.copy(field)
+    for x in range(width):
+        for y in range(height):
+            val = field[y, x] # Note: numpy arrays are typically (rows, cols) i.e., (height, width)
+            if val > 0:
+                # Simple 4-neighbor diffusion
+                diff_amount = val * diffusion_rate * dt # Scale by dt
+                
+                # Ensure we don't diffuse more than available
+                diff_amount = min(diff_amount, val)
+
+                new_field[y, x] -= diff_amount
+                share = diff_amount / 4.0
+                
+                # Apply to neighbors with wrap-around
+                new_field[y, (x + 1) % width] += share
+                new_field[y, (x - 1 + width) % width] += share # Ensure positive modulo
+                new_field[(y + 1) % height, x] += share
+                new_field[(y - 1 + height) % height, x] += share # Ensure positive modulo
+    
+    # Clamp to 0-1 range
+    np.clip(new_field, 0.0, 1.0, out=new_field)
+    return new_field
+
 
 class Substrate:
     """
