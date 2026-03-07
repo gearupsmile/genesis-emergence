@@ -1,0 +1,22 @@
+Run Directory: runs\novelty_search_seed_123_20260118_201556
+Configuration: Pop=50, Mut=0.3, Gens=10000
+
+RUNNING EVOLUTION
+     Gen   Pop  Arch     GAC     EPC NovScore   Mem(MB)   Gen/s
+--------------------------------------------------------------------------------
+    1000    42    25     3.1   0.000   0.1068     185.8     3.9
+    2000    48    40     2.8   0.000   0.0738     369.5     4.5
+    3000    50    46     2.2   0.000   0.0620     545.3     4.8
+    4000    50    58     2.5   0.000   0.0504     737.0     4.9
+    5000    47    68     2.8   0.000   0.0512     913.3     5.1
+    6000    50    82     3.0   0.000   0.0380    1090.0     5.2
+    7000    50    93     2.4   0.000   0.0238    1282.6     2.1
+    8000    48    99     2.7   0.000   0.0400    1474.1     2.2
+    9000    50   115     3.5   0.000   0.0198    1649.7     2.3
+  [CHECKPOINT] Generation 10000
+   10000    48   126     3.8   0.000   0.0425    1825.2     2.3
+--------------------------------------------------------------------------------
+Complete. Total time: 4299.52s
+Final Archive Size: 126
+Saved metrics to results\baselines\novelty_search_seed_123.json
+Saved timeseries to results\baselines\novelty_search_seed_123_timeseries.json

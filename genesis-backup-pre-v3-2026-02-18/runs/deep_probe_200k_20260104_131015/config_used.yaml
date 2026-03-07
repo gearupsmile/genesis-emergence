@@ -1,0 +1,56 @@
+# Final Deep Probe Configuration
+# Definitive 200,000-generation experiment to assess open-ended evolution
+
+experiment:
+  name: "final_deep_probe_200k"
+  description: "Definitive experiment to distinguish bounded equilibrium from open-ended evolution"
+  total_generations: 200000
+  
+population:
+  size: 100
+  mutation_rate: 0.3  # Optimal from Phase 5 experiments
+  
+genome:
+  initial_length_min: 3
+  initial_length_max: 10
+  initial_linkage: "uniform"  # Each gene in own group
+  
+world:
+  type: "standard_gradient"
+  resource_types: 3  # high, medium, low
+  
+ais:
+  expiry_age: 5000
+  forgetting_rate: 0.001
+  viability_threshold: 0.1
+  
+checkpoints:
+  interval: 25000  # 8 checkpoints: 25k, 50k, 75k, 100k, 125k, 150k, 175k, 200k
+  save_full_state: true
+  validate_integrity: true
+  
+pnct_logging:
+  gac_interval: 500   # Genome Architecture Complexity
+  epc_interval: 500   # Expressed Phenotype Complexity
+  nnd_interval: 1000  # Normalized Novelty Distance
+  
+progress:
+  report_interval: 5000  # Progress updates every 5k gens
+  dashboard_update: 2    # Dashboard refresh every 2 seconds
+  
+interim_analysis:
+  enabled: true
+  checkpoint_analysis: true  # Run analysis at each checkpoint
+  trend_monitoring: true
+  
+monitoring:
+  track_performance: true
+  log_resources: true
+  early_termination_threshold: 10  # Stop if population < 10
+  
+output:
+  base_dir: "runs"
+  metrics_file: "pnct_metrics.csv"
+  summary_file: "analysis_summary.txt"
+  config_backup: "config_used.yaml"
+  log_file: "experiment.log"

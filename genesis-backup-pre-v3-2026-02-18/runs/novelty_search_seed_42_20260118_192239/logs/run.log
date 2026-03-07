@@ -1,0 +1,11 @@
+Run Directory: runs\novelty_search_seed_42_20260118_192239
+Configuration: Pop=50, Mut=0.3, Gens=10
+
+RUNNING EVOLUTION
+     Gen   Pop  Arch     GAC     EPC NovScore   Mem(MB)   Gen/s
+--------------------------------------------------------------------------------
+      10    47    13     0.0   0.000   0.0841       2.8     6.7
+--------------------------------------------------------------------------------
+Complete. Total time: 1.55s
+Final Archive Size: 13
+Saved metrics to results\baselines\novelty_search_seed_42.json

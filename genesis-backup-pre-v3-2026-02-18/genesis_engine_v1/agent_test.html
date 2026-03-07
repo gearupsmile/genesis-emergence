@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Agent Test - Simple</title>
+    <style>
+        body {
+            margin: 20px;
+            font-family: Arial;
+            background: #1e1e2e;
+            color: #e0e0e0;
+        }
+
+        canvas {
+            border: 2px solid #667eea;
+            display: block;
+            margin: 20px auto;
+        }
+
+        .controls {
+            text-align: center;
+            margin: 20px;
+        }
+
+        button {
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        .info {
+            text-align: center;
+            margin: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 style="text-align: center;">Agent Rendering Test</h1>
+    <canvas id="canvas" width="512" height="512"></canvas>
+
+    <div class="controls">
+        <button onclick="startSim()">Start Simulation</button>
+        <button onclick="spawnAgents()" style="background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);">Spawn 20
+            Agents</button>
+        <button onclick="clearAgents()" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">Clear
+            Agents</button>
+    </div>
+
+    <div class="info" id="info">Click "Start Simulation" first, then "Spawn 20 Agents"</div>
+
+    <script src="monitor.js"></script>
+    <script>
+        // Simple test setup
+        console.log('[Test] Initializing...');
+
+        let viz = null;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            console.log('[Test] DOM loaded');
+            // Wait a bit for monitor.js to load
+            setTimeout(() => {
+                if (window.visualizer) {
+                    viz = window.visualizer;
+                    console.log('[Test] Visualizer found:', viz);
+                    document.getElementById('info').textContent = 'Ready! Visualizer loaded.';
+                } else {
+                    console.error('[Test] window.visualizer not found!');
+                    document.getElementById('info').textContent = 'ERROR: Visualizer not loaded!';
+                }
+            }, 500);
+        });
+
+        function startSim() {
+            if (!viz) {
+                alert('Visualizer not loaded yet!');
+                return;
+            }
+            viz.simulator.setParams('spots');
+            viz.simulator.running = true;
+            viz.animate();
+            document.getElementById('info').textContent = 'Simulation running... wait 10 seconds then spawn agents';
+            console.log('[Test] Simulation started');
+        }
+
+        function spawnAgents() {
+            if (!viz) {
+                alert('Visualizer not loaded yet!');
+                return;
+            }
+            const count = viz.population.spawnRandom(20, 256, 256);
+            viz.population.enabled = true;
+            viz.showAgents = true;
+            viz.render();
+            document.getElementById('info').textContent = `Spawned ${count} agents! Population: ${viz.population.agents.length}`;
+            console.log('[Test] Spawned agents:', count, 'Total:', viz.population.agents.length);
+            console.log('[Test] Enabled:', viz.population.enabled, 'ShowAgents:', viz.showAgents);
+            console.log('[Test] First agent:', viz.population.agents[0]);
+        }
+
+        function clearAgents() {
+            if (!viz) return;
+            viz.population.clear();
+            viz.population.enabled = false;
+            viz.render();
+            document.getElementById('info').textContent = 'Agents cleared';
+            console.log('[Test] Agents cleared');
+        }
+    </script>
+</body>
+
+</html>

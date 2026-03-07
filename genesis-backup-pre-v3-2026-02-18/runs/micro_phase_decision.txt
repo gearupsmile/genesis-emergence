@@ -1,0 +1,28 @@
+======================================================================
+MICRO-PHASE DIAGNOSTIC REPORT
+======================================================================
+
+KEY METRICS:
+  GAC/EPC Efficiency Ratio: 0.45
+  Junk DNA Percentage: 33.5%
+  GAC/EPC Correlation: -0.213
+  Genes Added: 200
+  Expressed Genes: 133
+
+MUTATION OPERATOR ACTIVITY:
+  add_gene: 10000
+  point_mutation: 20000
+
+======================================================================
+RECOMMENDATION: PROCEED_WITH_MONITORING
+======================================================================
+
+Metrics are within acceptable ranges but not optimal. GAC/EPC ratio: 0.45, Junk DNA: 33.5%. Recommend proceeding but monitoring closely during 200k run.
+
+INTERPRETATION GUIDE:
+  - GAC/EPC Ratio < 1: Tight constraint, slow growth
+  - GAC/EPC Ratio 1-3: Balanced, healthy evolution
+  - GAC/EPC Ratio > 5: Excessive junk growth
+  - Junk DNA < 20%: Excellent
+  - Junk DNA 20-30%: Acceptable
+  - Junk DNA > 30%: Problematic
