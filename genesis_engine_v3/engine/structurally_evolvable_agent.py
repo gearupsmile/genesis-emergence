@@ -182,3 +182,134 @@ class StructurallyEvolvableAgent:
                 f"genome_length={self.genome.get_length()}, "
                 f"age={self.age}{species_str})")
 
+
+class AgentV4:
+    """
+    Track 4: CPPN-based agent.
+    Decides actions based on CPPN genome outputs given local gradients and energy.
+    """
+    def __init__(self, x: int, y: int, genome=None, lineage_id: Optional[str] = None):
+        if lineage_id is None:
+            self.lineage_id = str(uuid.uuid4())
+        else:
+            self.lineage_id = lineage_id
+            
+        self.id = str(uuid.uuid4())
+        self.age = 0
+        
+        from .cppn_genome import CPPNGenome
+        if genome is None:
+            self.genome = CPPNGenome()
+            
+            # Input Nodes
+            self.genome.add_input_node('x')
+            self.genome.add_input_node('y')
+            self.genome.add_input_node('energy')
+            self.genome.add_input_node('grad_U_x')
+            self.genome.add_input_node('grad_U_y')
+            self.genome.add_input_node('grad_V_x')
+            self.genome.add_input_node('grad_V_y')
+            self.genome.add_input_node('grad_S_x')
+            self.genome.add_input_node('grad_S_y')
+            
+            # Output Nodes
+            self.genome.add_output_node('move_x', activation='tanh')
+            self.genome.add_output_node('move_y', activation='tanh')
+            self.genome.add_output_node('secrete', activation='tanh')
+            
+            # Start with fully disconnected or minimal?
+            # Prompt doesn't specify, so let's start with minimal connections.
+            # We will let mutations handle building it up.
+            # Let's add at least one connection so it isn't completely static.
+            self.genome.add_connection(0, 9, 1.0) # x -> move_x
+            self.genome.add_connection(1, 10, 1.0) # y -> move_y
+        else:
+            self.genome = genome
+            
+        self.x = x
+        self.y = y
+        self.energy = 1.0
+        self.species = None # V4 doesn't explicitly need species or translates, but engine might expect it.
+        # Initialize traits to prevent engine errors if it tries to read them
+        self.species_traits = {}
+        self.behavioral_traits = {}
+        self._trait_summary = ""
+        
+        class DummyLinkage:
+            def get_num_groups(self): return 1
+            def create_offspring(self, mr): return self
+            def get_expressed_indices(self, *args, **kwargs): return []
+            
+        self.linkage_structure = DummyLinkage()
+
+    def decide_action(self, U_field, V_field, S_field) -> str:
+        h, w = U_field.shape
+        x, y = int(self.x), int(self.y)
+        
+        def grad(field):
+            # Compute partial derivatives using central difference with periodic wrap
+            dx = field[y, (x+1)%w] - field[y, (x-1)%w]
+            dy = field[(y+1)%h, x] - field[(y-1)%h, x]
+            return dx, dy
+            
+        gu_x, gu_y = grad(U_field)
+        gv_x, gv_y = grad(V_field)
+        gs_x, gs_y = grad(S_field)
+        
+        # Normalize positions loosely
+        inputs = {
+            'x': self.x / max(1, w),
+            'y': self.y / max(1, h),
+            'energy': self.energy,
+            'grad_U_x': gu_x,
+            'grad_U_y': gu_y,
+            'grad_V_x': gv_x,
+            'grad_V_y': gv_y,
+            'grad_S_x': gs_x,
+            'grad_S_y': gs_y,
+        }
+        
+        outputs = self.genome.activate(inputs)
+        
+        move_x = outputs.get('move_x', 0.0)
+        move_y = outputs.get('move_y', 0.0)
+        secrete = outputs.get('secrete', 0.0)
+        
+        action = 'I'
+        if secrete > 0.5:
+            action = 'S'
+            self.energy -= 0.05
+        else:
+            dx = 1 if move_x > 0.3 else (-1 if move_x < -0.3 else 0)
+            dy = 1 if move_y > 0.3 else (-1 if move_y < -0.3 else 0)
+            if dx != 0 or dy != 0:
+                self.x = (self.x + dx) % w
+                self.y = (self.y + dy) % h
+                action = 'M'
+                self.energy -= 0.01
+            else:
+                self.energy -= 0.01
+                
+        return action
+        
+    def reproduce(self, mutation_rate=0.1):
+        child_genome = self.genome.copy()
+        child_genome.mutate()
+        child = AgentV4(self.x, self.y, genome=child_genome, lineage_id=self.lineage_id)
+        child.energy = 1.0
+        return child
+        
+    def step(self, substrate) -> str:
+        """Compatibility signature if engine calls step() directly without fields."""
+        return self.decide_action(substrate.U, substrate.V, substrate.S)
+        
+    def to_dict(self) -> Dict:
+        return {'id': self.id, 'relevance_score': 1.0, 'age': self.age}
+        
+    def update_from_dict(self, data: Dict) -> None:
+        if 'age' in data:
+            self.age = data['age']
+
+    def __repr__(self) -> str:
+        return f"AgentV4(id={self.id[:8]}..., nodes={len(self.genome.nodes)}, conns={len(self.genome.connections)})"
+
