@@ -287,6 +287,8 @@ class AgentV4:
                 self.y = (self.y + dy) % h
                 action = 'M'
                 self.energy -= 0.01
+            else:
+                self.energy -= 0.01
                 
         return action
         
