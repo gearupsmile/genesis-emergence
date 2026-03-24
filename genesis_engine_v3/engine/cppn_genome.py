@@ -120,6 +120,20 @@ class CPPNGenome:
             new_genome.connections[c_id] = conn.copy()
         return new_genome
 
+    def get_length(self):
+        return len(self.nodes) + len(self.connections)
+        
+    @property
+    def metabolic_cost(self):
+        return len(self.connections) * 0.1
+        
+    @property
+    def sequence(self):
+        return []
+        
+    def to_string(self):
+        return f"CPPN(n={len(self.nodes)}, c={len(self.connections)})"
+        
     def mutate(self):
         if random.random() < 0.03:
             self.add_node_mutation()

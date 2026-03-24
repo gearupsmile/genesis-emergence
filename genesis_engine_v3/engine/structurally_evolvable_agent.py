@@ -234,6 +234,13 @@ class AgentV4:
         self.species_traits = {}
         self.behavioral_traits = {}
         self._trait_summary = ""
+        
+        class DummyLinkage:
+            def get_num_groups(self): return 1
+            def create_offspring(self, mr): return self
+            def get_expressed_indices(self, *args, **kwargs): return []
+            
+        self.linkage_structure = DummyLinkage()
 
     def decide_action(self, U_field, V_field, S_field) -> str:
         h, w = U_field.shape
@@ -283,7 +290,7 @@ class AgentV4:
                 
         return action
         
-    def reproduce(self):
+    def reproduce(self, mutation_rate=0.1):
         child_genome = self.genome.copy()
         child_genome.mutate()
         child = AgentV4(self.x, self.y, genome=child_genome, lineage_id=self.lineage_id)
