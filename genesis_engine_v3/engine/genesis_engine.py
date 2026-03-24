@@ -349,7 +349,7 @@ class GenesisEngine:
         # Only viable parents can reproduce
         if len(viable_parents) < len(self.population):
             rejected_count = len(self.population) - len(viable_parents)
-            print(f"  [GATEKEEPER] Gen {self.generation}: Rejected {rejected_count} parents (metabolic cost > {self.physics_gatekeeper.energy_constant})")
+            # print(f"  [GATEKEEPER] Gen {self.generation}: Rejected {rejected_count} parents (metabolic cost > {self.physics_gatekeeper.energy_constant})")
         
         self.population = viable_parents
         
@@ -485,7 +485,7 @@ class GenesisEngine:
         # Log offspring rejections
         if len(viable_offspring) < len(offspring):
             rejected_count = len(offspring) - len(viable_offspring)
-            print(f"  [GATEKEEPER] Gen {self.generation}: Rejected {rejected_count} offspring (metabolic cost > {self.physics_gatekeeper.energy_constant})")
+            # print(f"  [GATEKEEPER] Gen {self.generation}: Rejected {rejected_count} offspring (metabolic cost > {self.physics_gatekeeper.energy_constant})")
             
             # Track for analysis
             self.offspring_terminations_log.append({

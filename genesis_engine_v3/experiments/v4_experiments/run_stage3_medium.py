@@ -123,16 +123,11 @@ def run_single_experiment(args):
     return True
 
 if __name__ == '__main__':
-    seeds = [42, 123, 456, 789]
-    tasks = []
-    # Mix up seeds and modes conceptually to evenly distribute load
-    for s in seeds:
-        tasks.append((s, 'real', True))
-    for s in seeds:
-        tasks.append((s, 'sham', False))
-        
-    print(f"Starting {len(tasks)} runs in multiprocess pool (2 workers)...")
-    with multiprocessing.Pool(2) as pool:
-        pool.map(run_single_experiment, tasks)
-        
-    print("All Medium Validation Runs Completed!")
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--seed', type=int, required=True)
+    parser.add_argument('--mode', type=str, choices=['real', 'sham'], required=True)
+    args = parser.parse_args()
+    
+    run_single_experiment((args.seed, args.mode, args.mode == 'real'))
+
