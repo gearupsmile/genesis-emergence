@@ -38,7 +38,8 @@ class GenesisEngine:
                  simulation_steps: int = 10,
                  transition_start_generation: int = 0,
                  transition_total_generations: int = 10000,
-                 enable_secretion: bool = True):
+                 enable_secretion: bool = True,
+                 agent_type: str = 'codon'):
         """
         Initialize the Genesis Engine.
         
@@ -69,6 +70,8 @@ class GenesisEngine:
         self.transition_start_generation = transition_start_generation
         self.transition_total_generations = transition_total_generations
         self.transition_weight = 1.0  # Starts at 1.0 (100% external)
+        
+        self.agent_type = agent_type
         
         # State
         self.population: List[StructurallyEvolvableAgent] = []
@@ -111,12 +114,12 @@ class GenesisEngine:
         # Base energy constant for FSD pressure application
         self.base_energy_constant = 0.5
         
+        # Feature 1: Substrate for Secretion Physics
+        self.substrate = Substrate(enable_secretion=self.enable_secretion)
+
         # Initialize population and world
         self._initialize_population()
         self._initialize_world()
-        
-        # Feature 1: Substrate for Secretion Physics
-        self.substrate = Substrate(enable_secretion=self.enable_secretion)
         
         # Initialize spatial assignments after population creation
         self.spatial_env.initialize_agents(self.population)
@@ -125,19 +128,31 @@ class GenesisEngine:
         self.species_assigner.assign_species_to_population(self.population)
     
     def _initialize_population(self):
-        """Create initial population of random agents."""
+        """Create initial population of agents."""
         self.population = []
         
         for i in range(self.population_size):
-            # Create random genome (3-5 genes)
-            num_genes = random.randint(3, 5)
-            codons = [random.choice(['AAA', 'CAA', 'GAA', 'TAA', 'ACA']) 
-                     for _ in range(num_genes)]
-            genome = EvolvableGenome(codons)
-            
-            # Create agent with uniform linkage
-            agent = StructurallyEvolvableAgent(genome)
-            self.population.append(agent)
+            if self.agent_type == 'cppn':
+                from .structurally_evolvable_agent import AgentV4
+                # Give random starting positions
+                w = self.substrate.width
+                h = self.substrate.height
+                x = random.randint(0, w-1)
+                y = random.randint(0, h-1)
+                agent = AgentV4(x, y)
+                self.population.append(agent)
+            else:
+                # Create random genome (3-5 genes)
+                num_genes = random.randint(3, 5)
+                codons = [random.choice(['AAA', 'CAA', 'GAA', 'TAA', 'ACA']) 
+                         for _ in range(num_genes)]
+                from .evolvable_genome import EvolvableGenome
+                genome = EvolvableGenome(codons)
+                
+                # Create agent with uniform linkage
+                from .structurally_evolvable_agent import StructurallyEvolvableAgent
+                agent = StructurallyEvolvableAgent(genome)
+                self.population.append(agent)
             
         # Initialize spatial assignments after population creation
         # (Move this here so we can grab snapshots)
