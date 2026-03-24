@@ -39,7 +39,10 @@ class GenesisEngine:
                  transition_start_generation: int = 0,
                  transition_total_generations: int = 10000,
                  enable_secretion: bool = True,
-                 agent_type: str = 'codon'):
+                 agent_type: str = 'codon',
+                 compatibility_threshold: float = 3.0,
+                 stagnation_limit: int = 15,
+                 elitism_fraction: float = 0.05):
         """
         Initialize the Genesis Engine.
         
@@ -72,6 +75,10 @@ class GenesisEngine:
         self.transition_weight = 1.0  # Starts at 1.0 (100% external)
         
         self.agent_type = agent_type
+        self.compatibility_threshold = compatibility_threshold
+        self.stagnation_limit = stagnation_limit
+        self.elitism_fraction = elitism_fraction
+        self.species_list = []
         
         # State
         self.population: List[StructurallyEvolvableAgent] = []
@@ -414,31 +421,59 @@ class GenesisEngine:
         )  # No purging yet
         
         # Step 4: Selection & Reproduction
-        num_parents = max(1, len(self.population) // 2)
-        parents = self.select_parents(final_scores, num_parents)
-        
-        # Reproduce to maintain population size
-        offspring = []
-        offspring_per_parent = self.population_size // len(parents)
-        remainder = self.population_size % len(parents)
-        
-        for i, parent in enumerate(parents):
-            # Feature 2.3: Integrate Snapshot Capture at Reproduction
-            # Capture environment snapshot for successful parent
-            # Assuming parent has x, y from spatial_env or its own state
-            # If agent position is stored in spatial_env only, we need to correct this.
-            # StructurallyEvolvableAgent.step updates self.x, self.y.
+        if self.agent_type == 'cppn':
+            from .species import assign_species
+            self.species_list = assign_species(self.population, self.species_list, self.compatibility_threshold)
             
-            if hasattr(parent, 'x') and hasattr(parent, 'y'):
-                snapshot = self.substrate.get_snapshot(int(parent.x), int(parent.y))
-                # Add to AIS Archive
-                # (We only archive parents, as they survived and were selected)
-                self.ais_archive.add(parent.genome.to_string(), snapshot)
+            # Remove stagnant species early
+            for s in self.species_list:
+                avg_energy = sum((getattr(m, 'energy', 0.0) + getattr(m, 'resource_energy', 0.0)) for m in s.members) / max(1, len(s.members))
+                s.fitness_history.append(avg_energy)
+                if len(s.fitness_history) > 1:
+                    if s.fitness_history[-1] <= max(s.fitness_history[:-1]):
+                        s.stagnation_counter += 1
+                    else:
+                        s.stagnation_counter = 0
             
-            num_offspring = offspring_per_parent + (1 if i < remainder else 0)
-            for _ in range(num_offspring):
-                child = parent.reproduce(self.mutation_rate)
-                offspring.append(child)
+            # Prevent total extinction
+            new_species_list = [s for s in self.species_list if not s.is_stagnant(self.stagnation_limit)]
+            stagnant_count = len(self.species_list) - len(new_species_list)
+            
+            if len(new_species_list) == 0 and len(self.species_list) > 0:
+                # Keep the best species to prevent total extinction
+                best_s = max(self.species_list, key=lambda s: max(s.fitness_history) if s.fitness_history else 0)
+                best_s.stagnation_counter = 0  # Give it a reset
+                new_species_list = [best_s]
+                stagnant_count -= 1
+                
+            self.species_list = new_species_list
+            
+            if self.generation % 100 == 0:
+                sizes = [len(s.members) for s in self.species_list]
+                avg_size = sum(sizes)/len(sizes) if sizes else 0
+                fitnesses = [f"{s.id}:{s.get_total_adjusted_fitness():.1f}" for s in self.species_list]
+                print(f"  [SPECIATION] Gen {self.generation}: {len(self.species_list)} species (avg size {avg_size:.1f}), removed {stagnant_count} stagnant")
+                print(f"               Fitness distr: {', '.join(fitnesses)}")
+                
+            offspring = self._reproduce_speciated()
+        else:
+            num_parents = max(1, len(self.population) // 2)
+            parents = self.select_parents(final_scores, num_parents)
+            
+            # Reproduce to maintain population size
+            offspring = []
+            offspring_per_parent = self.population_size // len(parents)
+            remainder = self.population_size % len(parents)
+            
+            for i, parent in enumerate(parents):
+                if hasattr(parent, 'x') and hasattr(parent, 'y'):
+                    snapshot = self.substrate.get_snapshot(int(parent.x), int(parent.y))
+                    self.ais_archive.add(parent.genome.to_string(), snapshot)
+                
+                num_offspring = offspring_per_parent + (1 if i < remainder else 0)
+                for _ in range(num_offspring):
+                    child = parent.reproduce(self.mutation_rate)
+                    offspring.append(child)
         
         # Step 4.5: TRACK 1 - Offspring Viability Check (Tier 2)
         # Binary life/death enforcement AFTER reproduction
@@ -469,35 +504,36 @@ class GenesisEngine:
         
         # Step 4.6: TRACK 2 - Basic Complexification
         # Simple plateau detection: add codon if fitness stagnant
-        for agent in self.population:
-            # Initialize fitness history if needed
-            if not hasattr(agent, 'fitness_history'):
-                agent.fitness_history = []
-            
-            # Add current fitness (use resource energy as proxy)
-            current_fitness = getattr(agent, 'resource_energy', 0.0)
-            agent.fitness_history.append(current_fitness)
-            
-            # Keep only last 20 generations
-            if len(agent.fitness_history) > 20:
-                agent.fitness_history = agent.fitness_history[-20:]
-            
-            # Check for plateau (10+ generations, no improvement)
-            if len(agent.fitness_history) >= 10:
-                recent_avg = sum(agent.fitness_history[-10:]) / 10
-                if len(agent.fitness_history) >= 20:
-                    older_avg = sum(agent.fitness_history[:10]) / 10
-                else:
-                    older_avg = recent_avg
-                
-                # If plateau detected, add random codon
-                if recent_avg - older_avg < 0.01:  # Plateau threshold
-                    import random
-                    new_codon = ''.join(random.choice(['A', 'C', 'G', 'T']) for _ in range(3))
-                    agent.genome.sequence.append(new_codon)
-                    agent.genome.metabolic_cost = agent.genome._calculate_metabolic_cost(len(agent.genome.sequence))
-                    # Reset fitness history after complexification
+        if self.agent_type != 'cppn':
+            for agent in self.population:
+                # Initialize fitness history if needed
+                if not hasattr(agent, 'fitness_history'):
                     agent.fitness_history = []
+                
+                # Add current fitness (use resource energy as proxy)
+                current_fitness = getattr(agent, 'resource_energy', 0.0)
+                agent.fitness_history.append(current_fitness)
+                
+                # Keep only last 20 generations
+                if len(agent.fitness_history) > 20:
+                    agent.fitness_history = agent.fitness_history[-20:]
+                
+                # Check for plateau (10+ generations, no improvement)
+                if len(agent.fitness_history) >= 10:
+                    recent_avg = sum(agent.fitness_history[-10:]) / 10
+                    if len(agent.fitness_history) >= 20:
+                        older_avg = sum(agent.fitness_history[:10]) / 10
+                    else:
+                        older_avg = recent_avg
+                    
+                    # If plateau detected, add random codon
+                    if recent_avg - older_avg < 0.01:  # Plateau threshold
+                        import random
+                        new_codon = ''.join(random.choice(['A', 'C', 'G', 'T']) for _ in range(3))
+                        agent.genome.sequence.append(new_codon)
+                        agent.genome.metabolic_cost = agent.genome._calculate_metabolic_cost(len(agent.genome.sequence))
+                        # Reset fitness history after complexification
+                        agent.fitness_history = []
         
         # Step 5: AIS Culling
         # Convert all entities to dicts
@@ -602,6 +638,63 @@ class GenesisEngine:
             }
         
         self.statistics.append(stats)
+        
+    def _reproduce_speciated(self) -> List[StructurallyEvolvableAgent]:
+        total_fitness = sum(s.get_total_adjusted_fitness() for s in self.species_list)
+        offspring = []
+        
+        if total_fitness <= 0 or not self.species_list:
+            return []
+            
+        quotas = []
+        for s in self.species_list:
+            q = int((s.get_total_adjusted_fitness() / total_fitness) * self.population_size)
+            quotas.append(q)
+            
+        import numpy as np
+        best_idx = np.argmax([s.get_total_adjusted_fitness() for s in self.species_list])
+        quotas[best_idx] += self.population_size - sum(quotas)
+        
+        from .structurally_evolvable_agent import AgentV4
+        from .cppn_genome import CPPNGenome
+        import math
+        from .bootstrap_evaluator import tournament_selection
+        
+        for s, q in zip(self.species_list, quotas):
+            if q <= 0:
+                continue
+                
+            s.members.sort(key=lambda m: getattr(m, 'energy', 0.0) + getattr(m, 'resource_energy', 0.0), reverse=True)
+            elite_count = max(1, int(math.ceil(self.elitism_fraction * len(s.members))))
+            
+            produced = 0
+            for i in range(min(elite_count, q, len(s.members))):
+                elite_agent = s.members[i]
+                child = AgentV4(int(elite_agent.x), int(elite_agent.y), genome=elite_agent.genome.copy(), lineage_id=elite_agent.lineage_id)
+                offspring.append(child)
+                produced += 1
+                
+            scores = {m.id: (getattr(m, 'energy', 0.0) + getattr(m, 'resource_energy', 0.0)) for m in s.members}
+            
+            while produced < q:
+                parents = tournament_selection(s.members, scores, 2, tournament_size=min(3, len(s.members)))
+                if len(parents) == 2 and random.random() < 0.75:
+                    p1, p2 = parents[0], parents[1]
+                    child_genome = CPPNGenome.crossover(p1.genome, p2.genome)
+                    child_genome.mutate()
+                    child = AgentV4(int(p1.x), int(p1.y), genome=child_genome, lineage_id=p1.lineage_id)
+                else:
+                    p1 = parents[0]
+                    child_genome = p1.genome.copy()
+                    child_genome.mutate()
+                    child = AgentV4(int(p1.x), int(p1.y), genome=child_genome, lineage_id=p1.lineage_id)
+                    
+                offspring.append(child)
+                produced += 1
+                
+            s.update_representative()
+            
+        return offspring
     
     def get_statistics_summary(self) -> str:
         """Get formatted summary of recent statistics."""

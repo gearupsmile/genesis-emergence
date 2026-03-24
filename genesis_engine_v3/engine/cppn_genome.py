@@ -125,7 +125,7 @@ class CPPNGenome:
         
     @property
     def metabolic_cost(self):
-        return len(self.connections) * 0.1
+        return len(self.connections) * 0.01
         
     @property
     def sequence(self):
