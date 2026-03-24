@@ -301,7 +301,10 @@ class AgentV4:
         
     def step(self, substrate) -> str:
         """Compatibility signature if engine calls step() directly without fields."""
-        return self.decide_action(substrate.U, substrate.V, substrate.S)
+        action = self.decide_action(substrate.U, substrate.V, substrate.S)
+        if action == 'S' and hasattr(substrate, 'deposit_secretion'):
+            substrate.deposit_secretion(int(self.x), int(self.y), 0.5)
+        return action
         
     def to_dict(self) -> Dict:
         return {'id': self.id, 'relevance_score': 1.0, 'age': self.age}
