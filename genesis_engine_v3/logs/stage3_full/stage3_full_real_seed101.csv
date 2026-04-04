@@ -1,0 +1,3 @@
+Generation,PopSize,NumSpecies,AvgNodes,AvgConns,Action_M,Action_S,Action_I,S_mean,EPC,LZ
+1000,100,1,22.08,29.18,100,0,0,0.0,1.0,0.075
+2000,100,1,26.04,39.17,100,0,0,0.0,1.0,0.1

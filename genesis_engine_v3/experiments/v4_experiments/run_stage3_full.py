@@ -121,17 +121,43 @@ def run_single_experiment(args):
     return True
 
 if __name__ == '__main__':
-    seeds = [42, 123, 456, 789, 101, 202, 303, 404, 505, 606]
-    tasks = []
+    import argparse
+    import subprocess
+    import time
     
-    # Pre-generate task permutations
-    for s in seeds:
-        tasks.append((s, 'real', True))
-    for s in seeds:
-        tasks.append((s, 'sham', False))
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--worker', action='store_true')
+    parser.add_argument('--seed', type=int)
+    parser.add_argument('--mode', type=str)
+    args = parser.parse_args()
+    
+    if args.worker:
+        run_single_experiment((args.seed, args.mode, args.mode == 'real'))
+    else:
+        seeds = [42, 123, 456, 789, 101, 202, 303, 404, 505, 606]
+        tasks = []
+        for s in seeds:
+            tasks.append((s, 'real'))
+            tasks.append((s, 'sham'))
+            
+        print(f"Starting {len(tasks)} runs with max 5 concurrent native subprocesses...")
+        active_procs = []
         
-    print(f"Starting {len(tasks)} runs in multiprocess pool (5 workers)...")
-    with multiprocessing.Pool(5) as pool:
-        pool.map(run_single_experiment, tasks)
-        
-    print("All Full Validation Runs Completed!")
+        for seed, mode in tasks:
+            out_file = open(f"logs/stage3_full/out_{mode}_{seed}.txt", "w")
+            err_file = open(f"logs/stage3_full/err_{mode}_{seed}.txt", "w")
+            
+            cmd = [sys.executable, __file__, '--worker', '--seed', str(seed), '--mode', mode]
+            p = subprocess.Popen(cmd, stdout=out_file, stderr=err_file)
+            active_procs.append(p)
+            
+            # Throttle concurrency natively with OS processes to perfectly bypass pool deadlocks
+            while len(active_procs) >= 5:
+                active_procs = [proc for proc in active_procs if proc.poll() is None]
+                if len(active_procs) >= 5:
+                    time.sleep(1)
+                    
+        for p in active_procs:
+            p.wait()
+            
+        print("All Full Validation Runs Completed!")
