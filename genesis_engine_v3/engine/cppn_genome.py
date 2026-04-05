@@ -72,12 +72,21 @@ class CPPNGenome:
         memo = {}
         evaluating = set()
 
-        input_nodes = sorted([n for n in self.nodes.values() if n.type == 'input'], key=lambda n: n.id)
+        if not hasattr(self, '_input_nodes'):
+            self._input_nodes = sorted([n for n in self.nodes.values() if n.type == 'input'], key=lambda n: n.id)
+            self._output_nodes = sorted([n for n in self.nodes.values() if n.type == 'output'], key=lambda n: n.id)
+            self._in_map = {}
+            for c in self.connections.values():
+                if c.enabled:
+                    if c.to_node not in self._in_map:
+                        self._in_map[c.to_node] = []
+                    self._in_map[c.to_node].append(c)
+
         if isinstance(inputs, dict):
-            for n in input_nodes:
+            for n in self._input_nodes:
                 memo[n.id] = inputs.get(n.name, 0.0)
         else:
-            for i, n in enumerate(input_nodes):
+            for i, n in enumerate(self._input_nodes):
                 memo[n.id] = inputs[i] if i < len(inputs) else 0.0
 
         def get_value(n_id):
@@ -93,7 +102,7 @@ class CPPNGenome:
             if n.type == 'input':
                 val = 0.0
             else:
-                incoming_conns = [c for c in self.connections.values() if c.to_node == n_id and c.enabled]
+                incoming_conns = self._in_map.get(n_id, [])
                 sum_input = 0.0
                 for c in incoming_conns:
                     sum_input += get_value(c.from_node) * c.weight
@@ -104,11 +113,10 @@ class CPPNGenome:
             n.value = val
             return val
 
-        output_nodes = sorted([n for n in self.nodes.values() if n.type == 'output'], key=lambda n: n.id)
         if isinstance(inputs, dict):
-            return {n.name: get_value(n.id) for n in output_nodes}
+            return {n.name: get_value(n.id) for n in self._output_nodes}
         else:
-            return [get_value(n.id) for n in output_nodes]
+            return [get_value(n.id) for n in self._output_nodes]
 
     def copy(self):
         new_genome = CPPNGenome()
@@ -135,6 +143,10 @@ class CPPNGenome:
         return f"CPPN(n={len(self.nodes)}, c={len(self.connections)})"
         
     def mutate(self):
+        if hasattr(self, '_in_map'): delattr(self, '_in_map')
+        if hasattr(self, '_input_nodes'): delattr(self, '_input_nodes')
+        if hasattr(self, '_output_nodes'): delattr(self, '_output_nodes')
+        
         if random.random() < 0.03:
             self.add_node_mutation()
         if random.random() < 0.05:

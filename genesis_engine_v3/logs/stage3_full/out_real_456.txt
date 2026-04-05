@@ -1,0 +1,787 @@
+Starting Seed 456, Mode real
+  [SPECIATION] Gen 0: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 1:1.6
+  [SPECIATION] Gen 100: 13 species (avg size 7.2), removed 1 stagnant
+               Fitness distr: 48:1.7, 52:2.3, 57:1.8, 61:1.7, 62:1.6, 68:1.4, 69:1.1, 70:1.3, 71:1.1, 73:1.3, 75:1.5, 78:1.1, 79:1.2
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 200: 8 species (avg size 12.5), removed 0 stagnant
+               Fitness distr: 83:1.5, 107:1.1, 110:1.1, 112:1.0, 113:0.9, 114:0.9, 115:1.0, 116:0.9
+  [SPECIATION] Gen 300: 2 species (avg size 50.0), removed 0 stagnant
+               Fitness distr: 129:1.2, 131:0.9
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 400: 4 species (avg size 25.0), removed 0 stagnant
+               Fitness distr: 133:1.1, 134:1.0, 135:1.0, 137:1.0
+  [ABUNDANCE] Entering Abundance phase
+  [SPECIATION] Gen 500: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 138:1.3
+  [SPECIATION] Gen 600: 3 species (avg size 33.3), removed 0 stagnant
+               Fitness distr: 138:1.7, 140:1.0, 141:1.0
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 700: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 142:1.0
+  [SPECIATION] Gen 800: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 142:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 900: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 142:1.0
+  [ABUNDANCE] Entering Abundance phase
+[REAL | 456] Gen  1000 | Sp:   1 | N: 26.0 | C: 37.1 | LZ: 0.0600
+  [SPECIATION] Gen 1000: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 142:1.3
+  [SPECIATION] Gen 1100: 2 species (avg size 50.0), removed 0 stagnant
+               Fitness distr: 142:1.5, 143:1.0
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 1200: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 143:1.0
+  [SPECIATION] Gen 1300: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 143:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 1400: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 143:1.0
+  [ABUNDANCE] Entering Abundance phase
+  [SPECIATION] Gen 1500: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 143:1.3
+  [SPECIATION] Gen 1600: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 143:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 1700: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 143:1.0
+  [SPECIATION] Gen 1800: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 143:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 1900: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 143:1.0
+  [ABUNDANCE] Entering Abundance phase
+[REAL | 456] Gen  2000 | Sp:   1 | N: 27.1 | C: 42.2 | LZ: 0.0750
+  [SPECIATION] Gen 2000: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 143:1.3
+  [SPECIATION] Gen 2100: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 143:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 2200: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 143:1.0
+  [SPECIATION] Gen 2300: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 143:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 2400: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 143:1.0
+  [ABUNDANCE] Entering Abundance phase
+  [SPECIATION] Gen 2500: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 144:1.3
+  [SPECIATION] Gen 2600: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 144:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 2700: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 144:1.0
+  [SPECIATION] Gen 2800: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 144:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 2900: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 144:1.0
+  [ABUNDANCE] Entering Abundance phase
+[REAL | 456] Gen  3000 | Sp:   1 | N: 28.0 | C: 45.2 | LZ: 0.0250
+  [SPECIATION] Gen 3000: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 144:1.3
+  [SPECIATION] Gen 3100: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 144:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 3200: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 144:1.0
+  [SPECIATION] Gen 3300: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 144:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 3400: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 144:1.0
+  [ABUNDANCE] Entering Abundance phase
+  [SPECIATION] Gen 3500: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 144:1.3
+  [SPECIATION] Gen 3600: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 144:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 3700: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 144:1.0
+  [SPECIATION] Gen 3800: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 144:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 3900: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 144:1.0
+  [ABUNDANCE] Entering Abundance phase
+[REAL | 456] Gen  4000 | Sp:   1 | N: 28.0 | C: 45.1 | LZ: 0.0550
+  [SPECIATION] Gen 4000: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 144:1.3
+  [SPECIATION] Gen 4100: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 144:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 4200: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 4300: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 4400: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+  [SPECIATION] Gen 4500: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 4600: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 4700: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 4800: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 4900: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+[REAL | 456] Gen  5000 | Sp:   1 | N: 28.0 | C: 49.1 | LZ: 0.0650
+  [SPECIATION] Gen 5000: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 5100: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 5200: 1 species (avg size 94.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 5300: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 5400: 1 species (avg size 92.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+  [SPECIATION] Gen 5500: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 5600: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 5700: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 5800: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 5900: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+[REAL | 456] Gen  6000 | Sp:   1 | N: 28.0 | C: 49.1 | LZ: 0.0550
+  [SPECIATION] Gen 6000: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 6100: 1 species (avg size 96.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 6200: 1 species (avg size 96.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 6300: 1 species (avg size 94.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 6400: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+  [SPECIATION] Gen 6500: 1 species (avg size 96.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 6600: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 6700: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 6800: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 6900: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+[REAL | 456] Gen  7000 | Sp:   1 | N: 28.0 | C: 49.1 | LZ: 0.0400
+  [SPECIATION] Gen 7000: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 7100: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 7200: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 7300: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 7400: 1 species (avg size 96.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+  [SPECIATION] Gen 7500: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 7600: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.2
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 7700: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 7800: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 7900: 1 species (avg size 92.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+[REAL | 456] Gen  8000 | Sp:   1 | N: 28.0 | C: 49.1 | LZ: 0.0250
+  [SPECIATION] Gen 8000: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 8100: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 8200: 1 species (avg size 96.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 8300: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 8400: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+  [SPECIATION] Gen 8500: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 8600: 1 species (avg size 96.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 8700: 1 species (avg size 94.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 8800: 1 species (avg size 96.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 8900: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+[REAL | 456] Gen  9000 | Sp:   1 | N: 28.0 | C: 49.1 | LZ: 0.0500
+  [SPECIATION] Gen 9000: 1 species (avg size 94.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 9100: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 9200: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 9300: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 9400: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+  [SPECIATION] Gen 9500: 1 species (avg size 94.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 9600: 1 species (avg size 92.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 9700: 1 species (avg size 96.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 9800: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 9900: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+[REAL | 456] Gen 10000 | Sp:   1 | N: 28.0 | C: 49.1 | LZ: 0.0850
+  [SPECIATION] Gen 10000: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 10100: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 10200: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 10300: 1 species (avg size 96.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 10400: 1 species (avg size 92.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+  [SPECIATION] Gen 10500: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 10600: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 10700: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 10800: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 10900: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+[REAL | 456] Gen 11000 | Sp:   1 | N: 28.0 | C: 49.1 | LZ: 0.1000
+  [SPECIATION] Gen 11000: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 11100: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 11200: 1 species (avg size 96.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 11300: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 11400: 1 species (avg size 96.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+  [SPECIATION] Gen 11500: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 11600: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 11700: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 11800: 1 species (avg size 93.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 11900: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+[REAL | 456] Gen 12000 | Sp:   1 | N: 28.0 | C: 49.1 | LZ: 0.0550
+  [SPECIATION] Gen 12000: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 12100: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 12200: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 12300: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 12400: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+  [SPECIATION] Gen 12500: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 12600: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 12700: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 12800: 1 species (avg size 94.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 12900: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+[REAL | 456] Gen 13000 | Sp:   1 | N: 28.0 | C: 49.1 | LZ: 0.0400
+  [SPECIATION] Gen 13000: 1 species (avg size 96.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 13100: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 13200: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 13300: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 13400: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+  [SPECIATION] Gen 13500: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 13600: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 13700: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 13800: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 13900: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+[REAL | 456] Gen 14000 | Sp:   1 | N: 28.0 | C: 49.1 | LZ: 0.0800
+  [SPECIATION] Gen 14000: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 14100: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 14200: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 14300: 1 species (avg size 94.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 14400: 1 species (avg size 96.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+  [SPECIATION] Gen 14500: 1 species (avg size 92.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 14600: 1 species (avg size 96.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 14700: 1 species (avg size 96.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 14800: 1 species (avg size 94.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 14900: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+[REAL | 456] Gen 15000 | Sp:   1 | N: 28.0 | C: 49.1 | LZ: 0.0350
+  [SPECIATION] Gen 15000: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 15100: 1 species (avg size 96.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 15200: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 15300: 1 species (avg size 94.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 15400: 1 species (avg size 93.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+  [SPECIATION] Gen 15500: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 15600: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 15700: 1 species (avg size 96.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 15800: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 15900: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+[REAL | 456] Gen 16000 | Sp:   1 | N: 28.0 | C: 49.2 | LZ: 0.0450
+  [SPECIATION] Gen 16000: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 16100: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 16200: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 16300: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 16400: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+  [SPECIATION] Gen 16500: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 16600: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 16700: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 16800: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 16900: 1 species (avg size 96.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+[REAL | 456] Gen 17000 | Sp:   1 | N: 28.0 | C: 49.1 | LZ: 0.0400
+  [SPECIATION] Gen 17000: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 17100: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 145:1.2
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 17200: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 17300: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 17400: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+  [SPECIATION] Gen 17500: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 17600: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 17700: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 17800: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 17900: 1 species (avg size 96.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+[REAL | 456] Gen 18000 | Sp:   1 | N: 28.0 | C: 49.1 | LZ: 0.0550
+  [SPECIATION] Gen 18000: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 18100: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 18200: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 18300: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 18400: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+  [SPECIATION] Gen 18500: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 18600: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 18700: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 18800: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 18900: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+[REAL | 456] Gen 19000 | Sp:   1 | N: 28.0 | C: 49.1 | LZ: 0.1000
+  [SPECIATION] Gen 19000: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 19100: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 19200: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 19300: 1 species (avg size 96.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 19400: 1 species (avg size 96.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+  [SPECIATION] Gen 19500: 1 species (avg size 94.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 19600: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 19700: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 19800: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 19900: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+[REAL | 456] Gen 20000 | Sp:   1 | N: 28.0 | C: 49.1 | LZ: 0.0500
+  [SPECIATION] Gen 20000: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 20100: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 20200: 1 species (avg size 96.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 20300: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 20400: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+  [SPECIATION] Gen 20500: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 20600: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 20700: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 20800: 1 species (avg size 94.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 20900: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+[REAL | 456] Gen 21000 | Sp:   1 | N: 28.0 | C: 49.2 | LZ: 0.0500
+  [SPECIATION] Gen 21000: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 21100: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 21200: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 21300: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 21400: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+  [SPECIATION] Gen 21500: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 21600: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 21700: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 21800: 1 species (avg size 94.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 21900: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+[REAL | 456] Gen 22000 | Sp:   1 | N: 28.0 | C: 49.1 | LZ: 0.0350
+  [SPECIATION] Gen 22000: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 22100: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 22200: 1 species (avg size 94.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 22300: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 22400: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+  [SPECIATION] Gen 22500: 1 species (avg size 96.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 22600: 1 species (avg size 96.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 22700: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 22800: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 22900: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+[REAL | 456] Gen 23000 | Sp:   1 | N: 28.0 | C: 49.1 | LZ: 0.0450
+  [SPECIATION] Gen 23000: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 23100: 1 species (avg size 96.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 23200: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 23300: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 23400: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+  [SPECIATION] Gen 23500: 1 species (avg size 96.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 23600: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 23700: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 23800: 1 species (avg size 96.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 23900: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+[REAL | 456] Gen 24000 | Sp:   1 | N: 28.0 | C: 49.1 | LZ: 0.0350
+  [SPECIATION] Gen 24000: 1 species (avg size 96.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SPECIATION] Gen 24100: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 145:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 24200: 1 species (avg size 96.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SPECIATION] Gen 24300: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 24400: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 145:1.0
+  [ABUNDANCE] Entering Abundance phase
+  [SPECIATION] Gen 24500: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 146:1.3
+  [SPECIATION] Gen 24600: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 146:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 24700: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 146:1.0
+  [SPECIATION] Gen 24800: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 146:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 24900: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 146:1.0
+  [ABUNDANCE] Entering Abundance phase
+[REAL | 456] Gen 25000 | Sp:   1 | N: 28.0 | C: 49.1 | LZ: 0.0600
+  [SPECIATION] Gen 25000: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 146:1.3
+  [SPECIATION] Gen 25100: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 146:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 25200: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 146:1.0
+  [SPECIATION] Gen 25300: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 146:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 25400: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 146:1.0
+  [ABUNDANCE] Entering Abundance phase
+  [SPECIATION] Gen 25500: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 146:1.3
+  [SPECIATION] Gen 25600: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 146:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 25700: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 146:1.0
+  [SPECIATION] Gen 25800: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 146:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 25900: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 146:1.0
+  [ABUNDANCE] Entering Abundance phase
+[REAL | 456] Gen 26000 | Sp:   1 | N: 28.0 | C: 49.0 | LZ: 0.0550
+  [SPECIATION] Gen 26000: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 146:1.3
+  [SPECIATION] Gen 26100: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 146:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 26200: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 146:1.0
+  [SPECIATION] Gen 26300: 1 species (avg size 100.0), removed 0 stagnant
+               Fitness distr: 146:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 26400: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 146:1.0
+  [ABUNDANCE] Entering Abundance phase
+  [SPECIATION] Gen 26500: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 146:1.3
+  [SPECIATION] Gen 26600: 1 species (avg size 94.0), removed 0 stagnant
+               Fitness distr: 146:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 26700: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 146:1.0
+  [SPECIATION] Gen 26800: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 146:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 26900: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 146:1.0
+  [ABUNDANCE] Entering Abundance phase
+[REAL | 456] Gen 27000 | Sp:   1 | N: 28.0 | C: 49.1 | LZ: 0.0450
+  [SPECIATION] Gen 27000: 1 species (avg size 96.0), removed 0 stagnant
+               Fitness distr: 146:1.3
+  [SPECIATION] Gen 27100: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 146:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 27200: 1 species (avg size 94.0), removed 0 stagnant
+               Fitness distr: 146:1.0
+  [SPECIATION] Gen 27300: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 146:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 27400: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 146:1.0
+  [ABUNDANCE] Entering Abundance phase
+  [SPECIATION] Gen 27500: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 146:1.3
+  [SPECIATION] Gen 27600: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 146:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 27700: 1 species (avg size 94.0), removed 0 stagnant
+               Fitness distr: 146:1.0
+  [SPECIATION] Gen 27800: 1 species (avg size 99.0), removed 0 stagnant
+               Fitness distr: 146:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 27900: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 146:1.0
+  [ABUNDANCE] Entering Abundance phase
+[REAL | 456] Gen 28000 | Sp:   1 | N: 28.0 | C: 49.2 | LZ: 0.0500
+  [SPECIATION] Gen 28000: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 146:1.3
+  [SPECIATION] Gen 28100: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 146:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 28200: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 146:1.0
+  [SPECIATION] Gen 28300: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 146:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 28400: 1 species (avg size 98.0), removed 0 stagnant
+               Fitness distr: 146:1.0
+  [ABUNDANCE] Entering Abundance phase
+  [SPECIATION] Gen 28500: 1 species (avg size 97.0), removed 0 stagnant
+               Fitness distr: 146:1.3
+  [SPECIATION] Gen 28600: 1 species (avg size 94.0), removed 0 stagnant
+               Fitness distr: 146:1.3
+  [SCARCITY] Entering Scarcity phase
+  [SPECIATION] Gen 28700: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 146:1.0
+  [SPECIATION] Gen 28800: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 146:1.0
+  [SHIFT] Entering Shift phase
+  [SPECIATION] Gen 28900: 1 species (avg size 95.0), removed 0 stagnant
+               Fitness distr: 146:1.0
+  [ABUNDANCE] Entering Abundance phase
+[REAL | 456] Gen 29000 | Sp:   1 | N: 28.0 | C: 49.1 | LZ: 0.0400
+  [SPECIATION] Gen 29000: 1 species (avg size 93.0), removed 0 stagnant
+               Fitness distr: 146:1.3
+  [SPECIATION] Gen 29100: 1 species (avg size 98.0), removed 0 stagnant
