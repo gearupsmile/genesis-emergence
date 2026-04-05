@@ -83,9 +83,14 @@ Genesis is organized as layered evolutionary machinery:
 
 ## 📦 What This Repository Contains
 
-* Core Genesis evolutionary engine
-* All experimental scripts used in the paper
-* Four baseline methods:
+* **`genesis_engine_v1/`, `v2/`, `v3/`**: Core evolutionary engines preserving all research phases.
+* **`experiments/`**: All experiment scripts used for the paper (10k, 50k runs, ablations).
+* **`docs/`**: Comprehensive guides, design decisions, and system diagrams (Start with `docs/SUMMARY.md`).
+* **`tests/`**: Cross-version verification suite and regression testing.
+* **`archive/`**: Offline storage for metrics, checkpoints, and generated artifacts.
+
+Features included in the core:
+* Four baseline methods (Random, Fixed, Novelty, MAP-Elites)
 
   * Random Search
   * Fixed Constraints

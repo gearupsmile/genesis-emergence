@@ -1,0 +1,9 @@
+[2026-04-06 01:17:35] Initialized with pattern: random
+[2026-04-06 01:17:35] Grid size: (256, 256)
+[2026-04-06 01:17:35] Parameters: F=0.0367, k=0.0649, Du=0.16, Dv=0.08
+[2026-04-06 01:17:35] Agent system enabled: spawned 50 agents (max: 1000)
+[2026-04-06 01:17:35] Starting simulation for 100 cycles
+[2026-04-06 01:17:43] Cycle 100/100 | V: [0.000, 0.405] mean=0.022 | Mass error: 0.114868 | 12.4 cycles/sec | Agents: 998 (births: 1868, deaths: 781) Energy: 25.7
+[2026-04-06 01:17:43] Checkpoint saved: checkpoint_000100.npz
+[2026-04-06 01:17:43] Simulation completed successfully in 8.2 seconds
+[2026-04-06 01:17:43] Average: 12.3 cycles/second

@@ -1,0 +1,27 @@
+[2026-04-06 00:48:35] Initialized with pattern: random
+[2026-04-06 00:48:35] Grid size: (256, 256)
+[2026-04-06 00:48:35] Parameters: F=0.0367, k=0.0649, Du=0.16, Dv=0.08
+[2026-04-06 00:48:35] Agent system enabled: spawned 50 agents (max: 1000)
+[2026-04-06 00:48:35] Starting simulation for 100 cycles
+[2026-04-06 00:48:50] Cycle 100/100 | V: [0.000, 0.510] mean=0.022 | Mass error: 0.111219 | 6.5 cycles/sec | Agents: 997 (births: 2119, deaths: 1078) Energy: 20.1
+[2026-04-06 00:48:50] Checkpoint saved: checkpoint_000100.npz
+[2026-04-06 00:48:50] Simulation completed successfully in 15.5 seconds
+[2026-04-06 00:48:50] Average: 6.5 cycles/second
+[2026-04-06 01:00:36] Initialized with pattern: random
+[2026-04-06 01:00:36] Grid size: (256, 256)
+[2026-04-06 01:00:36] Parameters: F=0.0367, k=0.0649, Du=0.16, Dv=0.08
+[2026-04-06 01:00:36] Agent system enabled: spawned 50 agents (max: 1000)
+[2026-04-06 01:00:36] Starting simulation for 100 cycles
+[2026-04-06 01:01:04] Cycle 100/100 | V: [0.000, 0.479] mean=0.020 | Mass error: 0.112294 | 3.5 cycles/sec | Agents: 996 (births: 1648, deaths: 612) Energy: 25.3
+[2026-04-06 01:01:05] Checkpoint saved: checkpoint_000100.npz
+[2026-04-06 01:01:05] Simulation completed successfully in 28.5 seconds
+[2026-04-06 01:01:05] Average: 3.5 cycles/second
+[2026-04-06 01:03:50] Initialized with pattern: random
+[2026-04-06 01:03:50] Grid size: (256, 256)
+[2026-04-06 01:03:50] Parameters: F=0.0367, k=0.0649, Du=0.16, Dv=0.08
+[2026-04-06 01:03:50] Agent system enabled: spawned 50 agents (max: 1000)
+[2026-04-06 01:03:50] Starting simulation for 100 cycles
+[2026-04-06 01:04:19] Cycle 100/100 | V: [0.000, 0.443] mean=0.021 | Mass error: 0.114538 | 3.5 cycles/sec | Agents: 996 (births: 1573, deaths: 482) Energy: 23.4
+[2026-04-06 01:04:19] Checkpoint saved: checkpoint_000100.npz
+[2026-04-06 01:04:19] Simulation completed successfully in 28.9 seconds
+[2026-04-06 01:04:19] Average: 3.5 cycles/second
