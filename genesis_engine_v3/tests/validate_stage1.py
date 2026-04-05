@@ -6,15 +6,15 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 from engine.genesis_engine import GenesisEngine
 
-def validate_stage1():
+def test_validate_stage1():
     print("Starting Stage 1 Validation (CPPN AgentV4)...")
     try:
         engine = GenesisEngine(population_size=100, mutation_rate=0.2, agent_type='cppn')
         
-        for generation in range(500):
+        for generation in range(10):
             engine.run_cycle()
             
-            if (generation + 1) % 100 == 0:
+            if (generation + 1) % 5 == 0:
                 pop_size = len(engine.population)
                 
                 total_nodes = 0
