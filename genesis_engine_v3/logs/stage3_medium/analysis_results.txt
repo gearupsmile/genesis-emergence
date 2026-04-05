@@ -1,0 +1,7 @@
+--- Terminal T-Tests (Final Iteration) ---
+EPC             | Real Mean:   1.0000 | Sham Mean:   1.0000 | p-value: nan 
+LZ              | Real Mean:   0.0350 | Sham Mean:   0.0212 | p-value: 0.3690 
+AvgNodes        | Real Mean:  29.2575 | Sham Mean:  30.2500 | p-value: 0.4570 
+AvgConns        | Real Mean:  49.0453 | Sham Mean:  49.7656 | p-value: 0.3754 
+NumSpecies      | Real Mean:   1.0000 | Sham Mean:   1.0000 | p-value: nan 
+S_mean          | Real Mean:   0.0225 | Sham Mean:   0.0000 | p-value: 0.2121 
