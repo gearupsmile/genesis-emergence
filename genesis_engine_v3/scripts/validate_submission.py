@@ -1,6 +1,6 @@
 """
 Submission Validator
-Checks artifacts against GECCO requirements.
+Checks artifacts against conference requirements.
 """
 
 import os

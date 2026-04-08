@@ -254,7 +254,7 @@ python tests/run_verification_suite.py
 
 * Evolvable genome alphabets
 * Adaptive constraint structures
-* Coevolutionary and environmental dynamics (Currently in development: see `v5/`)
+* Coevolutionary and environmental dynamics
 
 Each targets a specific hypothesized cause of complexity plateaus.
 
