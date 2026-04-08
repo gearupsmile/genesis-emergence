@@ -1,55 +1,70 @@
-import os
 import sys
-import time
+import os
+import csv
+import numpy as np
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+# Ensure root directory is on the path so we can import from genesis_engine_v3 and v5
+root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+if root_dir not in sys.path:
+    sys.path.append(root_dir)
 
 from v5.src.coevolution import CoevolutionOrchestrator
-from v5.src.metrics import PATA_EC, ANNEX
+from v5.src.metrics import compute_pata_ec, ANNEX
 
-def run_experiment(generations=1000):
-    print(f"Starting Genesis V5 POET-style Co-evolution for {generations} generations...")
+def main(generations=10000, log_interval=500, num_envs=5, pop_size=100):
+    print(f"Starting V5 Coevolution: {num_envs} environments, {pop_size} agents per env.")
+    orchestrator = CoevolutionOrchestrator(num_envs=num_envs, pop_size_per_env=pop_size)
+    annex = ANNEX()
     
-    orchestrator = CoevolutionOrchestrator(num_environments=5, agents_per_env=20)
-    annex_tracker = ANNEX()
+    # Initialize ANNEX with start environments
+    for env in orchestrator.environments:
+        annex.record_environment(env, agents_solved=True)
     
-    os.makedirs(os.path.join(os.path.dirname(__file__), '../results'), exist_ok=True)
-    log_file = os.path.join(os.path.dirname(__file__), '../results/v5_log.csv')
+    os.makedirs('v5/results', exist_ok=True)
+    log_file = 'v5/results/v5_log.csv'
     
-    with open(log_file, 'w') as f:
-        f.write("Generation,AvgLZ,AvgNodes,AvgEdges,NumEnvs,PATA_EC,ANNEX\n")
-    
-    start_time = time.time()
-    
-    for gen in range(generations):
-        orchestrator.step(gen)
+    with open(log_file, 'w', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(['Generation', 'NumEnvs', 'ANNEX', 'AvgNodes', 'AvgEdges', 'AvgPATA_EC', 'AvgSecretion'])
         
-        if gen % 50 == 0:
+    for gen in range(1, generations + 1):
+        orchestrator.step()
+        
+        if gen % log_interval == 0 or gen == 1:
+            new_env = orchestrator.coevolve()
+            if new_env is not None:
+                annex.record_environment(new_env, agents_solved=True)
+                
+            # Collect metrics
+            nodes, edges, energies, secretions = [], [], [], []
+            pata_ecs = []
+            
+            # Extract all agents for PATA-EC global pool
             all_agents = []
             for pop in orchestrator.agent_populations.values():
                 all_agents.extend(pop)
                 
-            if all_agents:
-                avg_nodes = sum(len(a.genome.nodes) if hasattr(a, 'genome') and hasattr(a.genome, 'nodes') else 10 for a in all_agents) / len(all_agents)
-                avg_edges = sum(len(a.genome.connections) if hasattr(a, 'genome') and hasattr(a.genome, 'connections') else 10 for a in all_agents) / len(all_agents)
-            else:
-                avg_nodes, avg_edges = 0, 0
-            
             for env in orchestrator.environments:
-                annex_tracker.record_environment(env, agent_solved=True)
+                sub = orchestrator.substrates[env.id]
+                secretions.append(np.mean(sub.S))
                 
-            pata_ec_score = 0.0
-            if orchestrator.environments:
-                pata_ec_score = PATA_EC.compute_novelty(all_agents, orchestrator.environments[0])
+                # compute PATA_EC
+                pec = compute_pata_ec(all_agents, env, test_steps=10)
+                pata_ecs.append(pec)
                 
-            num_envs = len(orchestrator.environments)
+            for agent in all_agents:
+                nodes.append(len(agent.genome.nodes))
+                edges.append(len(agent.genome.connections))
+                    
+            print(f"Gen {gen:05d} | Envs: {len(orchestrator.environments)} | ANNEX: {annex.count} | PATA-EC: {np.mean(pata_ecs):.3f} | Nodes: {np.mean(nodes):.1f} | Edges: {np.mean(edges):.1f}")
             
-            print(f"Gen {gen}: Envs={num_envs}, Nodes={avg_nodes:.1f}, Edges={avg_edges:.1f}, PATA-EC={pata_ec_score:.1f}, ANNEX={annex_tracker.count}")
-            
-            with open(log_file, 'a') as f:
-                f.write(f"{gen},0.0,{avg_nodes:.2f},{avg_edges:.2f},{num_envs},{pata_ec_score:.2f},{annex_tracker.count}\n")
-                
-    print(f"Experiment completed in {time.time() - start_time:.2f} seconds.")
+            with open(log_file, 'a', newline='') as f:
+                writer = csv.writer(f)
+                writer.writerow([gen, len(orchestrator.environments), annex.count, 
+                                 np.mean(nodes), np.mean(edges), np.mean(pata_ecs), np.mean(secretions)])
+                                 
+    print("Run completed successfully!")
 
 if __name__ == "__main__":
-    run_experiment(10000)
+    # Settings as requested: 20 env defaults vs 5 dev. Defaulting to 5 for development safety.
+    main(generations=10000, log_interval=500, num_envs=5, pop_size=100)

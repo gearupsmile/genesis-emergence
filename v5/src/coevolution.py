@@ -1,135 +1,207 @@
+import uuid
 import random
 import numpy as np
 
-# Dynamically importing V4 equivalents from V3 shared engine space
-import sys
-import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+from genesis_engine_v3.engine.cppn_genome import CPPNGenome
 from genesis_engine_v3.engine.structurally_evolvable_agent import AgentV4
+from .cppn_environment import CPPNEnvironment, V5Substrate
 
 class EnvironmentGenome:
-    def __init__(self, params=None):
-        self.params = params or {
-            'diffusion_rate': random.uniform(0.01, 0.5),
-            'secretion_decay': random.uniform(0.01, 0.2),
-            'energy_injection': random.uniform(5.0, 50.0),
-            'obstacle_density': random.uniform(0.0, 0.3)
-        }
-        self.fitness = 0.0
+    def __init__(self, cppn_genome=None):
+        self.id = str(uuid.uuid4())
+        if cppn_genome is None:
+            self.cppn_genome = CPPNGenome()
+            self.cppn_genome.add_input_node('x')
+            self.cppn_genome.add_input_node('y')
+            self.cppn_genome.add_output_node('f', activation='sigmoid')
+            self.cppn_genome.add_output_node('k', activation='sigmoid')
+            self.cppn_genome.add_output_node('diff_U', activation='sigmoid')
+            self.cppn_genome.add_output_node('diff_V', activation='sigmoid')
+            # Starter connections
+            self.cppn_genome.add_connection(0, 2, random.uniform(-1, 1))
+            self.cppn_genome.add_connection(1, 3, random.uniform(-1, 1))
+        else:
+            self.cppn_genome = cppn_genome
+            
         self.age = 0
-        self.id = id(self)
+        self.fitness = 0.0
 
     def mutate(self):
-        new_params = self.params.copy()
-        key = random.choice(list(new_params.keys()))
-        new_params[key] *= random.uniform(0.8, 1.2)
-        return EnvironmentGenome(new_params)
-
+        self.cppn_genome.mutate()
+        
     def crossover(self, other):
-        new_params = {}
-        for k in self.params:
-            new_params[k] = self.params[k] if random.random() < 0.5 else other.params[k]
-        return EnvironmentGenome(new_params)
-
+        # Simplify crossover for CPPN; we'll rely on mutation primarily
+        pass
+        
     def copy(self):
-        return EnvironmentGenome(self.params.copy())
+        env = EnvironmentGenome(self.cppn_genome.copy())
+        env.age = self.age
+        env.fitness = self.fitness
+        return env
+        
+    def build_substrate(self, width=50, height=50):
+        gen = CPPNEnvironment(self.cppn_genome, width, height)
+        # mapped to typical Gray-Scott parameters
+        f_map = gen.generate_property_map('f', 0.01, 0.1)
+        k_map = gen.generate_property_map('k', 0.04, 0.07)
+        u_map = gen.generate_property_map('diff_U', 0.8, 1.0)
+        v_map = gen.generate_property_map('diff_V', 0.4, 0.6)
+        
+        return V5Substrate(width, height, f_map, k_map, u_map, v_map)
+
 
 class POETMinimalCriteria:
     @staticmethod
-    def is_viable(env_genome, agent_population, num_test_agents=20, test_steps=100):
+    def is_viable(env_genome, agent_population, width=50, height=50, num_test_agents=20, test_steps=100):
         if not agent_population:
-            return True
+            return False
+            
+        substrate = env_genome.build_substrate(width, height)
         test_agents = random.sample(agent_population, min(len(agent_population), num_test_agents))
-        performances = []
-        for agent in test_agents:
-            # Simulate a brief interaction in this environment for speed
-            base_perf = (env_genome.params['energy_injection'] * 0.1) - (env_genome.params['obstacle_density'] * 5)
-            # Use connection size via genome length or mock
-            connections_len = len(agent.genome.connections) if hasattr(agent, 'genome') and hasattr(agent.genome, 'connections') else 10
-            perf = base_perf + (connections_len * 0.01) + random.uniform(-1, 1)
-            performances.append(perf)
         
-        var = np.var(performances)
-        mean = np.mean(performances)
-        # Goldilocks zone: not too hard, not too easy
-        return mean > -5.0 and var > 0.1
+        # Deep copy agents to test
+        clones = []
+        for a in test_agents:
+            clone = AgentV4(a.x, a.y, a.genome.copy())
+            clone.energy = 1.0
+            clones.append(clone)
+            
+        # Simulate briefly
+        for _ in range(test_steps):
+            substrate.step()
+            for agent in clones:
+                agent.step(substrate)
+                
+        energies = [a.energy for a in clones]
+        mean_e = np.mean(energies)
+        var_e = np.var(energies)
+        
+        # Minimal Criteria: the environment must not be overly lethal nor trivial
+        if mean_e < -test_steps * 0.05:  # Nearly dead
+            return False
+        if var_e < 0.001:  # Completely homogenous, no challenge
+            return False
+            
+        return True
+
 
 class GoalSwitching:
     @staticmethod
-    def should_transfer(agent, source_env, target_env, threshold=1.3):
-        connections_len = len(agent.genome.connections) if hasattr(agent, 'genome') and hasattr(agent.genome, 'connections') else 10
-        source_perf = (source_env.params['energy_injection'] * 0.1) + (connections_len * 0.01)
-        target_perf = (target_env.params['energy_injection'] * 0.1) + (connections_len * 0.01)
-        return target_perf > (source_perf * threshold)
+    def should_transfer(agent, source_substrate, target_substrate, test_steps=10):
+        """
+        Evaluate if agent transfers to new target.
+        Short test steps for performance.
+        """
+        clone_s = AgentV4(agent.x, agent.y, agent.genome.copy())
+        clone_s.energy = 1.0
+        
+        clone_t = AgentV4(agent.x, agent.y, agent.genome.copy())
+        clone_t.energy = 1.0
+        
+        for _ in range(test_steps):
+            clone_s.step(source_substrate)
+            clone_t.step(target_substrate)
+            
+        # Transfer if standard absolute performance is better in target
+        # Energy correlates with successful navigation / secretion loops
+        return clone_t.energy > (clone_s.energy + 0.05)
 
-    @staticmethod
-    def transfer(agent, target_env, agent_populations):
-        agent_populations[target_env.id].append(AgentV4(agent.x, agent.y, genome=agent.genome.copy() if getattr(agent, 'genome', None) else None, lineage_id=getattr(agent, 'lineage_id', None)))
 
 class CoevolutionOrchestrator:
-    def __init__(self, num_environments=5, agents_per_env=20):
-        self.environments = [EnvironmentGenome() for _ in range(num_environments)]
+    def __init__(self, num_envs=5, pop_size_per_env=20):
+        self.num_envs = num_envs
+        self.pop_size_per_env = pop_size_per_env
+        self.environments = []
+        self.substrates = {}
         self.agent_populations = {}
-        for env in self.environments:
-            self.agent_populations[env.id] = [AgentV4(x=0, y=0) for _ in range(agents_per_env)]
-        self.max_envs = num_environments
+        
+        # Generate initial environments and populations
+        for _ in range(num_envs):
+            env = EnvironmentGenome()
+            self.environments.append(env)
+            self.substrates[env.id] = env.build_substrate()
+            
+            pop = [AgentV4(random.randint(0, 49), random.randint(0, 49)) for _ in range(pop_size_per_env)]
+            self.agent_populations[env.id] = pop
 
-    def step(self, generation):
-        # 1. Evolve agents
+    def step(self):
+        """Advance simulation by 1 generation for all environments."""
         for env in self.environments:
-            pop = self.agent_populations.get(env.id, [])
-            if not pop: continue
-            
-            for agent in pop:
-                # Morph agent slightly
-                if hasattr(agent, 'genome'):
-                    if random.random() < 0.05 and hasattr(agent.genome, 'add_node_mutation'):
-                        agent.genome.add_node_mutation()
-                    if random.random() < 0.1 and hasattr(agent.genome, 'add_connection_mutation'):
-                        agent.genome.add_connection_mutation()
-                
-                connections_len = len(agent.genome.connections) if hasattr(agent, 'genome') and hasattr(agent.genome, 'connections') else 10
-                agent.fitness = (env.params['energy_injection'] * 0.1) + connections_len
-            
-            # Simple reproduction (top 50% clone)
-            pop.sort(key=lambda a: getattr(a, 'fitness', 0), reverse=True)
-            survivors = pop[:max(1, len(pop)//2)]
-            new_pop = []
-            for a in survivors:
-                new_pop.append(a)
-                new_pop.append(AgentV4(a.x, a.y, genome=a.genome.copy() if getattr(a, 'genome', None) else None, lineage_id=getattr(a, 'lineage_id', None)))
-            self.agent_populations[env.id] = new_pop
+            sub = self.substrates[env.id]
+            pop = self.agent_populations[env.id]
             
             env.age += 1
-            env.fitness = np.mean([getattr(a, 'fitness', 0) for a in self.agent_populations[env.id]])
-
-        # 2. Co-evolutionary events
-        if generation > 0 and generation % 50 == 0:
-            self._mutate_environments()
-            self._goal_switching()
-
-    def _mutate_environments(self):
-        self.environments.sort(key=lambda e: e.fitness, reverse=True)
-        if len(self.environments) >= self.max_envs:
-            dropped = self.environments.pop()
-            if dropped.id in self.agent_populations:
-                del self.agent_populations[dropped.id]
+            
+            # Small simulation loop per generation (e.g., 5 physics steps)
+            for _ in range(5):
+                sub.step()
+                for agent in pop:
+                    agent.step(sub)
+                    
+            # Evaluate fitness and selection within this environment
+            pop.sort(key=lambda a: a.energy, reverse=True)
+            
+            # Record avg energy as env fitness
+            env.fitness = np.mean([a.energy for a in pop])
+            
+            survivors = pop[:len(pop)//2]
+            
+            for a in survivors:
+                a.energy = min(1.0, max(0.0, a.energy + 0.2))  # Base recovery
+                # Randomize positions slightly to avoid complete clustering
+                a.x = (a.x + random.choice([-1, 0, 1])) % sub.width
+                a.y = (a.y + random.choice([-1, 0, 1])) % sub.height
+                
+            new_pop = list(survivors)
+            while len(new_pop) < self.pop_size_per_env:
+                parent = random.choice(survivors)
+                new_pop.append(parent.reproduce(mutation_rate=0.15))
+                
+            self.agent_populations[env.id] = new_pop
+            
+    def coevolve(self):
+        """
+        Periodically handles environment replacement and agent transfers.
+        Should be called every N generations (e.g., 500)
+        """
+        # 1. Goal Switching / Transfer Agents
+        for src_env in self.environments:
+            for tgt_env in self.environments:
+                if src_env.id == tgt_env.id: continue
+                # Test top agent from src
+                src_pop = self.agent_populations[src_env.id]
+                best_agent = sorted(src_pop, key=lambda a: a.energy, reverse=True)[0]
+                
+                if GoalSwitching.should_transfer(best_agent, self.substrates[src_env.id], self.substrates[tgt_env.id]):
+                    # Transfer a copy
+                    self.agent_populations[tgt_env.id].append(AgentV4(best_agent.x, best_agent.y, best_agent.genome.copy()))
         
-        if not self.environments: return
-        top_env = self.environments[0]
-        new_env = top_env.mutate()
-        
-        if POETMinimalCriteria.is_viable(new_env, self.agent_populations.get(top_env.id, [])):
-            self.environments.append(new_env)
-            self.agent_populations[new_env.id] = [AgentV4(a.x, a.y, genome=a.genome.copy() if getattr(a, 'genome', None) else None, lineage_id=getattr(a, 'lineage_id', None)) for a in self.agent_populations.get(top_env.id, [])]
+        # Trim inflated populations
+        for env_id in self.agent_populations:
+            pop = self.agent_populations[env_id]
+            if len(pop) > self.pop_size_per_env:
+                pop.sort(key=lambda a: a.energy, reverse=True)
+                self.agent_populations[env_id] = pop[:self.pop_size_per_env]
 
-    def _goal_switching(self):
-        for source_env in self.environments:
-            pop = self.agent_populations.get(source_env.id, [])
-            if not pop: continue
-            best_agent = max(pop, key=lambda a: getattr(a, 'fitness', 0))
-            for target_env in self.environments:
-                if source_env.id != target_env.id:
-                    if GoalSwitching.should_transfer(best_agent, source_env, target_env):
-                        GoalSwitching.transfer(best_agent, target_env, self.agent_populations)
-                        break
+        # 2. Environment Mutation & Replacement
+        self.environments.sort(key=lambda e: e.fitness)
+        # Replace the worst environment if it's too stagnant
+        worst_env = self.environments[0]
+        best_env = self.environments[-1]
+        
+        # Create mutation of best
+        mutated_env = best_env.copy()
+        mutated_env.mutate()
+        
+        # Test Minimal Criteria
+        all_agents = []
+        for pop in self.agent_populations.values():
+            all_agents.extend(pop)
+            
+        if POETMinimalCriteria.is_viable(mutated_env, all_agents):
+            # Accept replacement
+            self.environments[0] = mutated_env
+            self.substrates[mutated_env.id] = mutated_env.build_substrate()
+            self.agent_populations[mutated_env.id] = self.agent_populations.pop(worst_env.id)
+            return mutated_env # Returns the new env if accepted
+        return None
