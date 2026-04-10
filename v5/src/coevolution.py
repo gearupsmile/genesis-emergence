@@ -87,7 +87,7 @@ class POETMinimalCriteria:
 
 class GoalSwitching:
     @staticmethod
-    def should_transfer(agent, source_substrate, target_substrate, test_steps=10):
+    def should_transfer(agent, source_substrate, target_substrate, test_steps=20):
         """
         Evaluate if agent transfers to new target.
         Short test steps for performance.
@@ -114,6 +114,8 @@ class CoevolutionOrchestrator:
         self.environments = []
         self.substrates = {}
         self.agent_populations = {}
+        self.total_transfers = 0
+        self.total_mutations = 0
         
         # Generate initial environments and populations
         for _ in range(num_envs):
@@ -132,11 +134,13 @@ class CoevolutionOrchestrator:
             
             env.age += 1
             
-            # Small simulation loop per generation (e.g., 5 physics steps)
-            for _ in range(5):
+            # Simulation loop per generation
+            for _ in range(20):
                 sub.step()
                 for agent in pop:
                     agent.step(sub)
+                    # Gain energy from the environment to create an evolutionary gradient!
+                    agent.energy += sub.V[int(agent.y), int(agent.x)] * 0.5
                     
             # Evaluate fitness and selection within this environment
             pop.sort(key=lambda a: a.energy, reverse=True)
@@ -155,7 +159,11 @@ class CoevolutionOrchestrator:
             new_pop = list(survivors)
             while len(new_pop) < self.pop_size_per_env:
                 parent = random.choice(survivors)
-                new_pop.append(parent.reproduce(mutation_rate=0.15))
+                child = parent.reproduce()
+                # Extra mutation pass to accelerate V5 structural growth
+                for _ in range(2):
+                    child.genome.mutate()
+                new_pop.append(child)
                 
             self.agent_populations[env.id] = new_pop
             
@@ -175,6 +183,7 @@ class CoevolutionOrchestrator:
                 if GoalSwitching.should_transfer(best_agent, self.substrates[src_env.id], self.substrates[tgt_env.id]):
                     # Transfer a copy
                     self.agent_populations[tgt_env.id].append(AgentV4(best_agent.x, best_agent.y, best_agent.genome.copy()))
+                    self.total_transfers += 1
         
         # Trim inflated populations
         for env_id in self.agent_populations:
@@ -203,5 +212,6 @@ class CoevolutionOrchestrator:
             self.environments[0] = mutated_env
             self.substrates[mutated_env.id] = mutated_env.build_substrate()
             self.agent_populations[mutated_env.id] = self.agent_populations.pop(worst_env.id)
+            self.total_mutations += 1
             return mutated_env # Returns the new env if accepted
         return None

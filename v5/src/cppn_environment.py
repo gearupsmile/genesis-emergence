@@ -69,11 +69,9 @@ class V5Substrate:
         self.diff_s = 0.1 # Constant for now, or can be a map
         self.decay_s = 0.01
 
-        # Add a little initial V to break symmetry
-        center_y, center_x = height//2, width//2
-        r = 5
-        self.V[center_y-r:center_y+r, center_x-r:center_x+r] = 0.3
-        self.U[center_y-r:center_y+r, center_x-r:center_x+r] = 0.7
+        # Seed random concentrations to give gradient across the map
+        self.V = np.random.uniform(0.0, 0.5, (height, width)).astype(np.float32)
+        self.U = np.random.uniform(0.5, 1.0, (height, width)).astype(np.float32)
 
     def step(self):
         """Update using 2D parameter arrays"""
