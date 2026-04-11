@@ -9,32 +9,10 @@ if root_dir not in sys.path:
     sys.path.append(root_dir)
 
 from v5.src.coevolution import CoevolutionOrchestrator
-from v5.src.metrics import ANNEX
+from v5.src.metrics import ANNEX, compute_lz_complexity_ratio
 
-def _lz76_complexity(s: str) -> int:
-    n = len(s)
-    if n == 0: return 0
-    i, k, l = 0, 1, 1
-    c, k_max = 1, 1
-    while True:
-        if i + k - 1 < n and l + k - 1 < n and s[i + k - 1] == s[l + k - 1]:
-            k += 1
-            if l + k > n:
-                c += 1
-                break
-        else:
-            if k > k_max: k_max = k
-            i += 1
-            if i == l:
-                c += 1
-                l += k_max
-                if l + 1 > n: break
-                i = 0
-                k = 1
-                k_max = 1
-            else:
-                k = 1
-    return c
+def _lz76_complexity(s: str) -> float:
+    return compute_lz_complexity_ratio(s)
 
 def get_agent_action_string(agent, substrate, steps=20):
     from genesis_engine_v3.engine.structurally_evolvable_agent import AgentV4

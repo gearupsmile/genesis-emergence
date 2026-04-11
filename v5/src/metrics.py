@@ -1,7 +1,22 @@
 import numpy as np
 import random
 import hashlib
+import zlib
 from genesis_engine_v3.engine.structurally_evolvable_agent import AgentV4
+
+def compute_lz_complexity_ratio(s: str) -> float:
+    """
+    Computes a simple LZ complexity approximation by treating it as a compression ratio.
+    Returns len(compressed) / len(original). Bounded by 1.0.
+    """
+    if not s: return 0.0
+    b_str = s.encode('utf-8')
+    orig_len = len(b_str)
+    if orig_len == 0: return 0.0
+    comp_len = len(zlib.compress(b_str))
+    ratio = comp_len / orig_len
+    return min(1.0, ratio)
+
 
 def compute_pata_ec(agent_population, test_env_genome, num_test_agents=20, test_steps=50):
     """

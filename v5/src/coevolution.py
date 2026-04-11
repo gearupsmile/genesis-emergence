@@ -160,8 +160,8 @@ class CoevolutionOrchestrator:
             while len(new_pop) < self.pop_size_per_env:
                 parent = random.choice(survivors)
                 child = parent.reproduce()
-                # Extra mutation pass to accelerate V5 structural growth
-                for _ in range(2):
+                # Hypermutation driven by co-evolutionary arms race (POET-specific pressure)
+                for _ in range(4):
                     child.genome.mutate()
                 new_pop.append(child)
                 
