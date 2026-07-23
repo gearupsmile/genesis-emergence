@@ -1,0 +1,12 @@
+flowchart TD
+    A[Agent Population] -->|Action & Secretion| B(Substrate Physics)
+    B -->|Viability Thresholds| C{Viability Selection}
+    C -->|Survival Corridor| D[Reproduction]
+    D -->|Mutation / Topology variation| A
+
+    subgraph Corridor["Objective-Free Dynamics"]
+        C
+    end
+    
+    classDef corr fill:#F9E79F,stroke:#F39C12,stroke-width:2px;
+    class Corridor corr;

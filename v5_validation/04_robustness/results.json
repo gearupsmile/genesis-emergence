@@ -1,0 +1,41 @@
+{
+    "fixed": {
+        "W:0.0_S:0.0": {
+            "mean": 99.0,
+            "std": 4.857983120596447
+        },
+        "W:0.1_S:0.05": {
+            "mean": 100.0,
+            "std": 0.0
+        },
+        "W:0.2_S:0.1": {
+            "mean": 100.0,
+            "std": 0.0
+        },
+        "W:0.3_S:0.1": {
+            "mean": 100.0,
+            "std": 0.0
+        }
+    },
+    "coevolved": {
+        "W:0.0_S:0.0": {
+            "mean": 100.0,
+            "std": 0.0
+        },
+        "W:0.1_S:0.05": {
+            "mean": 100.0,
+            "std": 0.0
+        },
+        "W:0.2_S:0.1": {
+            "mean": 100.0,
+            "std": 0.0
+        },
+        "W:0.3_S:0.1": {
+            "mean": 100.0,
+            "std": 0.0
+        }
+    },
+    "max_noise_t_stat": NaN,
+    "max_noise_p_value": NaN,
+    "conclusion": "No significant difference in robustness between the two groups under max noise."
+}

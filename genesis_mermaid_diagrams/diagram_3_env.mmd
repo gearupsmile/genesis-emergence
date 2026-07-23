@@ -1,0 +1,5 @@
+flowchart TD
+    Sec[Agent Secretion S] -->|3x3 Deposition| SField["S Field (decay γ_s=0.01)"]
+    CPPNMap["Environmental CPPN"] -->|Parameter Mapping| GS["Gray-Scott Substrate (F, k)"]
+    SField -.->|Feedback| CPPNMap
+    GS -->|Chemical Gradient V| Agent["Agent harvest"]

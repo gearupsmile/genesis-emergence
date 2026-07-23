@@ -1,0 +1,20 @@
+flowchart LR
+    subgraph Inputs ["Sensory Inputs"]
+        X[x, y]
+        Env[U, V, S Gradients]
+        E[Energy]
+    end
+    subgraph CPPN ["CPPN Controller"]
+        Nodes[Hidden Nodes]
+        Weights[Connection Weights]
+    end
+    subgraph Outputs ["Action Space"]
+        Move[Movement dx, dy]
+        Secrete[Secrete Substance S]
+    end
+    subgraph Limits ["Genetic Constraints"]
+        Dist["Speciation Distance:<br>δ = (1.0·E)/N + (1.0·D)/N + 0.4·W"]
+        Cost["Metabolic Cost:<br>Cost = 0.02 · G^1.8 <= 0.5"]
+    end
+    Inputs --> CPPN --> Outputs
+    CPPN -.-> Limits

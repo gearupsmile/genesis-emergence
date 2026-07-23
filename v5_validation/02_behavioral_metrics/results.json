@@ -1,0 +1,29 @@
+{
+    "dtw": {
+        "fixed_mean": 2607.1625123763965,
+        "fixed_std": 447.50433865582056,
+        "coevolved_mean": 2571.163612676079,
+        "coevolved_std": 555.9539395505464,
+        "mannwhitney_u": 5158.0,
+        "p_value": 0.7003603786903532,
+        "cliffs_delta": 0.0316
+    },
+    "action_entropy": {
+        "fixed_mean": 0.07252003953209143,
+        "fixed_std": 0.0901392381285316,
+        "coevolved_mean": 0.30054581162629274,
+        "coevolved_std": 0.3471268229286288,
+        "mannwhitney_u": 3534.0,
+        "p_value": 0.00016586690457149564,
+        "cliffs_delta": -0.2932
+    },
+    "energy_efficiency": {
+        "fixed_mean": 7.626718661785126,
+        "fixed_std": 6.155746431761457,
+        "coevolved_mean": 8.5933917593956,
+        "coevolved_std": 5.30483883984964,
+        "mannwhitney_u": 4435.0,
+        "p_value": 0.1671566631654502,
+        "cliffs_delta": -0.113
+    }
+}

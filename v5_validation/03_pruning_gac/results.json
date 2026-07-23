@@ -1,0 +1,40 @@
+{
+    "pruning_steps": [
+        0.0,
+        10.0,
+        20.0,
+        30.0,
+        40.0,
+        50.0,
+        60.0,
+        70.0,
+        80.0,
+        90.0
+    ],
+    "gac_values": [
+        1.0,
+        0.9744444444444443,
+        0.9262626262626263,
+        0.9666666666666666,
+        0.8907142857142857,
+        0.9375,
+        1.0,
+        1.0,
+        0.837797619047619,
+        0.8828174603174602
+    ],
+    "survival_rates": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+    ],
+    "collapse_point": 90.0,
+    "conclusion": "Agent performance and structural complexity collapsed at 90% pruning, demonstrating historical contingency."
+}

@@ -183,6 +183,11 @@ class StructurallyEvolvableAgent:
                 f"age={self.age}{species_str})")
 
 
+class DummyLinkage:
+    def get_num_groups(self): return 1
+    def create_offspring(self, mr): return self
+    def get_expressed_indices(self, *args, **kwargs): return []
+
 class AgentV4:
     """
     Track 4: CPPN-based agent.
@@ -235,11 +240,6 @@ class AgentV4:
         self.behavioral_traits = {}
         self._trait_summary = ""
         
-        class DummyLinkage:
-            def get_num_groups(self): return 1
-            def create_offspring(self, mr): return self
-            def get_expressed_indices(self, *args, **kwargs): return []
-            
         self.linkage_structure = DummyLinkage()
 
     def decide_action(self, U_field, V_field, S_field) -> str:

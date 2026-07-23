@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Genesis - Toroidal Gray-Scott Simulation</title>
+  <script src="https://cdn.jsdelivr.net/npm/ccapture.js@1.1.0/build/CCapture.all.min.js"></script>
+  <style>
+    :root {
+      --bg-color: #0b0f19;
+      --card-bg: #111827;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --primary: #0284c7;
+      --primary-hover: #0369a1;
+      --accent: #e11d48;
+      --accent-hover: #be123c;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: var(--card-bg);
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+      border: 1px solid #1f2937;
+      max-width: 540px;
+      width: 90%;
+    }
+    h2 {
+      margin-top: 0;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: var(--text-main);
+      margin-bottom: 12px;
+    }
+    canvas {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 8px;
+      background-color: #000;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+      image-rendering: pixelated;
+    }
+    .caption {
+      margin-top: 16px;
+      font-size: 14px;
+      line-height: 1.5;
+      text-align: center;
+      color: var(--text-muted);
+      max-width: 480px;
+    }
+    .controls {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+      width: 100%;
+    }
+    button {
+      flex: 1;
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-play {
+      background-color: var(--primary);
+      color: white;
+    }
+    .btn-play:hover {
+      background-color: var(--primary-hover);
+    }
+    .btn-record {
+      background-color: var(--accent);
+      color: white;
+    }
+    .btn-record:hover {
+      background-color: var(--accent-hover);
+    }
+    .btn-record:disabled {
+      background-color: #374151;
+      color: #9ca3af;
+      cursor: not-allowed;
+    }
+    .progress-bar {
+      margin-top: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fb7185;
+      display: none;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Genesis Substrate Simulator</h2>
+  <canvas id="simCanvas" width="512" height="512"></canvas>
+  <div class="caption">
+    Agents live in a chemical world. They move, secrete, and survive by managing energy. No one tells them what to do.
+  </div>
+  
+  <div class="controls">
+    <button class="btn-play" id="btnPlay">Pause</button>
+    <button class="btn-record" id="btnRecord">Record 10s video</button>
+  </div>
+  <div class="progress-bar" id="progressBar">Recording... 0%</div>
+</div>
+
+<script>
+  const canvas = document.getElementById('simCanvas');
+  const ctx = canvas.getContext('2d');
+  const btnPlay = document.getElementById('btnPlay');
+  const btnRecord = document.getElementById('btnRecord');
+  const progressBar = document.getElementById('progressBar');
+
+  // Simulation parameters
+  const GRID_SIZE = 128;
+  const Du = 0.16;
+  const Dv = 0.08;
+  const F = 0.035;
+  const K = 0.065;
+  const dt = 1.0;
+
+  // Initialize fields (double-buffered)
+  let u = new Float32Array(GRID_SIZE * GRID_SIZE);
+  let v = new Float32Array(GRID_SIZE * GRID_SIZE);
+  let nextU = new Float32Array(GRID_SIZE * GRID_SIZE);
+  let nextV = new Float32Array(GRID_SIZE * GRID_SIZE);
+  let s = new Float32Array(GRID_SIZE * GRID_SIZE);
+
+  // Set default values (U=1, V=0)
+  for (let i = 0; i < GRID_SIZE * GRID_SIZE; i++) {
+    u[i] = 1.0;
+    v[i] = 0.0;
+    s[i] = 0.0;
+  }
+
+  // Seed spots
+  for (let idx = 0; idx < 15; idx++) {
+    const rx = Math.floor(Math.random() * (GRID_SIZE - 20)) + 10;
+    const ry = Math.floor(Math.random() * (GRID_SIZE - 20)) + 10;
+    for (let dy = -3; dy <= 3; dy++) {
+      for (let dx = -3; dx <= 3; dx++) {
+        const x = rx + dx;
+        const y = ry + dy;
+        const index = y * GRID_SIZE + x;
+        u[index] = 0.50;
+        v[index] = 0.25 + Math.random() * 0.1;
+      }
+    }
+  }
+
+  // Agents setup
+  const NUM_AGENTS = 10;
+  const agents = [];
+  for (let i = 0; i < NUM_AGENTS; i++) {
+    agents.push({
+      x: Math.random() * GRID_SIZE,
+      y: Math.random() * GRID_SIZE,
+      vx: Math.random() * 2 - 1,
+      vy: Math.random() * 2 - 1,
+      color: i % 2 === 0 ? '#ffffff' : '#ffa07a'
+    });
+  }
+
+  // Simulation steps per frame
+  const STEPS_PER_FRAME = 8;
+  let isPaused = false;
+  let isRecording = false;
+  let recordedFrames = 0;
+  let capturer = null;
+
+  // Render buffer
+  const imgData = ctx.createImageData(GRID_SIZE, GRID_SIZE);
+
+  function simulate() {
+    for (let step = 0; step < STEPS_PER_FRAME; step++) {
+      // Gray-Scott solver step
+      for (let y = 0; y < GRID_SIZE; y++) {
+        const ym = (y - 1 + GRID_SIZE) % GRID_SIZE * GRID_SIZE;
+        const yc = y * GRID_SIZE;
+        const yp = (y + 1) % GRID_SIZE * GRID_SIZE;
+
+        for (let x = 0; x < GRID_SIZE; x++) {
+          const xm = (x - 1 + GRID_SIZE) % GRID_SIZE;
+          const xc = x;
+          const xp = (x + 1) % GRID_SIZE;
+
+          const idx = yc + xc;
+
+          // Laplace using toroidal boundaries
+          const lapU = u[ym + xc] + u[yp + xc] + u[yc + xm] + u[yc + xp] - 4 * u[idx];
+          const lapV = v[ym + xc] + v[yp + xc] + v[yc + xm] + v[yc + xp] - 4 * v[idx];
+
+          const uv2 = u[idx] * v[idx] * v[idx];
+          nextU[idx] = u[idx] + (Du * lapU - uv2 + F * (1.0 - u[idx])) * dt;
+          nextV[idx] = v[idx] + (Dv * lapV + uv2 - (F + K) * v[idx]) * dt;
+        }
+      }
+
+      // Swap buffers
+      const tempU = u; u = nextU; nextU = tempU;
+      const tempV = v; v = nextV; nextV = tempV;
+
+      // Update agents and secrete S
+      for (let i = 0; i < NUM_AGENTS; i++) {
+        const agent = agents[i];
+        
+        // Chemotaxis: query local gradient of V to navigate towards food
+        const ax = Math.floor(agent.x) % GRID_SIZE;
+        const ay = Math.floor(agent.y) % GRID_SIZE;
+        
+        // Query neighbors
+        const xm = (ax - 1 + GRID_SIZE) % GRID_SIZE;
+        const xp = (ax + 1) % GRID_SIZE;
+        const ym = (ay - 1 + GRID_SIZE) % GRID_SIZE;
+        const yp = (ay + 1) % GRID_SIZE;
+
+        const vLeft = v[ay * GRID_SIZE + xm];
+        const vRight = v[ay * GRID_SIZE + xp];
+        const vUp = v[ym * GRID_SIZE + ax];
+        const vDown = v[yp * GRID_SIZE + ax];
+
+        // Gradient vector
+        const gradX = vRight - vLeft;
+        const gradY = vDown - vUp;
+
+        // Apply chemotaxis force + small noise
+        agent.vx += gradX * 0.4 + (Math.random() * 0.4 - 0.2);
+        agent.vy += gradY * 0.4 + (Math.random() * 0.4 - 0.2);
+
+        // Limit speed
+        const speed = Math.sqrt(agent.vx * agent.vx + agent.vy * agent.vy);
+        if (speed > 1.2) {
+          agent.vx = (agent.vx / speed) * 1.2;
+          agent.vy = (agent.vy / speed) * 1.2;
+        }
+
+        // Move agent (toroidal)
+        agent.x = (agent.x + agent.vx + GRID_SIZE) % GRID_SIZE;
+        agent.y = (agent.y + agent.vy + GRID_SIZE) % GRID_SIZE;
+
+        // Secrete S trace
+        const sx = Math.floor(agent.x) % GRID_SIZE;
+        const sy = Math.floor(agent.y) % GRID_SIZE;
+        s[sy * GRID_SIZE + sx] += 0.8;
+      }
+
+      // Decay S (half-life roughly 10x slower than agent motion)
+      for (let i = 0; i < GRID_SIZE * GRID_SIZE; i++) {
+        s[i] *= 0.992; // very slow decay
+      }
+    }
+  }
+
+  function draw() {
+    // Write substrate to ImageData
+    for (let i = 0; i < GRID_SIZE * GRID_SIZE; i++) {
+      const uVal = u[i];
+      const vVal = v[i];
+      const sVal = Math.min(s[i], 1.5);
+
+      // Color scheme: cool blue-teal for low V, amber-orange for high V, add purple-pink glow from S
+      const r = Math.floor((1 - vVal) * 12 + vVal * 245 + sVal * 160);
+      const g = Math.floor((1 - vVal) * 20 + vVal * 135 + sVal * 20);
+      const b = Math.floor((1 - vVal) * 40 + vVal * 25 + sVal * 180);
+
+      const pixelIdx = i * 4;
+      imgData.data[pixelIdx] = Math.min(r, 255);
+      imgData.data[pixelIdx + 1] = Math.min(g, 255);
+      imgData.data[pixelIdx + 2] = Math.min(b, 255);
+      imgData.data[pixelIdx + 3] = 255; // opaque
+    }
+
+    // Render substrate upscaled using drawImage to make it organic and soft
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = GRID_SIZE;
+    tempCanvas.height = GRID_SIZE;
+    const tempCtx = tempCanvas.getContext('2d');
+    tempCtx.putImageData(imgData, 0, 0);
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Draw substrate
+    ctx.imageSmoothingEnabled = true;
+    ctx.drawImage(tempCanvas, 0, 0, canvas.width, canvas.height);
+
+    // Draw sharp agents on top
+    for (let i = 0; i < NUM_AGENTS; i++) {
+      const agent = agents[i];
+      const cx = (agent.x / GRID_SIZE) * canvas.width;
+      const cy = (agent.y / GRID_SIZE) * canvas.height;
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, 3.5, 0, 2 * Math.PI);
+      ctx.fillStyle = agent.color;
+      ctx.shadowColor = agent.color;
+      ctx.shadowBlur = 4;
+      ctx.fill();
+    }
+    ctx.shadowBlur = 0; // reset
+  }
+
+  function update() {
+    if (!isPaused) {
+      simulate();
+    }
+    draw();
+
+    if (isRecording) {
+      capturer.capture(canvas);
+      recordedFrames++;
+      progressBar.innerText = `Recording... ${Math.round(recordedFrames / 300 * 100)}%`;
+      if (recordedFrames >= 300) {
+        isRecording = false;
+        capturer.stop();
+        capturer.save();
+        progressBar.style.display = 'none';
+        btnRecord.disabled = false;
+        btnRecord.innerText = "Record 10s video";
+      }
+    }
+
+    requestAnimationFrame(update);
+  }
+
+  // Control handlers
+  btnPlay.addEventListener('click', () => {
+    isPaused = !isPaused;
+    btnPlay.innerText = isPaused ? "Play" : "Pause";
+  });
+
+  btnRecord.addEventListener('click', () => {
+    if (typeof CCapture === 'undefined') {
+      alert("CCapture.js failed to load. Please check your internet connection.");
+      return;
+    }
+    btnRecord.disabled = true;
+    btnRecord.innerText = "Recording...";
+    progressBar.style.display = 'block';
+    progressBar.innerText = "Recording... 0%";
+    recordedFrames = 0;
+    
+    capturer = new CCapture({
+      format: 'webm',
+      framerate: 30,
+      name: 'genesis-world'
+    });
+    
+    isRecording = true;
+    capturer.start();
+  });
+
+  // Start loop
+  requestAnimationFrame(update);
+</script>
+
+</body>
+</html>

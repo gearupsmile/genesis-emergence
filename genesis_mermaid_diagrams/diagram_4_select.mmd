@@ -1,0 +1,8 @@
+flowchart TD
+    Agent[Agent] --> Gate{Gatekeeper:<br>Cost > 0.5?}
+    Gate -->|Yes| Cull([Culling])
+    Gate -->|No| Pareto{Pareto selection:<br>Efficiency axes}
+    Pareto -->|Non-dominated| AIS{AIS Relevance Checks}
+    AIS -->|Relevance < 0.1| Cull
+    AIS -->|Survive| Rep[Reproduction]
+    Rep --> Archive[AIS Archive<br>Genome + Snapshot]

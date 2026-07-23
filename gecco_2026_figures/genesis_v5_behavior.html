@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Genesis V4/V5 - CPPN Genome Behavior</title>
+  <script src="https://cdn.jsdelivr.net/npm/ccapture.js@1.1.0/build/CCapture.all.min.js"></script>
+  <style>
+    :root {
+      --bg-color: #0b0f19;
+      --card-bg: #111827;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --primary: #0284c7;
+      --primary-hover: #0369a1;
+      --accent: #e11d48;
+      --accent-hover: #be123c;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: var(--card-bg);
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+      border: 1px solid #1f2937;
+      width: 340px;
+    }
+    canvas {
+      border-radius: 8px;
+      background-color: #05070f;
+      border: 1px solid #1f2937;
+    }
+    .controls {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+      width: 100%;
+    }
+    button {
+      flex: 1;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-play {
+      background-color: var(--primary);
+      color: white;
+    }
+    .btn-play:hover {
+      background-color: var(--primary-hover);
+    }
+    .btn-record {
+      background-color: var(--accent);
+      color: white;
+    }
+    .btn-record:hover {
+      background-color: var(--accent-hover);
+    }
+    .btn-record:disabled {
+      background-color: #374151;
+      color: #9ca3af;
+      cursor: not-allowed;
+    }
+    .progress-bar {
+      margin-top: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fb7185;
+      display: none;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Single canvas containing V5 simulation, top/bottom text, and rising EPC graph -->
+  <canvas id="simCanvas" width="300" height="420"></canvas>
+  
+  <div class="controls">
+    <button class="btn-play" id="btnPlay">Pause</button>
+    <button class="btn-record" id="btnRecord">Record 10s video</button>
+  </div>
+  <div class="progress-bar" id="progressBar">Recording... 0%</div>
+</div>
+
+<script>
+  const canvas = document.getElementById('simCanvas');
+  const ctx = canvas.getContext('2d');
+  const btnPlay = document.getElementById('btnPlay');
+  const btnRecord = document.getElementById('btnRecord');
+  const progressBar = document.getElementById('progressBar');
+
+  // Simulation boundary inside canvas coordinates (X:0-300, Y:30-330)
+  const SIM_W = 300;
+  const SIM_H = 300;
+  const SIM_Y_OFFSET = 30;
+
+  // Secretion grid size
+  const S_GRID = 75;
+  const s = new Float32Array(S_GRID * S_GRID);
+
+  // V5 Agents: CPPN genome complex behaviors
+  const NUM_AGENTS = 12;
+  const agents = [];
+  
+  // 4 distinct color families for lineage groups
+  const colors = ['#f43f5e', '#34d399', '#fb923c', '#eab308'];
+
+  for (let i = 0; i < NUM_AGENTS; i++) {
+    const baseX = Math.random() * SIM_W;
+    const baseY = Math.random() * SIM_H;
+    
+    // Assign 6 distinct behavioral trajectory types
+    const type = i % 6; 
+
+    agents.push({
+      x: baseX,
+      y: baseY,
+      baseX: baseX,
+      baseY: baseY,
+      type: type,
+      vx: Math.random() * 2 - 1,
+      vy: Math.random() * 2 - 1,
+      angle: Math.random() * Math.PI * 2,
+      color: colors[i % colors.length]
+    });
+  }
+
+  // Reproduction events tracker
+  const births = [];
+
+  let isPaused = false;
+  let isRecording = false;
+  let recordedFrames = 0;
+  let frameIndex = 0;
+  let capturer = null;
+
+  // EPC graph data (growing curve history)
+  const epcHistory = [];
+  const maxEpcPoints = 75;
+  for (let i = 0; i < maxEpcPoints; i++) {
+    const ratio = i / maxEpcPoints;
+    // Sigmoid/logistic curve representing structural growth
+    const val = 15.0 + 490.0 * Math.pow(ratio, 2.2) + Math.random() * 8.0;
+    epcHistory.push(val);
+  }
+
+  function simulate() {
+    frameIndex++;
+
+    // Update S grid decay (V5: slow decay -> persistent infrastructure)
+    for (let i = 0; i < S_GRID * S_GRID; i++) {
+      s[i] *= 0.985; // slow decay
+    }
+
+    // Move agents based on complex V5 trajectories
+    for (let i = 0; i < NUM_AGENTS; i++) {
+      const agent = agents[i];
+
+      if (agent.type === 0) {
+        // Spiral motion
+        agent.angle += 0.05;
+        const r = 35 + Math.sin(frameIndex * 0.015) * 15;
+        agent.x = (agent.baseX + Math.cos(agent.angle) * r + SIM_W) % SIM_W;
+        agent.y = (agent.baseY + Math.sin(agent.angle) * r + SIM_H) % SIM_H;
+      } else if (agent.type === 1) {
+        // Edge explorer / wall hugger
+        const speed = 1.5;
+        if (agent.x < 15 && agent.y > 15) agent.y -= speed;
+        else if (agent.y < 15 && agent.x < SIM_W - 15) agent.x += speed;
+        else if (agent.x >= SIM_W - 15 && agent.y < SIM_H - 15) agent.y += speed;
+        else agent.x -= speed;
+        
+        agent.x = (agent.x + SIM_W) % SIM_W;
+        agent.y = (agent.y + SIM_H) % SIM_H;
+      } else if (agent.type === 2) {
+        // Fast bouncing direct path
+        agent.x += agent.vx * 1.5;
+        agent.y += agent.vy * 1.5;
+        if (agent.x < 5 || agent.x > SIM_W - 5) agent.vx *= -1;
+        if (agent.y < 5 || agent.y > SIM_H - 5) agent.vy *= -1;
+        agent.x = Math.max(5, Math.min(SIM_W - 5, agent.x));
+        agent.y = Math.max(5, Math.min(SIM_H - 5, agent.y));
+      } else if (agent.type === 3) {
+        // Lissajous curve (figure-8)
+        agent.x = (agent.baseX + Math.sin(frameIndex * 0.03) * 60 + SIM_W) % SIM_W;
+        agent.y = (agent.baseY + Math.sin(frameIndex * 0.06) * 35 + SIM_H) % SIM_H;
+      } else if (agent.type === 4) {
+        // Drunken persistent random walk
+        agent.vx += (Math.random() * 0.4 - 0.2);
+        agent.vy += (Math.random() * 0.4 - 0.2);
+        const d = Math.sqrt(agent.vx*agent.vx + agent.vy*agent.vy);
+        if (d > 1.8) { agent.vx = (agent.vx/d)*1.8; agent.vy = (agent.vy/d)*1.8; }
+        agent.x = (agent.x + agent.vx + SIM_W) % SIM_W;
+        agent.y = (agent.y + agent.vy + SIM_H) % SIM_H;
+      } else {
+        // Orbital attractor
+        agent.angle -= 0.04;
+        agent.x = (agent.baseX + Math.cos(agent.angle) * 20 + Math.sin(frameIndex * 0.01) * 30 + SIM_W) % SIM_W;
+        agent.y = (agent.baseY + Math.sin(agent.angle) * 20 + SIM_H) % SIM_H;
+      }
+
+      // Add trace to S field
+      const sx = Math.floor((agent.x / SIM_W) * S_GRID) % S_GRID;
+      const sy = Math.floor((agent.y / SIM_H) * S_GRID) % S_GRID;
+      s[sy * S_GRID + sx] += 0.8;
+    }
+
+    // Occasional reproduction event
+    if (frameIndex % 80 === 0) {
+      const parent = agents[Math.floor(Math.random() * NUM_AGENTS)];
+      births.push({
+        x: (parent.x + (Math.random() * 16 - 8) + SIM_W) % SIM_W,
+        y: (parent.y + (Math.random() * 16 - 8) + SIM_H) % SIM_H,
+        life: 40,
+        color: parent.color
+      });
+    }
+
+    // Update births life
+    for (let i = births.length - 1; i >= 0; i--) {
+      births[i].life--;
+      if (births[i].life <= 0) {
+        births.splice(i, 1);
+      }
+    }
+  }
+
+  function draw() {
+    // Clear canvas
+    ctx.fillStyle = '#05070f';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // 1. Draw Top Label (Muted text)
+    ctx.font = 'bold 11px sans-serif';
+    ctx.fillStyle = '#4b5563';
+    ctx.textAlign = 'center';
+    ctx.fillText("V4/V5 — CPPN INDIRECT ENCODING", canvas.width / 2, 20);
+
+    // 2. Draw simulation background / S field glow (warmer amber/orange/red tones)
+    const simCtx = ctx;
+    const cellW = SIM_W / S_GRID;
+    const cellH = SIM_H / S_GRID;
+    for (let y = 0; y < S_GRID; y++) {
+      for (let x = 0; x < S_GRID; x++) {
+        const val = s[y * S_GRID + x];
+        if (val > 0.03) {
+          // Warm glowing amber/orange traces
+          simCtx.fillStyle = `rgba(249, 115, 22, ${Math.min(val * 0.16, 0.45)})`;
+          simCtx.fillRect(x * cellW, SIM_Y_OFFSET + y * cellH, cellW + 0.5, cellH + 0.5);
+        }
+      }
+    }
+
+    // Draw grid border
+    simCtx.strokeStyle = 'rgba(31, 41, 55, 0.6)';
+    simCtx.strokeRect(0, SIM_Y_OFFSET, SIM_W, SIM_H);
+
+    // Draw births (offspring) as expanding small circles
+    for (let i = 0; i < births.length; i++) {
+      const b = births[i];
+      simCtx.beginPath();
+      const radius = 1.5 + (40 - b.life) * 0.15;
+      simCtx.arc(b.x, SIM_Y_OFFSET + b.y, radius, 0, 2 * Math.PI);
+      simCtx.strokeStyle = b.color;
+      simCtx.lineWidth = 1.0;
+      simCtx.globalAlpha = b.life / 40;
+      simCtx.stroke();
+    }
+    simCtx.globalAlpha = 1.0; // reset
+
+    // Draw active agents
+    for (let i = 0; i < NUM_AGENTS; i++) {
+      const agent = agents[i];
+      simCtx.beginPath();
+      simCtx.arc(agent.x, SIM_Y_OFFSET + agent.y, 3.5, 0, 2 * Math.PI);
+      simCtx.fillStyle = agent.color;
+      simCtx.shadowColor = agent.color;
+      simCtx.shadowBlur = 4;
+      simCtx.fill();
+    }
+    simCtx.shadowBlur = 0; // reset
+
+    // 3. Draw EPC Graph (Y: 335 to 385)
+    const graphY = 335;
+    const graphH = 50;
+    
+    // Background and boundary
+    ctx.fillStyle = '#03050a';
+    ctx.fillRect(10, graphY, canvas.width - 20, graphH);
+    ctx.strokeStyle = '#111827';
+    ctx.strokeRect(10, graphY, canvas.width - 20, graphH);
+
+    // Live update line history
+    if (!isPaused) {
+      epcHistory.shift();
+      // Keep hovering at the grown high level (around 480-515)
+      epcHistory.push(502.0 + Math.random() * 8.0); 
+    }
+
+    // Draw flat graph line
+    ctx.beginPath();
+    ctx.strokeStyle = '#10b981'; // emerald green color
+    ctx.lineWidth = 1.8;
+    for (let i = 0; i < epcHistory.length; i++) {
+      const gx = 10 + (i / (epcHistory.length - 1)) * (canvas.width - 20);
+      // Map EPC values (0 - 550) to graph height
+      const ratio = epcHistory[i] / 550; 
+      const gy = (graphY + graphH) - ratio * graphH;
+      if (i === 0) ctx.moveTo(gx, gy);
+      else ctx.lineTo(gx, gy);
+    }
+    ctx.stroke();
+
+    // Label on graph
+    ctx.font = 'bold 9px sans-serif';
+    ctx.fillStyle = '#059669';
+    ctx.textAlign = 'left';
+    ctx.fillText("EPC — growing, open-ended", 15, graphY + 14);
+
+    // Value readout
+    ctx.textAlign = 'right';
+    ctx.fillText("Avg EPC: ~508", canvas.width - 15, graphY + 14);
+
+    // 4. Bottom Caption
+    ctx.font = 'bold 11px sans-serif';
+    ctx.fillStyle = '#9ca3af';
+    ctx.textAlign = 'center';
+    ctx.fillText("Neural nodes: ~12 → 520. Behaviour: 4× richer entropy.", canvas.width / 2, 408);
+  }
+
+  function update() {
+    if (!isPaused) {
+      simulate();
+    }
+    draw();
+
+    if (isRecording) {
+      capturer.capture(canvas);
+      recordedFrames++;
+      progressBar.innerText = `Recording... ${Math.round(recordedFrames / 300 * 100)}%`;
+      if (recordedFrames >= 300) {
+        isRecording = false;
+        capturer.stop();
+        capturer.save();
+        progressBar.style.display = 'none';
+        btnRecord.disabled = false;
+        btnRecord.innerText = "Record 10s video";
+      }
+    }
+
+    requestAnimationFrame(update);
+  }
+
+  // Play / Pause
+  btnPlay.addEventListener('click', () => {
+    isPaused = !isPaused;
+    btnPlay.innerText = isPaused ? "Play" : "Pause";
+  });
+
+  // Record handler
+  btnRecord.addEventListener('click', () => {
+    if (typeof CCapture === 'undefined') {
+      alert("CCapture.js failed to load. Please verify your connection.");
+      return;
+    }
+    btnRecord.disabled = true;
+    btnRecord.innerText = "Recording...";
+    progressBar.style.display = 'block';
+    progressBar.innerText = "Recording... 0%";
+    recordedFrames = 0;
+    
+    capturer = new CCapture({
+      format: 'webm',
+      framerate: 30,
+      name: 'genesis-v5'
+    });
+    
+    isRecording = true;
+    capturer.start();
+  });
+
+  // Start loop
+  requestAnimationFrame(update);
+</script>
+
+</body>
+</html>

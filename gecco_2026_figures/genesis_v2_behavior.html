@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Genesis V2 - Flat Genome Behavior</title>
+  <script src="https://cdn.jsdelivr.net/npm/ccapture.js@1.1.0/build/CCapture.all.min.js"></script>
+  <style>
+    :root {
+      --bg-color: #0b0f19;
+      --card-bg: #111827;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --primary: #0284c7;
+      --primary-hover: #0369a1;
+      --accent: #e11d48;
+      --accent-hover: #be123c;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: var(--card-bg);
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+      border: 1px solid #1f2937;
+      width: 340px;
+    }
+    canvas {
+      border-radius: 8px;
+      background-color: #05070f;
+      border: 1px solid #1f2937;
+    }
+    .controls {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+      width: 100%;
+    }
+    button {
+      flex: 1;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-play {
+      background-color: var(--primary);
+      color: white;
+    }
+    .btn-play:hover {
+      background-color: var(--primary-hover);
+    }
+    .btn-record {
+      background-color: var(--accent);
+      color: white;
+    }
+    .btn-record:hover {
+      background-color: var(--accent-hover);
+    }
+    .btn-record:disabled {
+      background-color: #374151;
+      color: #9ca3af;
+      cursor: not-allowed;
+    }
+    .progress-bar {
+      margin-top: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fb7185;
+      display: none;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- All drawings, including titles and graphs, occur on this single canvas -->
+  <canvas id="simCanvas" width="300" height="420"></canvas>
+  
+  <div class="controls">
+    <button class="btn-play" id="btnPlay">Pause</button>
+    <button class="btn-record" id="btnRecord">Record 10s video</button>
+  </div>
+  <div class="progress-bar" id="progressBar">Recording... 0%</div>
+</div>
+
+<script>
+  const canvas = document.getElementById('simCanvas');
+  const ctx = canvas.getContext('2d');
+  const btnPlay = document.getElementById('btnPlay');
+  const btnRecord = document.getElementById('btnRecord');
+  const progressBar = document.getElementById('progressBar');
+
+  // Simulation boundary inside canvas coordinates (X:0-300, Y:30-330)
+  const SIM_W = 300;
+  const SIM_H = 300;
+  const SIM_Y_OFFSET = 30;
+
+  // Secretion grid size
+  const S_GRID = 60;
+  const s = new Float32Array(S_GRID * S_GRID);
+
+  // V2 Agents: Flat genome simple behaviors
+  const NUM_AGENTS = 12;
+  const agents = [];
+  
+  for (let i = 0; i < NUM_AGENTS; i++) {
+    const baseX = Math.random() * SIM_W;
+    const baseY = Math.random() * SIM_H;
+    
+    // Assign 3 behavior clusters
+    let type = 0; // 0 = drift left, 1 = oscillate, 2 = stay still
+    if (i >= 4 && i < 8) type = 1;
+    else if (i >= 8) type = 2;
+
+    agents.push({
+      x: baseX,
+      y: baseY,
+      baseX: baseX,
+      baseY: baseY,
+      type: type,
+      color: '#38bdf8' // cool teal
+    });
+  }
+
+  let isPaused = false;
+  let isRecording = false;
+  let recordedFrames = 0;
+  let frameIndex = 0;
+  let capturer = null;
+
+  // EPC graph data
+  const epcHistory = [];
+  const maxEpcPoints = 75;
+  for (let i = 0; i < maxEpcPoints; i++) {
+    epcHistory.push(142.5 + Math.random() * 2.0); // flat plateau
+  }
+
+  function simulate() {
+    frameIndex++;
+
+    // Update S grid decay (V2: fast decay -> sparse/fading traces)
+    for (let i = 0; i < S_GRID * S_GRID; i++) {
+      s[i] *= 0.90; // fast decay
+    }
+
+    // Move agents based on simple repetitive V2 trajectories
+    for (let i = 0; i < NUM_AGENTS; i++) {
+      const agent = agents[i];
+
+      if (agent.type === 0) {
+        // Cluster 1: constant drift left
+        agent.x = (agent.x - 1.2 + SIM_W) % SIM_W;
+        agent.y = agent.baseY + Math.sin(frameIndex * 0.05) * 1.5; // very slight weave
+      } else if (agent.type === 1) {
+        // Cluster 2: oscillatory motion
+        agent.x = agent.baseX + Math.sin(frameIndex * 0.06) * 25;
+        agent.y = agent.baseY + Math.cos(frameIndex * 0.06) * 5;
+      } else {
+        // Cluster 3: vibrating, staying nearly still
+        agent.x = agent.baseX + Math.sin(frameIndex * 0.3) * 1.2;
+        agent.y = agent.baseY + Math.cos(frameIndex * 0.3) * 1.2;
+      }
+
+      // Add trace to S field
+      const sx = Math.floor((agent.x / SIM_W) * S_GRID) % S_GRID;
+      const sy = Math.floor((agent.y / SIM_H) * S_GRID) % S_GRID;
+      s[sy * S_GRID + sx] += 0.6;
+    }
+  }
+
+  function draw() {
+    // Clear canvas
+    ctx.fillStyle = '#05070f';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // 1. Draw Top Label (Muted text)
+    ctx.font = 'bold 11px sans-serif';
+    ctx.fillStyle = '#4b5563';
+    ctx.textAlign = 'center';
+    ctx.fillText("V2 — FLAT GENOME ENCODING", canvas.width / 2, 20);
+
+    // 2. Draw simulation background / S field glow
+    const simCtx = ctx;
+    
+    // Draw S field as faint glowing rectangles
+    const cellW = SIM_W / S_GRID;
+    const cellH = SIM_H / S_GRID;
+    for (let y = 0; y < S_GRID; y++) {
+      for (let x = 0; x < S_GRID; x++) {
+        const val = s[y * S_GRID + x];
+        if (val > 0.05) {
+          simCtx.fillStyle = `rgba(56, 189, 248, ${Math.min(val * 0.15, 0.4)})`;
+          simCtx.fillRect(x * cellW, SIM_Y_OFFSET + y * cellH, cellW + 0.5, cellH + 0.5);
+        }
+      }
+    }
+
+    // Draw grid border
+    simCtx.strokeStyle = 'rgba(31, 41, 55, 0.6)';
+    simCtx.strokeRect(0, SIM_Y_OFFSET, SIM_W, SIM_H);
+
+    // Draw agents
+    for (let i = 0; i < NUM_AGENTS; i++) {
+      const agent = agents[i];
+      simCtx.beginPath();
+      simCtx.arc(agent.x, SIM_Y_OFFSET + agent.y, 3, 0, 2 * Math.PI);
+      simCtx.fillStyle = agent.color;
+      simCtx.shadowColor = agent.color;
+      simCtx.shadowBlur = 3;
+      simCtx.fill();
+    }
+    simCtx.shadowBlur = 0; // reset
+
+    // 3. Draw EPC Graph (Y: 330 to 390)
+    const graphY = 335;
+    const graphH = 50;
+    
+    // Background and boundary
+    ctx.fillStyle = '#03050a';
+    ctx.fillRect(10, graphY, canvas.width - 20, graphH);
+    ctx.strokeStyle = '#111827';
+    ctx.strokeRect(10, graphY, canvas.width - 20, graphH);
+
+    // Live update line history
+    if (!isPaused) {
+      epcHistory.shift();
+      epcHistory.push(142.5 + Math.random() * 2.0); // flat graph
+    }
+
+    // Draw flat graph line
+    ctx.beginPath();
+    ctx.strokeStyle = '#f59e0b'; // amber color
+    ctx.lineWidth = 1.5;
+    for (let i = 0; i < epcHistory.length; i++) {
+      const gx = 10 + (i / (epcHistory.length - 1)) * (canvas.width - 20);
+      // Map EPC values (135 - 165) to graph height
+      const ratio = (epcHistory[i] - 130) / 40; 
+      const gy = (graphY + graphH) - ratio * graphH;
+      if (i === 0) ctx.moveTo(gx, gy);
+      else ctx.lineTo(gx, gy);
+    }
+    ctx.stroke();
+
+    // Label on graph
+    ctx.font = 'bold 9px sans-serif';
+    ctx.fillStyle = '#d97706';
+    ctx.textAlign = 'left';
+    ctx.fillText("EPC — plateaus, never grows", 15, graphY + 14);
+
+    // Value readout
+    ctx.textAlign = 'right';
+    ctx.fillText("Avg EPC: ~143", canvas.width - 15, graphY + 14);
+
+    // 4. Bottom Caption
+    ctx.font = 'bold 12px sans-serif';
+    ctx.fillStyle = '#9ca3af';
+    ctx.textAlign = 'center';
+    ctx.fillText("Evolution is active. Complexity is not growing.", canvas.width / 2, 408);
+  }
+
+  function update() {
+    if (!isPaused) {
+      simulate();
+    }
+    draw();
+
+    if (isRecording) {
+      capturer.capture(canvas);
+      recordedFrames++;
+      progressBar.innerText = `Recording... ${Math.round(recordedFrames / 300 * 100)}%`;
+      if (recordedFrames >= 300) {
+        isRecording = false;
+        capturer.stop();
+        capturer.save();
+        progressBar.style.display = 'none';
+        btnRecord.disabled = false;
+        btnRecord.innerText = "Record 10s video";
+      }
+    }
+
+    requestAnimationFrame(update);
+  }
+
+  // Play / Pause
+  btnPlay.addEventListener('click', () => {
+    isPaused = !isPaused;
+    btnPlay.innerText = isPaused ? "Play" : "Pause";
+  });
+
+  // Record handler
+  btnRecord.addEventListener('click', () => {
+    if (typeof CCapture === 'undefined') {
+      alert("CCapture.js failed to load. Please verify your connection.");
+      return;
+    }
+    btnRecord.disabled = true;
+    btnRecord.innerText = "Recording...";
+    progressBar.style.display = 'block';
+    progressBar.innerText = "Recording... 0%";
+    recordedFrames = 0;
+    
+    capturer = new CCapture({
+      format: 'webm',
+      framerate: 30,
+      name: 'genesis-v2'
+    });
+    
+    isRecording = true;
+    capturer.start();
+  });
+
+  // Start loop
+  requestAnimationFrame(update);
+</script>
+
+</body>
+</html>

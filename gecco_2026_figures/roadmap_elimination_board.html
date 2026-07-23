@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Genesis Roadmap - Detective Elimination Board</title>
+  <style>
+    :root {
+      --bg-color: transparent;
+      --card-bg: rgba(17, 24, 39, 0.85);
+      --card-border: rgba(55, 65, 81, 0.5);
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --v2-color: #f59e0b;
+      --v3-color: #ef4444;
+      --v5-color: #10b981;
+      --button-bg: #1f2937;
+      --button-hover: #374151;
+    }
+    body {
+      margin: 0;
+      padding: 24px;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 90vh;
+    }
+    .board-container {
+      width: 100%;
+      max-width: 1100px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      position: relative;
+    }
+    .board-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 12px;
+    }
+    .title-area h2 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+    }
+    .title-area p {
+      margin: 4px 0 0 0;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    .screenshot-toggle {
+      background-color: var(--button-bg);
+      color: var(--text-main);
+      border: 1px solid var(--card-border);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .screenshot-toggle:hover {
+      background-color: var(--button-hover);
+    }
+    
+    /* Grid layout for steps */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      transition: all 0.4s ease;
+      min-height: 380px;
+    }
+    
+    /* 3 Columns for screenshot mode, else single stack */
+    .steps-grid.show-all {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+    
+    .card {
+      background-color: var(--card-bg);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+    }
+    
+    .card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Pin style header */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 10px;
+      height: 10px;
+      background-color: #ef4444;
+      border-radius: 50%;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.5), inset -2px -2px 4px rgba(0,0,0,0.4);
+      display: none;
+    }
+    
+    /* Show pins in detective board screenshot mode */
+    .steps-grid.show-all .card::before {
+      display: block;
+    }
+    
+    .card-num {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+    }
+    
+    .card-name {
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0;
+    }
+    
+    .v2-title { color: var(--v2-color); }
+    .v3-title { color: var(--v3-color); }
+    .v5-title { color: var(--v5-color); }
+    
+    .question {
+      font-style: italic;
+      color: #93c5fd;
+      font-size: 14px;
+      line-height: 1.4;
+      background-color: rgba(30, 58, 138, 0.3);
+      padding: 10px 14px;
+      border-radius: 6px;
+      border-left: 3px solid #3b82f6;
+    }
+    
+    .finding {
+      font-size: 15px;
+      line-height: 1.5;
+      font-weight: 600;
+      color: #f3f4f6;
+    }
+    
+    .highlight {
+      font-weight: 700;
+    }
+    
+    /* Visual Cues - Inline SVG Sparklines */
+    .visual-cue {
+      margin-top: auto;
+      height: 65px;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.3);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+      transition: all 0.3s ease;
+    }
+    
+    .dots {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #374151;
+      transition: all 0.3s ease;
+    }
+    
+    .dot.active {
+      background-color: #f9fafb;
+      transform: scale(1.2);
+    }
+    
+    .btn-next {
+      background-color: #f9fafb;
+      color: #111827;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .btn-next:hover {
+      background-color: #e5e7eb;
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+<body>
+
+<div class="board-container">
+  <div class="board-header">
+    <div class="title-area">
+      <h2>Experimental Roadmap</h2>
+      <p id="boardSubtitle">Click through the steps of our three-experiment investigation</p>
+    </div>
+    <button class="screenshot-toggle" id="toggleMode">Static Slide Mode</button>
+  </div>
+  
+  <div class="steps-grid" id="stepsGrid">
+    <!-- Step 1: V2 -->
+    <div class="card" id="card1">
+      <div class="card-num">Step 1 — Experiment V2</div>
+      <h3 class="card-name v2-title">Complete Fitness Removal</h3>
+      <div class="question">
+        "Can constraint-driven selection sustain evolutionary activity without any fitness function?"
+      </div>
+      <div class="finding">
+        <span class="highlight" style="color: var(--v2-color);">Finding:</span> Yes — but it hits a hard ceiling. EPC plateaus at 140–155. Activity without open-endedness.
+      </div>
+      <div class="visual-cue">
+        <svg viewBox="0 0 200 60" width="100%" height="100%">
+          <!-- Ceiling line -->
+          <line x1="10" y1="20" x2="190" y2="20" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <text x="15" y="15" fill="#ef4444" font-size="8" font-family="sans-serif" font-weight="bold">CEILING</text>
+          <!-- Sparkline -->
+          <path d="M 10 50 C 40 45, 60 21, 90 20 L 190 20" fill="none" stroke="var(--v2-color)" stroke-width="2.5"/>
+          <!-- Data dots -->
+          <circle cx="90" cy="20" r="3" fill="var(--v2-color)"/>
+          <circle cx="190" cy="20" r="3" fill="var(--v2-color)"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Step 2: V3 -->
+    <div class="card" id="card2">
+      <div class="card-num">Step 2 — Experiment V3</div>
+      <h3 class="card-name v3-title">Sham-Controlled Secretion</h3>
+      <div class="question">
+        "Does letting agents write to their environment break the ceiling?"
+      </div>
+      <div class="finding">
+        <span class="highlight" style="color: var(--v3-color);">Finding:</span> No. 1,000,000 generations of secretion yields zero complexity growth. <span style="text-decoration: underline;">Real vs Sham identical (LZ76 = 0.068)</span>. Niche construction is causally insufficient without representation.
+      </div>
+      <div class="visual-cue">
+        <svg viewBox="0 0 200 60" width="100%" height="100%">
+          <!-- Ceiling line -->
+          <line x1="10" y1="20" x2="190" y2="20" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <!-- Flatline path -->
+          <path d="M 10 50 C 40 45, 60 21, 90 20 L 190 20" fill="none" stroke="var(--v2-color)" stroke-width="1.5" opacity="0.4"/>
+          <path d="M 10 50 C 40 48, 60 48, 90 48 L 190 48" fill="none" stroke="var(--v3-color)" stroke-width="2.5"/>
+          <!-- Red X mark -->
+          <line x1="100" y1="43" x2="110" y2="53" stroke="var(--v3-color)" stroke-width="3"/>
+          <line x1="110" y1="43" x2="100" y2="53" stroke="var(--v3-color)" stroke-width="3"/>
+          <text x="120" y="51" fill="var(--v3-color)" font-size="9" font-family="sans-serif" font-weight="bold">SHAM NULL ✗</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Step 3: V4/V5 -->
+    <div class="card" id="card3">
+      <div class="card-num">Step 3 — Experiments V4 &amp; V5</div>
+      <h3 class="card-name v5-title">CPPN Dev &amp; Speciation</h3>
+      <div class="question">
+        "What if we change the genome representation itself?"
+      </div>
+      <div class="finding">
+        <span class="highlight" style="color: var(--v5-color);">Finding:</span> Breakthrough. Neural nodes grow from 12 to 520. Co-evolution drives 4.2x more structural growth. Open-ended evolution unlocked.
+      </div>
+      <div class="visual-cue">
+        <svg viewBox="0 0 200 60" width="100%" height="100%">
+          <!-- Ceiling line -->
+          <line x1="10" y1="35" x2="190" y2="35" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <!-- Breakout path -->
+          <path d="M 10 50 C 40 45, 60 36, 90 35 C 110 35, 140 20, 180 5" fill="none" stroke="var(--v5-color)" stroke-width="2.5"/>
+          <!-- Up arrow symbol -->
+          <path d="M 175 5 L 180 5 L 180 10" fill="none" stroke="var(--v5-color)" stroke-width="2"/>
+          <circle cx="180" cy="5" r="2.5" fill="var(--v5-color)"/>
+          <text x="95" y="47" fill="var(--v5-color)" font-size="8" font-family="sans-serif" font-weight="bold">BREAKOUT</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-bar" id="navigationBar">
+    <div class="dots">
+      <div class="dot active" id="dot1"></div>
+      <div class="dot" id="dot2"></div>
+      <div class="dot" id="dot3"></div>
+    </div>
+    <button class="btn-next" id="btnNext">Next step</button>
+  </div>
+</div>
+
+<script>
+  const stepsGrid = document.getElementById('stepsGrid');
+  const card1 = document.getElementById('card1');
+  const card2 = document.getElementById('card2');
+  const card3 = document.getElementById('card3');
+  const dot1 = document.getElementById('dot1');
+  const dot2 = document.getElementById('dot2');
+  const dot3 = document.getElementById('dot3');
+  const btnNext = document.getElementById('btnNext');
+  const btnToggle = document.getElementById('toggleMode');
+  const navigationBar = document.getElementById('navigationBar');
+  const boardSubtitle = document.getElementById('boardSubtitle');
+
+  let currentStep = 1;
+  let isStaticMode = false;
+
+  function setStep(step) {
+    if (isStaticMode) return;
+    
+    currentStep = step;
+    
+    // Reset classes
+    card1.classList.remove('visible');
+    card2.classList.remove('visible');
+    card3.classList.remove('visible');
+    dot1.classList.remove('active');
+    dot2.classList.remove('active');
+    dot3.classList.remove('active');
+    
+    // Hide cards not in step
+    card1.style.display = 'none';
+    card2.style.display = 'none';
+    card3.style.display = 'none';
+
+    if (step === 1) {
+      card1.style.display = 'flex';
+      setTimeout(() => card1.classList.add('visible'), 50);
+      dot1.classList.add('active');
+      btnNext.innerText = "Next step";
+    } else if (step === 2) {
+      card2.style.display = 'flex';
+      setTimeout(() => card2.classList.add('visible'), 50);
+      dot2.classList.add('active');
+      btnNext.innerText = "Next step";
+    } else if (step === 3) {
+      card3.style.display = 'flex';
+      setTimeout(() => card3.classList.add('visible'), 50);
+      dot3.classList.add('active');
+      btnNext.innerText = "Show summary";
+    } else if (step === 4) {
+      // Show all 3 stacked vertically or formatted nicely
+      card1.style.display = 'flex';
+      card2.style.display = 'flex';
+      card3.style.display = 'flex';
+      
+      setTimeout(() => {
+        card1.classList.add('visible');
+        card2.classList.add('visible');
+        card3.classList.add('visible');
+      }, 50);
+      
+      btnNext.innerText = "Start over";
+    }
+  }
+
+  btnNext.addEventListener('click', () => {
+    if (currentStep < 4) {
+      setStep(currentStep + 1);
+    } else {
+      setStep(1);
+    }
+  });
+
+  // Toggle screenshot mode
+  btnToggle.addEventListener('click', () => {
+    isStaticMode = !isStaticMode;
+    if (isStaticMode) {
+      btnToggle.innerText = "Interactive Mode";
+      boardSubtitle.innerText = "Static roadmap layout — screenshot-friendly view";
+      
+      // Force grid to show all three side-by-side
+      stepsGrid.classList.add('show-all');
+      navigationBar.style.display = 'none';
+      
+      card1.style.display = 'flex';
+      card2.style.display = 'flex';
+      card3.style.display = 'flex';
+      
+      card1.classList.add('visible');
+      card2.classList.add('visible');
+      card3.classList.add('visible');
+    } else {
+      btnToggle.innerText = "Static Slide Mode";
+      boardSubtitle.innerText = "Click through the steps of our three-experiment investigation";
+      
+      stepsGrid.classList.remove('show-all');
+      navigationBar.style.display = 'flex';
+      
+      setStep(1);
+    }
+  });
+
+  // Init
+  setStep(1);
+</script>
+
+</body>
+</html>

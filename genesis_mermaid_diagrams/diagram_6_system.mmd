@@ -1,0 +1,15 @@
+flowchart TD
+    subgraph High ["Co-evolutionary Curriculum Layer"]
+        Orch[Orchastrator] <--> PATA[PATA-EC Filter]
+        Orch <--> Transfer[Goal-Switching Transfers]
+    end
+    subgraph Mid ["Core Simulation Layer"]
+        Agents[CPPN Agents] <--> Env[Gray-Scott + Secretion Substrate]
+    end
+    subgraph Low ["Selection & Regulation Layer"]
+        Gate[Gatekeeper] <--> Pareto[Pareto Relational Selection]
+        AIS[Artificial Immune System] <--> CARP[CARP Corridor Tuning]
+    end
+    High ====>|Active Substrates| Mid
+    Mid ====>|Energetics & Complexity| Low
+    Low ====>|Viability & Culling| Mid

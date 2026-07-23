@@ -67,56 +67,67 @@ class CPPNGenome:
         """
         inputs: dict mapping name -> float, or list of floats
         Returns outputs as dict (if input was dict) or list.
-        Uses recursive evaluation with memoization to ensure topological order.
+        Uses cached topological order and list indexing for maximum speed.
         """
-        memo = {}
-        evaluating = set()
-
-        if not hasattr(self, '_input_nodes'):
-            self._input_nodes = sorted([n for n in self.nodes.values() if n.type == 'input'], key=lambda n: n.id)
-            self._output_nodes = sorted([n for n in self.nodes.values() if n.type == 'output'], key=lambda n: n.id)
-            self._in_map = {}
+        if not hasattr(self, '_topo_order'):
+            # 1. build incoming connections map as list of tuples
+            in_map = {}
             for c in self.connections.values():
                 if c.enabled:
-                    if c.to_node not in self._in_map:
-                        self._in_map[c.to_node] = []
-                    self._in_map[c.to_node].append(c)
+                    in_map.setdefault(c.to_node, []).append((c.from_node, c.weight))
+            
+            # 2. find topological order using DFS
+            visited = {} # node_id -> state (0=unvisited, 1=visiting, 2=visited)
+            topo_order = []
+            
+            def dfs(node_id):
+                state = visited.get(node_id, 0)
+                if state == 1:
+                    return True # Cycle detected
+                if state == 2:
+                    return False
+                
+                visited[node_id] = 1
+                for from_node, _ in in_map.get(node_id, []):
+                    if dfs(from_node):
+                        return True
+                visited[node_id] = 2
+                topo_order.append(node_id)
+                return False
 
+            output_nodes = [n for n in self.nodes.values() if n.type == 'output']
+            for n in output_nodes:
+                dfs(n.id)
+                
+            self._topo_order = topo_order
+            self._output_nodes = sorted(output_nodes, key=lambda n: n.id)
+            self._input_nodes = sorted([n for n in self.nodes.values() if n.type == 'input'], key=lambda n: n.id)
+            self._in_map_tuples = in_map
+
+        # Evaluate using topological order and list-based values
+        values = [0.0] * self.next_node_id
         if isinstance(inputs, dict):
             for n in self._input_nodes:
-                memo[n.id] = inputs.get(n.name, 0.0)
+                values[n.id] = inputs.get(n.name, 0.0)
         else:
             for i, n in enumerate(self._input_nodes):
-                memo[n.id] = inputs[i] if i < len(inputs) else 0.0
+                if i < len(inputs):
+                    values[n.id] = inputs[i]
 
-        def get_value(n_id):
-            if n_id in memo:
-                return memo[n_id]
-            if n_id in evaluating:
-                # Cycle fallback - should not happen if connections are strictly acyclic
-                return 0.0
-
-            evaluating.add(n_id)
-            n = self.nodes[n_id]
-
-            if n.type == 'input':
-                val = 0.0
-            else:
-                incoming_conns = self._in_map.get(n_id, [])
-                sum_input = 0.0
-                for c in incoming_conns:
-                    sum_input += get_value(c.from_node) * c.weight
-                val = n.activate(sum_input)
-
-            evaluating.remove(n_id)
-            memo[n_id] = val
-            n.value = val
-            return val
+        for n_id in self._topo_order:
+            if self.nodes[n_id].type == 'input':
+                continue
+            
+            incoming = self._in_map_tuples.get(n_id, [])
+            sum_val = 0.0
+            for from_node, weight in incoming:
+                sum_val += values[from_node] * weight
+            values[n_id] = self.nodes[n_id].activate(sum_val)
 
         if isinstance(inputs, dict):
-            return {n.name: get_value(n.id) for n in self._output_nodes}
+            return {n.name: values[n.id] for n in self._output_nodes}
         else:
-            return [get_value(n.id) for n in self._output_nodes]
+            return [values[n.id] for n in self._output_nodes]
 
     def copy(self):
         new_genome = CPPNGenome()
@@ -146,6 +157,8 @@ class CPPNGenome:
         if hasattr(self, '_in_map'): delattr(self, '_in_map')
         if hasattr(self, '_input_nodes'): delattr(self, '_input_nodes')
         if hasattr(self, '_output_nodes'): delattr(self, '_output_nodes')
+        if hasattr(self, '_topo_order'): delattr(self, '_topo_order')
+
         
         if random.random() < 0.03:
             self.add_node_mutation()

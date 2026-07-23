@@ -1,0 +1,14 @@
+sequenceDiagram
+    CO->>Env: Mutate Environmental CPPN
+    CO->>Agents: Evaluate in new world (Transfer test)
+    alt Energy < -5.0 OR Var < 0.001
+        CO->>Env: Reject Substrate (Goldilocks Filter)
+    else Viable Substrate
+        CO->>Agents: Rank all agents (PATA-EC)
+        Note over CO: Compute Spearman Rank Correlation (r)
+        alt r > 0.9 (Redundant)
+            CO->>Env: Reject Substrate (Universally easier/harder)
+        else r <= 0.9 (Novel)
+            CO->>Env: Add Substrate to Niche Pool
+        end
+    end

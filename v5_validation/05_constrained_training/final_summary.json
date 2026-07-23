@@ -1,0 +1,7 @@
+{
+    "generations_run": 500,
+    "max_nodes_allowed": 52,
+    "max_nodes_reached": 40,
+    "environments_solved": 3,
+    "total_environments": 3
+}

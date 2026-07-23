@@ -1,0 +1,188 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="100%" height="100%">
+  <!-- Definitions for Markers and Styles -->
+  <defs>
+    <style>
+      .title { font-family: 'Inter', 'Segoe UI', Arial, sans-serif; font-size: 26px; font-weight: 800; fill: #1E293B; }
+      .subtitle { font-family: 'Inter', 'Segoe UI', Arial, sans-serif; font-size: 14px; font-style: italic; fill: #64748B; }
+      
+      /* Inner Loop styles (Teal/Blue) */
+      .inner-bg { fill: #ECFDF5; stroke: #059669; stroke-width: 2.5; stroke-dasharray: 4 4; }
+      .inner-node { fill: #E0F2FE; stroke: #0284C7; stroke-width: 2.5; rx: 8px; }
+      .inner-text-title { font-family: 'Inter', 'Segoe UI', Arial, sans-serif; font-size: 15px; font-weight: 700; fill: #0369A1; }
+      .inner-text-body { font-family: 'Inter', 'Segoe UI', Arial, sans-serif; font-size: 12px; fill: #0F172A; }
+      .inner-arrow { stroke: #0284C7; stroke-width: 3; fill: none; stroke-dasharray: none; }
+      .inner-loop-label { font-family: 'Inter', 'Segoe UI', Arial, sans-serif; font-size: 18px; font-weight: 800; fill: #047857; }
+
+      /* Outer Loop styles (Amber/Coral) */
+      .outer-bg { fill: #FFFBEB; stroke: #D97706; stroke-width: 2.5; stroke-dasharray: 6 6; }
+      .outer-node { fill: #FFEDD5; stroke: #EA580C; stroke-width: 2.5; rx: 8px; }
+      .outer-text-title { font-family: 'Inter', 'Segoe UI', Arial, sans-serif; font-size: 15px; font-weight: 700; fill: #C2410C; }
+      .outer-text-body { font-family: 'Inter', 'Segoe UI', Arial, sans-serif; font-size: 12px; fill: #0F172A; }
+      .outer-arrow { stroke: #EA580C; stroke-width: 3; fill: none; }
+      .outer-loop-label { font-family: 'Inter', 'Segoe UI', Arial, sans-serif; font-size: 18px; font-weight: 800; fill: #B45309; }
+
+      /* Feedback and constraint arrows */
+      .feedback-arrow { stroke: #8B5CF6; stroke-width: 3.5; stroke-dasharray: 4 3; fill: none; }
+      .feedback-label { font-family: 'Inter', 'Segoe UI', Arial, sans-serif; font-size: 13px; font-weight: 700; fill: #6D28D9; }
+      
+      .gatekeeper-node { fill: #FEE2E2; stroke: #DC2626; stroke-width: 3; rx: 8px; }
+      .gatekeeper-title { font-family: 'Inter', 'Segoe UI', Arial, sans-serif; font-size: 15px; font-weight: 700; fill: #991B1B; }
+      .gatekeeper-text { font-family: 'Inter', 'Segoe UI', Arial, sans-serif; font-size: 12px; fill: #0F172A; }
+      .death-arrow { stroke: #DC2626; stroke-width: 3; fill: none; }
+
+      /* Notes */
+      .note-box { fill: #F1F5F9; stroke: #CBD5E1; stroke-width: 1.5; rx: 6px; }
+      .note-text { font-family: 'Inter', 'Segoe UI', Arial, sans-serif; font-size: 13px; font-weight: 600; fill: #334155; }
+      .warning-text { font-family: 'Inter', 'Segoe UI', Arial, sans-serif; font-size: 14px; font-weight: 700; fill: #DC2626; }
+    </style>
+    
+    <!-- Arrowheads -->
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#0284C7" />
+    </marker>
+    <marker id="arrow-orange" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EA580C" />
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#DC2626" />
+    </marker>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="100%" height="100%" fill="#FFFFFF" />
+
+  <!-- Main Titles -->
+  <text x="50" y="60" class="title">Concentric Loop System Architecture</text>
+  <text x="50" y="85" class="subtitle">Inner loop runs per time-step. Outer loop regulates population between generations.</text>
+
+  <!-- LOOP REGIONS (Dashed boundary circles) -->
+  <!-- Outer Loop Boundary -->
+  <circle cx="600" cy="440" r="310" class="outer-bg" />
+  <text x="600" y="155" class="outer-loop-label" text-anchor="middle">Population regulators (Outer loop)</text>
+
+  <!-- Inner Loop Boundary -->
+  <circle cx="600" cy="440" r="190" class="inner-bg" />
+  <text x="600" y="275" class="inner-loop-label" text-anchor="middle">Agent loop (Inner loop)</text>
+
+  <!-- ==================== INNER LOOP (Time-Step) ==================== -->
+  
+  <!-- 1. Gray-Scott Substrate -->
+  <g transform="translate(500, 290)">
+    <rect x="0" y="0" width="200" height="70" class="inner-node" />
+    <text x="100" y="25" class="inner-text-title" text-anchor="middle">Substrate (U, V, S)</text>
+    <text x="100" y="45" class="inner-text-body" text-anchor="middle">Gray-Scott fields + secretion</text>
+    <text x="100" y="60" class="inner-text-body" text-anchor="middle">toroidal grid environment</text>
+  </g>
+
+  <!-- 2. Agent Senses -->
+  <g transform="translate(720, 405)">
+    <rect x="0" y="0" width="180" height="70" class="inner-node" />
+    <text x="90" y="25" class="inner-text-title" text-anchor="middle">Sensing</text>
+    <text x="90" y="45" class="inner-text-body" text-anchor="middle">Agent queries local</text>
+    <text x="90" y="60" class="inner-text-body" text-anchor="middle">3×3 neighbourhood</text>
+  </g>
+
+  <!-- 3. Agent Acts -->
+  <g transform="translate(510, 520)">
+    <rect x="0" y="0" width="180" height="70" class="inner-node" />
+    <text x="90" y="25" class="inner-text-title" text-anchor="middle">Action Selection</text>
+    <text x="90" y="45" class="inner-text-body" text-anchor="middle">Move / Secrete / Idle</text>
+    <text x="90" y="60" class="inner-text-body" text-anchor="middle">driven by internal network</text>
+  </g>
+
+  <!-- 4. Physics Gatekeeper -->
+  <g transform="translate(300, 405)">
+    <rect x="0" y="0" width="180" height="70" class="gatekeeper-node" />
+    <text x="90" y="25" class="gatekeeper-title" text-anchor="middle">Physics Gatekeeper</text>
+    <text x="90" y="45" class="gatekeeper-text" text-anchor="middle">Viability check: if E &lt;= 0</text>
+    <text x="90" y="60" class="gatekeeper-text" text-anchor="middle">agent is purged (binary)</text>
+  </g>
+
+  <!-- INNER LOOP ARROWS (Circular flow) -->
+  <!-- Substrate -> Sensing -->
+  <path d="M 680 360 C 740 370 760 380 770 405" class="inner-arrow" marker-end="url(#arrow-blue)" />
+  <!-- Sensing -> Actions -->
+  <path d="M 770 475 C 760 510 720 535 690 545" class="inner-arrow" marker-end="url(#arrow-blue)" />
+  <!-- Actions -> Gatekeeper -->
+  <path d="M 510 550 C 450 540 410 510 400 475" class="inner-arrow" marker-end="url(#arrow-blue)" />
+  <text x="445" y="535" class="inner-text-body" text-anchor="middle">Energy Cost</text>
+  
+  <!-- Gatekeeper -> Substrate -->
+  <path d="M 400 405 C 415 350 460 320 500 310" class="inner-arrow" marker-end="url(#arrow-blue)" />
+  <text x="445" y="340" class="inner-text-body" text-anchor="middle">Survival</text>
+
+  <!-- Explicit Feedback Loop: Action -> Substrate S Field -->
+  <path d="M 600 520 C 640 480 640 380 600 360" class="feedback-arrow" marker-end="url(#arrow-purple)" />
+  <text x="640" y="445" class="feedback-label" text-anchor="start">Secretion writes to S</text>
+
+  <!-- Purge/Death Arrow from Gatekeeper -->
+  <path d="M 300 440 L 210 440" class="death-arrow" marker-end="url(#arrow-red)" />
+  <text x="250" y="430" class="gatekeeper-title" text-anchor="middle">Death</text>
+
+  <!-- ==================== OUTER LOOP (Population Level) ==================== -->
+  
+  <!-- A. Reproduction -->
+  <g transform="translate(500, 95)">
+    <rect x="0" y="0" width="200" height="70" class="outer-node" />
+    <text x="100" y="25" class="outer-text-title" text-anchor="middle">Reproduction</text>
+    <text x="100" y="45" class="outer-text-body" text-anchor="middle">Create mutated offspring</text>
+    <text x="100" y="60" class="outer-text-body" text-anchor="middle">when energy &gt; threshold</text>
+  </g>
+
+  <!-- B. CARP -->
+  <g transform="translate(900, 405)">
+    <rect x="0" y="0" width="210" height="70" class="outer-node" />
+    <text x="105" y="25" class="outer-text-title" text-anchor="middle">CARP</text>
+    <text x="105" y="45" class="outer-text-body" text-anchor="middle">Monitors viability corridor</text>
+    <text x="105" y="60" class="outer-text-body" text-anchor="middle">Adjusts constraint intensity λ</text>
+  </g>
+
+  <!-- C. AIS -->
+  <g transform="translate(60, 405)">
+    <rect x="0" y="0" width="200" height="70" class="outer-node" />
+    <text x="100" y="25" class="outer-text-title" text-anchor="middle">AIS Regulator</text>
+    <text x="100" y="45" class="outer-text-body" text-anchor="middle">Novelty archive prunes</text>
+    <text x="100" y="60" class="outer-text-body" text-anchor="middle">dominant lineages</text>
+  </g>
+
+  <!-- OUTER LOOP ARROWS (Circular flow) -->
+  <!-- Reproduction -> CARP -->
+  <path d="M 700 130 C 850 150 960 250 990 405" class="outer-arrow" marker-end="url(#arrow-orange)" />
+  <!-- CARP -> AIS -->
+  <path d="M 990 475 C 960 630 830 730 600 740 C 370 730 240 630 210 475" class="outer-arrow" marker-end="url(#arrow-orange)" />
+  <text x="600" y="725" class="outer-text-body" text-anchor="middle">Lineage tracking &amp; archive update</text>
+
+  <!-- AIS -> Reproduction -->
+  <path d="M 210 405 C 240 250 350 150 500 130" class="outer-arrow" marker-end="url(#arrow-orange)" />
+
+  <!-- Regulation arrows from Outer Loop to Inner Loop -->
+  <!-- CARP adjusting substrate/constraint parameters -->
+  <path d="M 900 440 L 795 440" class="outer-arrow" stroke-dasharray="4 3" marker-end="url(#arrow-orange)" />
+  <text x="850" y="430" class="outer-text-body" text-anchor="middle">λ intensity</text>
+
+  <!-- AIS lineage pruning at Gatekeeper -->
+  <path d="M 260 440 L 285 440" class="outer-arrow" stroke-dasharray="4 3" marker-end="url(#arrow-orange)" />
+  <text x="272" y="430" class="outer-text-body" text-anchor="middle">Pruning</text>
+
+  <!-- ==================== WARNINGS & FOOTER NOTES ==================== -->
+  
+  <!-- Note Box: No fitness signal -->
+  <g transform="translate(730, 610)">
+    <rect x="0" y="0" width="350" height="70" class="note-box" />
+    <text x="20" y="30" class="warning-text">No fitness signal enters here</text>
+    <text x="20" y="50" class="note-text">CARP &amp; AIS only act at population level.</text>
+  </g>
+
+  <!-- Note Box: Binary gatekeeper -->
+  <g transform="translate(100, 610)">
+    <rect x="0" y="0" width="350" height="70" class="note-box" />
+    <text x="20" y="30" class="inner-text-title">Binary Gatekeeper selection</text>
+    <text x="20" y="50" class="note-text">Strict alive/dead threshold. No gradients.</text>
+  </g>
+
+  <!-- Arrow pointing from note to AIS/CARP boundary -->
+  <path d="M 730 645 C 680 645 680 570 650 570" stroke="#94A3B8" stroke-width="1.5" fill="none" stroke-dasharray="2 2" />
+</svg>
