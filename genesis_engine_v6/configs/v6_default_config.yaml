@@ -1,0 +1,25 @@
+# Genesis V6 Default Configuration
+
+experiment:
+  name: "constrained_ceiling"
+  description: "Testing structural-behavioral lag by capping node complexity at 52 nodes"
+
+population:
+  pop_size_per_env: 100
+  num_envs: 5
+
+evolution:
+  max_generations: 10000
+  log_interval: 1000
+  constrained_max_nodes: 52
+  mutation_rate: 0.1
+  hypermutation_steps: 4
+
+grid:
+  width: 50
+  height: 50
+
+random_seeds:
+  - 42
+  - 123
+  - 456

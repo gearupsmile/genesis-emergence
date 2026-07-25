@@ -9,7 +9,16 @@ Feature 1: Secretion Physics
 
 import numpy as np
 import random
-from numba import njit
+try:
+    from numba import njit
+except ImportError:
+    def njit(*args, **kwargs):
+        if len(args) == 1 and callable(args[0]):
+            return args[0]
+        def decorator(func):
+            return func
+        return decorator
+
 from scipy.ndimage import laplace
 
 @njit
