@@ -220,7 +220,7 @@ def run_condition(condition_name: str, max_nodes: Optional[int], generations: in
 
 
 
-def main(generations: int = 10000, log_interval: int = 1000, pop_size_per_env: int = 20, seed: int = 42):
+def main(generations: int = 10000, log_interval: int = 100, pop_size_per_env: int = 20, seed: int = 42):
     out_dirs = ['genesis_engine_v6/results', 'v6/results']
     csv_files = []
     writers = []
@@ -252,4 +252,5 @@ def main(generations: int = 10000, log_interval: int = 1000, pop_size_per_env: i
 
 
 if __name__ == "__main__":
-    main(generations=10000, log_interval=1000, pop_size_per_env=20, seed=42)
+    main(generations=10000, log_interval=100, pop_size_per_env=20, seed=42)
+

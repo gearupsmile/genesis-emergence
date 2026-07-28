@@ -1,5 +1,7 @@
 import math
 import random
+import numpy as np
+
 
 class CPPNNode:
     def __init__(self, node_id, node_type, activation='linear', name=None):
@@ -99,12 +101,17 @@ class CPPNGenome:
             for n in output_nodes:
                 dfs(n.id)
                 
-            self._topo_order = topo_order
-            self._output_nodes = sorted(output_nodes, key=lambda n: n.id)
-            self._input_nodes = sorted([n for n in self.nodes.values() if n.type == 'input'], key=lambda n: n.id)
-            self._in_map_tuples = in_map
+            self._eval_tuples = []
+            for n_id in topo_order:
+                node = self.nodes[n_id]
+                if node.type != 'input':
+                    incoming = in_map.get(n_id, [])
+                    self._eval_tuples.append((n_id, node.activate, incoming))
 
-        # Evaluate using topological order and list-based values
+            self._output_ids = [(n.name, n.id) for n in sorted(output_nodes, key=lambda n: n.id)]
+            self._input_nodes = sorted([n for n in self.nodes.values() if n.type == 'input'], key=lambda n: n.id)
+
+        # Evaluate using zero-allocation cached tuple list
         values = [0.0] * self.next_node_id
         if isinstance(inputs, dict):
             for n in self._input_nodes:
@@ -114,20 +121,19 @@ class CPPNGenome:
                 if i < len(inputs):
                     values[n.id] = inputs[i]
 
-        for n_id in self._topo_order:
-            if self.nodes[n_id].type == 'input':
-                continue
-            
-            incoming = self._in_map_tuples.get(n_id, [])
-            sum_val = 0.0
-            for from_node, weight in incoming:
-                sum_val += values[from_node] * weight
-            values[n_id] = self.nodes[n_id].activate(sum_val)
+        for n_id, activate_fn, incoming in self._eval_tuples:
+            s = 0.0
+            for fn, w in incoming:
+                s += values[fn] * w
+            values[n_id] = activate_fn(s)
 
         if isinstance(inputs, dict):
-            return {n.name: values[n.id] for n in self._output_nodes}
+            return {name: values[nid] for name, nid in self._output_ids}
         else:
-            return [values[n.id] for n in self._output_nodes]
+            return [values[nid] for name, nid in self._output_ids]
+
+
+
 
     def copy(self):
         new_genome = CPPNGenome()
@@ -158,6 +164,9 @@ class CPPNGenome:
         if hasattr(self, '_input_nodes'): delattr(self, '_input_nodes')
         if hasattr(self, '_output_nodes'): delattr(self, '_output_nodes')
         if hasattr(self, '_topo_order'): delattr(self, '_topo_order')
+        if hasattr(self, '_eval_tuples'): delattr(self, '_eval_tuples')
+
+
 
         
         if random.random() < 0.03:

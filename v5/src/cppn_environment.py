@@ -1,5 +1,7 @@
 import numpy as np
+from scipy.ndimage import laplace
 from genesis_engine_v3.engine.cppn_genome import CPPNGenome
+
 
 class CPPNEnvironment:
     """
@@ -75,13 +77,10 @@ class V5Substrate:
 
     def step(self):
         """Update using 2D parameter arrays"""
-        # Laplacian using array rolling
-        lap_U = (np.roll(self.U, 1, axis=0) + np.roll(self.U, -1, axis=0) +
-                 np.roll(self.U, 1, axis=1) + np.roll(self.U, -1, axis=1) - 4 * self.U)
-        lap_V = (np.roll(self.V, 1, axis=0) + np.roll(self.V, -1, axis=0) +
-                 np.roll(self.V, 1, axis=1) + np.roll(self.V, -1, axis=1) - 4 * self.V)
-        lap_S = (np.roll(self.S, 1, axis=0) + np.roll(self.S, -1, axis=0) +
-                 np.roll(self.S, 1, axis=1) + np.roll(self.S, -1, axis=1) - 4 * self.S)
+        lap_U = laplace(self.U, mode='wrap')
+        lap_V = laplace(self.V, mode='wrap')
+        lap_S = laplace(self.S, mode='wrap')
+
 
         uvv = self.U * self.V * self.V
         
