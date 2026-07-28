@@ -1,11 +1,13 @@
 """
-v6_agent.py - V6 Agent with Structurally Constrained Evolution (Max Nodes Cap)
+v6_agent.py - V6 Agent with Structurally Constrained Evolution and Checkpoint Serialization
 """
 
+import os
 import uuid
 import random
-from typing import Optional, Dict
-from genesis_engine_v3.engine.cppn_genome import CPPNGenome
+import pickle
+from typing import Optional, Dict, Any, List
+from genesis_engine_v3.engine.cppn_genome import CPPNGenome, CPPNNode, CPPNConnection
 from genesis_engine_v3.engine.structurally_evolvable_agent import AgentV4
 
 class DummyLinkage:
@@ -16,7 +18,7 @@ class DummyLinkage:
 class V6Agent(AgentV4):
     """
     Genesis V6 Agent.
-    Extends AgentV4 with support for node capacity capping (max_nodes).
+    Extends AgentV4 with support for node capacity capping (max_nodes) and checkpoint loading/saving.
     """
 
     def __init__(self, x: int, y: int, genome: Optional[CPPNGenome] = None,
@@ -38,8 +40,6 @@ class V6Agent(AgentV4):
         if hasattr(self.genome, '_output_nodes'): delattr(self.genome, '_output_nodes')
         if hasattr(self.genome, '_topo_order'): delattr(self.genome, '_topo_order')
         if hasattr(self.genome, '_eval_tuples'): delattr(self.genome, '_eval_tuples')
-
-
 
         # Node mutation blocked if at or above max_nodes ceiling
         if self.max_nodes is None or len(self.genome.nodes) < self.max_nodes:
@@ -104,7 +104,6 @@ class V6Agent(AgentV4):
             self.action_history.pop(0)
         return action
 
-
     def reproduce(self, mutation_rate: float = 0.1) -> 'V6Agent':
         """
         Create offspring with mutated genome while preserving lineage and max_nodes cap.
@@ -121,7 +120,79 @@ class V6Agent(AgentV4):
         child.energy = 1.0
         return child
 
+    def save_checkpoint(self, checkpoint_path: str):
+        """
+        Save agent state to a pickle checkpoint file.
+        """
+        os.makedirs(os.path.dirname(os.path.abspath(checkpoint_path)), exist_ok=True)
+        with open(checkpoint_path, 'wb') as f:
+            pickle.dump(self, f)
+
+    @staticmethod
+    def load_from_checkpoint(checkpoint_path: str) -> 'V6Agent':
+        """
+        Load agent state from a previous run checkpoint (V4, V5, or V6 constrained).
+        """
+        with open(checkpoint_path, 'rb') as f:
+            agent = pickle.load(f)
+        return agent
+
     def __repr__(self) -> str:
         cap_str = f", max_nodes={self.max_nodes}" if self.max_nodes else ""
         return (f"V6Agent(id={self.id[:8]}..., nodes={len(self.genome.nodes)}, "
                 f"conns={len(self.genome.connections)}{cap_str})")
+
+def build_agent_with_target_topology(target_nodes: int, target_edges: int, max_nodes: Optional[int] = None, seed: int = 42) -> V6Agent:
+    """
+    Constructs a V6Agent matching specified target node and edge counts.
+    Used for Phase 2 Transfer Shock experiment condition setup.
+    """
+    rng = random.Random(seed)
+    agent = V6Agent(x=rng.randint(0, 49), y=rng.randint(0, 49), max_nodes=max_nodes)
+    genome = agent.genome
+
+    # Add hidden nodes up to target_nodes
+    activations = ['sin', 'cos', 'tanh', 'gaussian', 'linear']
+    while len(genome.nodes) < target_nodes:
+        n_id = genome.next_node_id
+        act = rng.choice(activations)
+        node = CPPNNode(n_id, 'hidden', activation=act)
+        genome.nodes[n_id] = node
+        genome.next_node_id += 1
+
+    node_ids = list(genome.nodes.keys())
+    
+    # Add connections up to target_edges
+    while len(genome.connections) < target_edges:
+        u = rng.choice(node_ids)
+        v = rng.choice(node_ids)
+        if u == v:
+            continue
+        w = rng.uniform(-2.0, 2.0)
+        inn_id = genome.next_innovation_id
+        conn = CPPNConnection(u, v, w, inn_id, enabled=True)
+        genome.connections[inn_id] = conn
+        genome.next_innovation_id += 1
+
+    return agent
+
+def create_condition_agent(condition_name: str, seed: int = 42) -> V6Agent:
+    """
+    Factory creating condition-specific founder agents for Phase 2:
+    - Condition A: V5 (467 nodes, ~1539 edges)
+    - Condition B: V6 Constrained (52 nodes, 815 edges, max_nodes=52)
+    - Condition C: V4 (123 nodes, ~350 edges)
+    - Condition D: Naive (12 nodes, ~20 edges)
+    """
+    if condition_name == 'Condition A (V5 467 nodes)':
+        return build_agent_with_target_topology(467, 1539, max_nodes=None, seed=seed)
+    elif condition_name == 'Condition B (V6 Constrained 52 nodes)':
+        return build_agent_with_target_topology(52, 815, max_nodes=52, seed=seed)
+    elif condition_name == 'Condition C (V4 123 nodes)':
+        return build_agent_with_target_topology(123, 350, max_nodes=None, seed=seed)
+    elif condition_name == 'Condition D (Naive 12 nodes)':
+        return V6Agent(x=25, y=25, max_nodes=None)
+    else:
+        raise ValueError(f"Unknown condition_name: {condition_name}")
+
+__all__ = ['V6Agent', 'DummyLinkage', 'build_agent_with_target_topology', 'create_condition_agent']
