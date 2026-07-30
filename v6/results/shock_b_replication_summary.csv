@@ -1,0 +1,21 @@
+Seed,Condition,FinalSurvival,FinalNodes,FinalEdges,ANNEX,GoldilocksStatus,Flag
+42,Condition A (V5 467 nodes),1.0,603.05,1944.6,1,REJECT_TOO_EASY,OK
+42,Condition B (V6 Constrained 52 nodes),1.0,52.0,815.0,1,REJECT_TOO_EASY,OK
+42,Condition C (V4 123 nodes),1.0,261.85,829.7,0,REJECT_TOO_EASY,OK
+42,Condition D (Naive 12 nodes),0.4,134.0,454.05,1,REJECT_TOO_EASY,OK
+123,Condition A (V5 467 nodes),1.0,624.2,2014.3,0,REJECT_TOO_EASY,OK
+123,Condition B (V6 Constrained 52 nodes),1.0,52.0,815.0,0,REJECT_TOO_EASY,OK
+123,Condition C (V4 123 nodes),1.0,250.2,823.6,0,REJECT_TOO_EASY,OK
+123,Condition D (Naive 12 nodes),0.4,153.0,489.1,1,REJECT_TOO_EASY,OK
+456,Condition A (V5 467 nodes),1.0,622.65,1978.45,0,REJECT_TOO_EASY,OK
+456,Condition B (V6 Constrained 52 nodes),1.0,52.0,815.0,0,REJECT_TOO_EASY,OK
+456,Condition C (V4 123 nodes),1.0,289.95,953.9,1,REJECT_TOO_EASY,OK
+456,Condition D (Naive 12 nodes),0.2,127.65,441.65,1,ACCEPT,OK
+789,Condition A (V5 467 nodes),1.0,635.3,1990.75,0,REJECT_TOO_EASY,OK
+789,Condition B (V6 Constrained 52 nodes),1.0,52.0,815.0,1,REJECT_TOO_EASY,OK
+789,Condition C (V4 123 nodes),1.0,281.0,835.65,0,REJECT_TOO_EASY,OK
+789,Condition D (Naive 12 nodes),0.5,161.05,502.2,1,REJECT_TOO_EASY,D_SURVIVED
+1011,Condition A (V5 467 nodes),1.0,629.05,2016.15,0,REJECT_TOO_EASY,OK
+1011,Condition B (V6 Constrained 52 nodes),1.0,52.0,815.0,1,REJECT_TOO_EASY,OK
+1011,Condition C (V4 123 nodes),1.0,278.0,831.15,1,REJECT_TOO_EASY,OK
+1011,Condition D (Naive 12 nodes),0.55,154.05,494.6,1,REJECT_TOO_EASY,D_SURVIVED

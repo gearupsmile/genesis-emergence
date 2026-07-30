@@ -1,0 +1,48 @@
+Genesis V6 Shock B Replication Report
+==================================================
+
+Seeds tested: [42, 123, 456, 789, 1011]
+Conditions tested: 4
+Generations per trial: 5000
+Total trials: 20
+
+HYPOTHESIS RESULTS
+------------------------------
+H1 - Condition B achieves 100% survival in >=4/5 seeds: PASS (5/5 seeds)
+H2 - Condition D fails to reach 50% in >=4/5 seeds:     FAIL (3/5 seeds)
+H3 - Condition A achieves 100% in all 5 seeds:           PASS (5/5 seeds)
+
+OVERALL VERDICT
+------------------------------
+PARTIAL REPLICATION: Condition B is robust, but Condition D
+shows unexpected resilience in some seeds. Investigate D flags.
+
+FLAGGED SEEDS
+------------------------------
+  D_SURVIVED: Seed=789, Cond=Condition D (Naive 12 nodes), Surv=0.5
+  D_SURVIVED: Seed=1011, Cond=Condition D (Naive 12 nodes), Surv=0.55
+
+FULL SUMMARY TABLE
+------------------------------
+  Seed | Condition                           |   Surv |   Nodes |   Edges | ANNEX | Flag
+------------------------------------------------------------------------------------------
+    42 | Condition A (V5 467 nodes)          |  1.000 |   603.0 |  1944.6 |     1 | OK
+    42 | Condition B (V6 Constrained 52 nodes) |  1.000 |    52.0 |   815.0 |     1 | OK
+    42 | Condition C (V4 123 nodes)          |  1.000 |   261.9 |   829.7 |     0 | OK
+    42 | Condition D (Naive 12 nodes)        |  0.400 |   134.0 |   454.1 |     1 | OK
+   123 | Condition A (V5 467 nodes)          |  1.000 |   624.2 |  2014.3 |     0 | OK
+   123 | Condition B (V6 Constrained 52 nodes) |  1.000 |    52.0 |   815.0 |     0 | OK
+   123 | Condition C (V4 123 nodes)          |  1.000 |   250.2 |   823.6 |     0 | OK
+   123 | Condition D (Naive 12 nodes)        |  0.400 |   153.0 |   489.1 |     1 | OK
+   456 | Condition A (V5 467 nodes)          |  1.000 |   622.6 |  1978.5 |     0 | OK
+   456 | Condition B (V6 Constrained 52 nodes) |  1.000 |    52.0 |   815.0 |     0 | OK
+   456 | Condition C (V4 123 nodes)          |  1.000 |   289.9 |   953.9 |     1 | OK
+   456 | Condition D (Naive 12 nodes)        |  0.200 |   127.7 |   441.6 |     1 | OK
+   789 | Condition A (V5 467 nodes)          |  1.000 |   635.3 |  1990.8 |     0 | OK
+   789 | Condition B (V6 Constrained 52 nodes) |  1.000 |    52.0 |   815.0 |     1 | OK
+   789 | Condition C (V4 123 nodes)          |  1.000 |   281.0 |   835.6 |     0 | OK
+   789 | Condition D (Naive 12 nodes)        |  0.500 |   161.1 |   502.2 |     1 | D_SURVIVED
+  1011 | Condition A (V5 467 nodes)          |  1.000 |   629.0 |  2016.2 |     0 | OK
+  1011 | Condition B (V6 Constrained 52 nodes) |  1.000 |    52.0 |   815.0 |     1 | OK
+  1011 | Condition C (V4 123 nodes)          |  1.000 |   278.0 |   831.1 |     1 | OK
+  1011 | Condition D (Naive 12 nodes)        |  0.550 |   154.1 |   494.6 |     1 | D_SURVIVED
