@@ -91,10 +91,10 @@ class PressureWaveSubstrate:
         """
         p_val = float(self.U[int(y) % self.height, int(x) % self.width])
         if p_val > 0.5:
-            return 0.4   # High pressure zone — energy reward
-        elif p_val < -0.5:
-            return -0.15  # Low pressure zone — energy penalty
-        return 0.05       # Neutral zone — small passive intake
+            return 0.35   # High pressure zone -- energy reward (requires navigation)
+        elif p_val < -0.3:
+            return -0.25  # Low pressure zone -- energy penalty (was -0.15)
+        return -0.02      # Neutral zone -- slight metabolic cost (was +0.05)
 
     def deposit_secretion(self, x: int, y: int, amount: float):
         """No-op for pressure substrate (secretion has no effect)."""
@@ -126,25 +126,22 @@ def generate_shock_env_A() -> Dict[str, Any]:
 class BarrierSubstrate:
     """
     Gray-Scott substrate with a HARD impassable vertical barrier at x = width//2.
-    A single navigable gap exists at y ∈ [gap_center - gap_half, gap_center + gap_half].
+    A single navigable gap exists at y in [gap_center - gap_half, gap_center + gap_half].
 
-    Agents on the resource-poor side (x < wall_x) face 10× faster energy decay.
+    Agents on the resource-poor side (x < wall_x) face SEVERE energy drain:
+      - 0.6 energy penalty per step (drains 1.0 energy in <2 steps)
+      - V field on wrong side is zeroed every step (no ambient energy)
     Agents must learn to find the gap to reach the resource-rich side (x >= wall_x).
 
     The 12-node naive agent uses a simple gradient-following strategy that
-    cannot discover the gap — it will hit the wall and starve.
+    cannot discover the gap -- it will hit the wall and starve in <5 generations.
     Complex agents (52+ nodes) with spatial representation can learn gap location.
-
-    Wall mechanics:
-        - Any move that would cross x = wall_x is blocked (agent stays put).
-        - Exception: y ∈ [gap_center - gap_half, gap_center + gap_half] — gap is open.
-        - Gray-Scott V-field energy is concentrated on the rich side (x >= wall_x).
     """
     env_type: str = 'barrier_gs'
     shock_id: str = 'Shock_B'
 
-    GAP_HALF: int = 3        # Gap width = 2*GAP_HALF + 1 = 7 cells
-    WALL_PENALTY: float = 0.05  # Additional energy cost per step on wrong side
+    GAP_HALF: int = 3
+    WALL_PENALTY: float = 0.60   # 0.6/step x 20 steps = 12 energy/gen -- lethal in 1 gen
 
     def __init__(
         self,
@@ -223,9 +220,14 @@ class BarrierSubstrate:
         return new_x_mod, int(new_y) % self.height
 
     def step(self):
-        """Advance Gray-Scott chemistry."""
+        """Advance Gray-Scott chemistry and zero V field on wrong (poor) side."""
         self.step_count += 1
         self._gs.step()
+
+        # CRITICAL: Zero out V field on wrong side every step.
+        # Without this, GS diffusion leaks V across the boundary, giving
+        # wrong-side agents enough ambient energy to survive.
+        self._gs.V[:, :self.wall_x] = 0.0
 
         # Maintain resource asymmetry: boost V on rich side every 10 steps
         if self.step_count % 10 == 0:
@@ -247,10 +249,10 @@ class BarrierSubstrate:
         self._gs.deposit_secretion(x, y, amount)
 
 
-def generate_shock_env_B(gap_half: int = 3) -> Dict[str, Any]:
+def generate_shock_env_B(gap_half: int = 1) -> Dict[str, Any]:
     """
     Shock B descriptor dict.
-    gap_half controls the navigable gap width (default 7 cells = width 3+3+1).
+    gap_half=1 -> total gap width 3 cells (was 7). Narrower = harder for naive agents.
     """
     return {
         'id': 'Shock_B',
@@ -263,8 +265,8 @@ def generate_shock_env_B(gap_half: int = 3) -> Dict[str, Any]:
         'gap_half': gap_half,
         'description': (
             f'POET-style barrier: hard wall at x=25, single gap of width {2*gap_half+1} '
-            f'at center. Wrong-side energy penalty. 12-node agents fail; '
-            f'spatially-aware agents find gap.'
+            f'at center. Wrong-side zeroed V + 0.6/step penalty. '
+            f'Naive agents fail; spatially-aware agents find gap.'
         ),
         'substrate_class': 'BarrierSubstrate',
     }
@@ -279,24 +281,25 @@ class SensorBlindingSubstrate:
     Gray-Scott substrate with aggressive sensory dropout applied at the
     agent decision level.
 
-    Dropout mechanics:
-        - Per-step: each of the 6 gradient inputs (gu_x, gu_y, gv_x, gv_y,
-          gs_x, gs_y) is independently zeroed with probability DROPOUT_RATE.
-        - Burst mode: every BURST_INTERVAL steps, a full 50-step blind burst
-          applies 95% dropout (all inputs near-zeroed simultaneously).
+    Dropout mechanics (hardened from initial calibration failure):
+        - Per-step: each of the 6 gradient inputs is independently zeroed
+          with probability DROPOUT_RATE = 0.92 (was 0.70).
+        - Burst mode: every BURST_INTERVAL=100 steps, a full BURST_DURATION=80
+          step blind burst applies 99% dropout.
+        - During bursts, agents effectively receive zero sensory information
+          and must navigate on memory/internal state alone.
 
-    Agents with redundant latent pathways (many nodes, dense edges) can still
-    navigate using the few unblinded inputs or by relying on position/energy.
-    12-node agents with a single direct input→output path collapse immediately
-    when their primary gradient channel is blinded.
+    Agents with redundant latent pathways survive bursts through internal
+    state maintenance. 12-node agents with a single input->output path
+    lose all orientation during bursts and cannot find energy patches.
     """
     env_type: str = 'sensor_blind_gs'
     shock_id: str = 'Shock_C'
 
-    DROPOUT_RATE: float = 0.70      # Per-input dropout probability
-    BURST_INTERVAL: int = 200       # Steps between blind burst onset
-    BURST_DURATION: int = 50        # Duration of each blind burst
-    BURST_DROPOUT: float = 0.95     # Dropout rate during bursts
+    DROPOUT_RATE: float = 0.92      # Per-input dropout (was 0.70)
+    BURST_INTERVAL: int = 100       # Steps between burst onset (was 200)
+    BURST_DURATION: int = 80        # Duration of each burst (was 50)
+    BURST_DROPOUT: float = 0.99     # Dropout during bursts (was 0.95)
 
     def __init__(self, width: int = 50, height: int = 50, rng_seed: int = 42):
         from genesis_engine_v6.src.v6_substrate import V6Substrate
@@ -351,21 +354,24 @@ class SensorBlindingSubstrate:
         """
         Apply dropout to a tuple of 6 gradient inputs.
         Returns masked gradients (zeroed inputs = blinded sensors).
+        Also returns count of blinded sensors for energy penalty calculation.
 
         Args:
             gradients: (gu_x, gu_y, gv_x, gv_y, gs_x, gs_y)
 
         Returns:
-            Masked tuple of same length.
+            (masked_tuple, n_blinded)
         """
         dropout_rate = self.BURST_DROPOUT if self._in_burst else self.DROPOUT_RATE
         result = []
+        n_blinded = 0
         for val in gradients:
             if self._rng.random() < dropout_rate:
                 result.append(0.0)  # Sensor blinded
+                n_blinded += 1
             else:
                 result.append(val)
-        return tuple(result)
+        return tuple(result), n_blinded
 
     def get_energy_at(self, x: int, y: int) -> float:
         return float(self.V[int(y) % self.height, int(x) % self.width]) * 0.5

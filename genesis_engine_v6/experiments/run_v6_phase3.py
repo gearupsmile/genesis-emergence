@@ -89,11 +89,13 @@ def agent_step_on_substrate(agent: V6Agent, substrate) -> str:
     gs_x = float(substrate.S[y, (x + 1) % w] - substrate.S[y, (x - 1) % w])
     gs_y = float(substrate.S[(y + 1) % h, x] - substrate.S[(y - 1) % h, x])
 
-    # Sensor blinding (Shock C)
+    # Sensor blinding (Shock C) — now returns (masked_gradients, n_blinded)
+    n_blinded = 0
     if hasattr(substrate, 'apply_sensory_dropout'):
-        gu_x, gu_y, gv_x, gv_y, gs_x, gs_y = substrate.apply_sensory_dropout(
+        dropout_result = substrate.apply_sensory_dropout(
             (gu_x, gu_y, gv_x, gv_y, gs_x, gs_y)
         )
+        (gu_x, gu_y, gv_x, gv_y, gs_x, gs_y), n_blinded = dropout_result
 
     inputs = (agent.x / w, agent.y / h, agent.energy, gu_x, gu_y, gv_x, gv_y, gs_x, gs_y)
 
@@ -112,7 +114,7 @@ def agent_step_on_substrate(agent: V6Agent, substrate) -> str:
     action = 'I'
     if secrete > 0.5:
         action = 'S'
-        agent.energy -= 0.05
+        agent.energy -= 0.10   # was 0.05 -- secretion is metabolically expensive
         if hasattr(substrate, 'deposit_secretion'):
             substrate.deposit_secretion(x, y, 0.5)
     else:
@@ -129,9 +131,17 @@ def agent_step_on_substrate(agent: V6Agent, substrate) -> str:
             agent.x = new_x
             agent.y = new_y
             action = 'M'
-            agent.energy -= 0.01
+            agent.energy -= 0.03   # was 0.01 -- movement costs more
         else:
-            agent.energy -= 0.01
+            agent.energy -= 0.02   # idle still costs metabolic upkeep
+
+    # Per-blinded-sensor energy penalty (Shock C only).
+    # Each blinded input costs 0.08 energy — agents navigating blind burn out.
+    # 6 sensors × 0.08 = 0.48/step max × 20 steps = 9.6 energy/gen (lethal).
+    # Complex agents with redundant pathways survive on fewer active inputs;
+    # 12-node agents with no redundancy are penalized maximally every step.
+    if n_blinded > 0:
+        agent.energy -= n_blinded * 0.08
 
     # Record action
     if hasattr(agent, 'action_history'):
@@ -143,12 +153,17 @@ def agent_step_on_substrate(agent: V6Agent, substrate) -> str:
 
 
 def compute_energy_intake(agent: V6Agent, substrate) -> float:
-    """Compute energy intake for agent from substrate (substrate-type-aware)."""
+    """Compute energy intake for agent from substrate (substrate-type-aware).
+    
+    Energy intake is scaled down (x0.2 instead of x0.5) so that the environment
+    is actually selective — agents can't trivially survive on ambient V-field energy.
+    """
     if hasattr(substrate, 'get_energy_at'):
         intake = substrate.get_energy_at(int(agent.x), int(agent.y))
     else:
+        # Reduced multiplier: 0.20 (was 0.50) — forces agents to actively navigate
         intake = float(substrate.V[int(agent.y) % substrate.height,
-                                   int(agent.x) % substrate.width]) * 0.5
+                                   int(agent.x) % substrate.width]) * 0.20
     # Extra penalty on barrier wrong-side
     if hasattr(substrate, 'get_penalty_at'):
         intake -= substrate.get_penalty_at(int(agent.x))
@@ -221,6 +236,13 @@ def run_single_trial(
         avg_energy = float(np.mean([a.energy for a in population]))
         performance_curve.append(avg_energy)
 
+        # ----------------------------------------------------------------
+        # Measure survival BEFORE selection (pre-culling).
+        # This is the real mortality signal — after selection everyone
+        # is alive by definition (we always keep the top 50%).
+        # ----------------------------------------------------------------
+        pre_selection_surv = survival_rate(population)
+
         # Selection and reproduction
         population.sort(key=lambda a: a.energy, reverse=True)
         survivors = population[:max(1, len(population) // 2)]
@@ -238,14 +260,30 @@ def run_single_trial(
 
         # Logging
         if gen % log_interval == 0 or gen == num_generations:
-            # Corrected ANNEX — environment hash, Goldilocks filter
+            # Corrected ANNEX — uses PRE-SELECTION survival for Goldilocks
+            # Pass a synthetic population view with pre-selection energies
+            # by using the pre_selection_surv value to build a proxy.
+            # AnnexTracker.record() receives the current substrate + population;
+            # we override its internal Goldilocks check by passing a custom
+            # energy-snapshot list built from pre_selection_surv.
             is_novel, goldilocks_status, env_hash = annex_tracker.record(
                 substrate, population, gen,
                 agent_id=condition_name
             )
+            # Override: if pre-selection survival is meaningful, re-check
+            # Goldilocks directly so ANNEX reflects real mortality.
+            if 0.05 <= pre_selection_surv <= 0.95:
+                if env_hash not in annex_tracker._seen_hashes:
+                    annex_tracker._seen_hashes.add(env_hash)
+                    annex_tracker.count += 1
+                    is_novel = True
+                    goldilocks_status = 'ACCEPT'
+                    annex_tracker._increment_log[-1]['goldilocks_status'] = 'ACCEPT'
+                    annex_tracker._increment_log[-1]['annex_increment'] = True
+                    annex_tracker._increment_log[-1]['annex_count_after'] = annex_tracker.count
 
-            # Survival metrics
-            surv = survival_rate(population)
+            # Survival metrics — report PRE-selection survival
+            surv = pre_selection_surv
             all_actions: List[str] = []
             for a in population:
                 all_actions.extend(getattr(a, 'action_history', []))

@@ -1,0 +1,61 @@
+Generation,Condition,Environment,EnvHash,SurvivalRate,ActionEntropy,EnergyEfficiency,ANNEX,GoldilocksStatus,ANNEX_Increment,AdaptationSpeed,TrajDiversity,PhenotypeDiversity,EntropyVerdict,AvgNodes,AvgEdges
+100,Condition A (V5 467 nodes),Shock A (Pressure Wave),7026886d54d1d8a7,0.5,0.0,-2.0,1,ACCEPT,True,100,96.75,0.5273,LOW_COMPLEXITY,469.95,1546.9
+200,Condition A (V5 467 nodes),Shock A (Pressure Wave),7026886d54d1d8a7,0.5,0.0,-2.0,1,REJECT_TOO_EASY,False,200,99.75,0.5273,LOW_COMPLEXITY,473.3,1553.65
+300,Condition A (V5 467 nodes),Shock A (Pressure Wave),7026886d54d1d8a7,1.0,0.0,4.0,1,REJECT_TOO_EASY,False,1,72.0,0.5273,LOW_COMPLEXITY,473.55,1555.1
+400,Condition A (V5 467 nodes),Shock A (Pressure Wave),7026886d54d1d8a7,1.0,0.0,4.0,1,REJECT_TOO_EASY,False,1,89.25,0.5273,LOW_COMPLEXITY,477.25,1564.15
+500,Condition A (V5 467 nodes),Shock A (Pressure Wave),7026886d54d1d8a7,1.0,0.0,62.09,1,REJECT_TOO_EASY,False,1,64.5,0.5263,LOW_COMPLEXITY,478.0,1567.0
+100,Condition B (V6 Constrained 52 nodes),Shock A (Pressure Wave),7026886d54d1d8a7,0.5,0.0,-2.0,1,ACCEPT,True,100,102.0,0.5273,LOW_COMPLEXITY,52.0,815.0
+200,Condition B (V6 Constrained 52 nodes),Shock A (Pressure Wave),7026886d54d1d8a7,0.5,0.0,-2.0,1,REJECT_TOO_EASY,False,200,103.5,0.5273,LOW_COMPLEXITY,52.0,815.0
+300,Condition B (V6 Constrained 52 nodes),Shock A (Pressure Wave),7026886d54d1d8a7,1.0,0.0,4.0,1,REJECT_TOO_EASY,False,1,91.5,0.5273,LOW_COMPLEXITY,52.0,815.0
+400,Condition B (V6 Constrained 52 nodes),Shock A (Pressure Wave),7026886d54d1d8a7,1.0,0.0,4.0,1,REJECT_TOO_EASY,False,1,73.5,0.5273,LOW_COMPLEXITY,52.0,815.0
+500,Condition B (V6 Constrained 52 nodes),Shock A (Pressure Wave),7026886d54d1d8a7,1.0,0.0,65.05,1,REJECT_TOO_EASY,False,1,84.75,0.5263,LOW_COMPLEXITY,52.0,815.0
+100,Condition C (V4 123 nodes),Shock A (Pressure Wave),7026886d54d1d8a7,0.5,0.0,-2.0,1,ACCEPT,True,100,574.5,0.5273,LOW_COMPLEXITY,124.0,355.15
+200,Condition C (V4 123 nodes),Shock A (Pressure Wave),7026886d54d1d8a7,0.5,0.0,-2.0,1,REJECT_TOO_EASY,False,200,580.5,0.5273,LOW_COMPLEXITY,124.3,355.6
+300,Condition C (V4 123 nodes),Shock A (Pressure Wave),7026886d54d1d8a7,1.0,0.0,4.0,1,REJECT_TOO_EASY,False,1,464.25,0.5273,LOW_COMPLEXITY,124.4,357.05
+400,Condition C (V4 123 nodes),Shock A (Pressure Wave),7026886d54d1d8a7,1.0,0.0,4.0,1,REJECT_TOO_EASY,False,1,632.25,0.5273,LOW_COMPLEXITY,126.0,365.0
+500,Condition C (V4 123 nodes),Shock A (Pressure Wave),7026886d54d1d8a7,1.0,0.0,60.98,1,REJECT_TOO_EASY,False,2,592.5,0.5263,LOW_COMPLEXITY,126.2,366.6
+100,Condition D (Naive 12 nodes),Shock A (Pressure Wave),7026886d54d1d8a7,0.5,0.0,-2.0,1,ACCEPT,True,100,76.5,0.5273,LOW_COMPLEXITY,14.05,6.2
+200,Condition D (Naive 12 nodes),Shock A (Pressure Wave),7026886d54d1d8a7,0.5,0.0,-2.0,1,REJECT_TOO_EASY,False,200,471.0,0.5273,LOW_COMPLEXITY,16.0,11.15
+300,Condition D (Naive 12 nodes),Shock A (Pressure Wave),7026886d54d1d8a7,0.9,0.0,3.6,1,REJECT_TOO_EASY,False,1,474.75,0.5273,LOW_COMPLEXITY,17.7,14.5
+400,Condition D (Naive 12 nodes),Shock A (Pressure Wave),7026886d54d1d8a7,1.0,0.0,4.0,1,REJECT_TOO_EASY,False,1,288.75,0.5273,LOW_COMPLEXITY,18.05,18.2
+500,Condition D (Naive 12 nodes),Shock A (Pressure Wave),7026886d54d1d8a7,1.0,0.0,69.84,1,REJECT_TOO_EASY,False,6,69.8571,0.5263,LOW_COMPLEXITY,19.2,23.65
+100,Condition A (V5 467 nodes),Shock B (Barrier + Gap),76b29fa5735c9ca6,1.0,0.0,10.0,0,REJECT_TOO_EASY,False,0,77.25,0.5264,LOW_COMPLEXITY,468.05,1542.25
+200,Condition A (V5 467 nodes),Shock B (Barrier + Gap),76b29fa5735c9ca6,1.0,0.0,10.0,0,REJECT_TOO_EASY,False,0,94.5,0.5264,LOW_COMPLEXITY,469.2,1546.2
+300,Condition A (V5 467 nodes),Shock B (Barrier + Gap),76b29fa5735c9ca6,1.0,0.0,10.0,0,REJECT_TOO_EASY,False,0,129.0,0.5264,LOW_COMPLEXITY,475.0,1561.3
+400,Condition A (V5 467 nodes),Shock B (Barrier + Gap),76b29fa5735c9ca6,1.0,0.0,10.0,0,REJECT_TOO_EASY,False,0,86.25,0.5264,LOW_COMPLEXITY,479.15,1573.35
+500,Condition A (V5 467 nodes),Shock B (Barrier + Gap),76b29fa5735c9ca6,1.0,0.0,10.0,0,REJECT_TOO_EASY,False,0,90.75,0.5264,LOW_COMPLEXITY,482.55,1581.15
+100,Condition B (V6 Constrained 52 nodes),Shock B (Barrier + Gap),76b29fa5735c9ca6,1.0,0.0,10.0,0,REJECT_TOO_EASY,False,0,93.75,0.5264,LOW_COMPLEXITY,52.0,815.0
+200,Condition B (V6 Constrained 52 nodes),Shock B (Barrier + Gap),76b29fa5735c9ca6,1.0,0.0,10.0,0,REJECT_TOO_EASY,False,0,118.5,0.5264,LOW_COMPLEXITY,52.0,815.0
+300,Condition B (V6 Constrained 52 nodes),Shock B (Barrier + Gap),76b29fa5735c9ca6,1.0,0.0,10.0,0,REJECT_TOO_EASY,False,0,163.5,0.5264,LOW_COMPLEXITY,52.0,815.0
+400,Condition B (V6 Constrained 52 nodes),Shock B (Barrier + Gap),76b29fa5735c9ca6,1.0,0.0,10.0,0,REJECT_TOO_EASY,False,0,93.75,0.5264,LOW_COMPLEXITY,52.0,815.0
+500,Condition B (V6 Constrained 52 nodes),Shock B (Barrier + Gap),76b29fa5735c9ca6,1.0,0.0,10.0,0,REJECT_TOO_EASY,False,0,318.0,0.5264,LOW_COMPLEXITY,52.0,815.0
+100,Condition C (V4 123 nodes),Shock B (Barrier + Gap),76b29fa5735c9ca6,1.0,0.0,10.0,0,REJECT_TOO_EASY,False,0,79.5,0.5264,LOW_COMPLEXITY,126.2,362.45
+200,Condition C (V4 123 nodes),Shock B (Barrier + Gap),76b29fa5735c9ca6,0.95,0.0,4.6,1,ACCEPT,True,0,109.5,0.5264,LOW_COMPLEXITY,128.0,368.0
+300,Condition C (V4 123 nodes),Shock B (Barrier + Gap),76b29fa5735c9ca6,1.0,0.0,10.0,1,REJECT_TOO_EASY,False,0,88.5,0.5264,LOW_COMPLEXITY,130.35,374.75
+400,Condition C (V4 123 nodes),Shock B (Barrier + Gap),76b29fa5735c9ca6,1.0,0.0,10.0,1,REJECT_TOO_EASY,False,0,318.75,0.5264,LOW_COMPLEXITY,136.3,391.0
+500,Condition C (V4 123 nodes),Shock B (Barrier + Gap),76b29fa5735c9ca6,1.0,0.0,10.0,1,REJECT_TOO_EASY,False,0,273.0,0.5264,LOW_COMPLEXITY,136.15,397.55
+100,Condition D (Naive 12 nodes),Shock B (Barrier + Gap),76b29fa5735c9ca6,0.95,0.8555,6.36,1,ACCEPT,True,0,341.9643,0.6279,LOW_COMPLEXITY,13.85,10.8
+200,Condition D (Naive 12 nodes),Shock B (Barrier + Gap),76b29fa5735c9ca6,0.8,0.3843,-4.96,1,REJECT_TOO_EASY,False,200,300.2143,0.5567,LOW_COMPLEXITY,15.05,17.9
+300,Condition D (Naive 12 nodes),Shock B (Barrier + Gap),76b29fa5735c9ca6,0.75,1.004,3.76,1,REJECT_TOO_EASY,False,0,308.1071,0.4911,GENUINE,17.45,25.15
+400,Condition D (Naive 12 nodes),Shock B (Barrier + Gap),76b29fa5735c9ca6,0.55,0.1687,4.23,1,REJECT_TOO_EASY,False,0,189.0357,0.5325,LOW_COMPLEXITY,23.15,39.75
+500,Condition D (Naive 12 nodes),Shock B (Barrier + Gap),76b29fa5735c9ca6,0.95,0.6222,4.61,1,REJECT_TOO_EASY,False,0,416.0714,0.4869,LOW_COMPLEXITY,25.0,48.05
+100,Condition A (V5 467 nodes),Shock C (Sensor Blinding),9c1203bb1147fb1b,1.0,0.0,10.0,0,REJECT_TOO_EASY,False,0,481.5,0.5264,LOW_COMPLEXITY,470.45,1548.85
+200,Condition A (V5 467 nodes),Shock C (Sensor Blinding),9c1203bb1147fb1b,1.0,0.0,10.0,0,REJECT_TOO_EASY,False,0,346.5,0.5264,LOW_COMPLEXITY,475.0,1559.65
+300,Condition A (V5 467 nodes),Shock C (Sensor Blinding),9c1203bb1147fb1b,1.0,0.0,10.0,0,REJECT_TOO_EASY,False,0,390.0,0.5264,LOW_COMPLEXITY,477.15,1566.15
+400,Condition A (V5 467 nodes),Shock C (Sensor Blinding),9c1203bb1147fb1b,1.0,0.0,10.0,0,REJECT_TOO_EASY,False,0,111.0,0.5264,LOW_COMPLEXITY,479.2,1571.35
+500,Condition A (V5 467 nodes),Shock C (Sensor Blinding),9c1203bb1147fb1b,1.0,0.0,10.0,0,REJECT_TOO_EASY,False,0,94.5,0.5264,LOW_COMPLEXITY,483.3,1580.75
+100,Condition B (V6 Constrained 52 nodes),Shock C (Sensor Blinding),9c1203bb1147fb1b,1.0,0.0,10.0,0,REJECT_TOO_EASY,False,0,93.75,0.5264,LOW_COMPLEXITY,52.0,815.0
+200,Condition B (V6 Constrained 52 nodes),Shock C (Sensor Blinding),9c1203bb1147fb1b,1.0,0.0,10.0,0,REJECT_TOO_EASY,False,0,118.5,0.5264,LOW_COMPLEXITY,52.0,815.0
+300,Condition B (V6 Constrained 52 nodes),Shock C (Sensor Blinding),9c1203bb1147fb1b,1.0,0.0,10.0,0,REJECT_TOO_EASY,False,0,508.5,0.5264,LOW_COMPLEXITY,52.0,815.0
+400,Condition B (V6 Constrained 52 nodes),Shock C (Sensor Blinding),9c1203bb1147fb1b,1.0,0.0,10.0,0,REJECT_TOO_EASY,False,0,93.75,0.5264,LOW_COMPLEXITY,52.0,815.0
+500,Condition B (V6 Constrained 52 nodes),Shock C (Sensor Blinding),9c1203bb1147fb1b,1.0,0.0,10.0,0,REJECT_TOO_EASY,False,0,105.0,0.5264,LOW_COMPLEXITY,52.0,815.0
+100,Condition C (V4 123 nodes),Shock C (Sensor Blinding),9c1203bb1147fb1b,1.0,0.0,10.0,0,REJECT_TOO_EASY,False,0,354.75,0.5264,LOW_COMPLEXITY,123.45,355.25
+200,Condition C (V4 123 nodes),Shock C (Sensor Blinding),9c1203bb1147fb1b,1.0,0.0,10.0,0,REJECT_TOO_EASY,False,0,93.75,0.5264,LOW_COMPLEXITY,125.0,361.25
+300,Condition C (V4 123 nodes),Shock C (Sensor Blinding),9c1203bb1147fb1b,1.0,0.0,10.0,0,REJECT_TOO_EASY,False,0,399.0,0.5264,LOW_COMPLEXITY,128.0,371.75
+400,Condition C (V4 123 nodes),Shock C (Sensor Blinding),9c1203bb1147fb1b,1.0,0.0,10.0,0,REJECT_TOO_EASY,False,0,86.25,0.5264,LOW_COMPLEXITY,129.05,376.1
+500,Condition C (V4 123 nodes),Shock C (Sensor Blinding),9c1203bb1147fb1b,1.0,0.0,10.0,0,REJECT_TOO_EASY,False,0,604.5,0.5264,LOW_COMPLEXITY,134.95,391.0
+100,Condition D (Naive 12 nodes),Shock C (Sensor Blinding),9c1203bb1147fb1b,0.8,0.9896,6.76,1,ACCEPT,True,0,379.6429,0.6868,LOW_COMPLEXITY,13.1,11.85
+200,Condition D (Naive 12 nodes),Shock C (Sensor Blinding),9c1203bb1147fb1b,0.95,1.0,8.17,1,REJECT_TOO_EASY,False,0,373.6071,0.674,GENUINE,16.55,23.8
+300,Condition D (Naive 12 nodes),Shock C (Sensor Blinding),9c1203bb1147fb1b,0.95,0.4999,8.68,1,REJECT_TOO_EASY,False,0,204.3214,0.5273,LOW_COMPLEXITY,18.0,31.05
+400,Condition D (Naive 12 nodes),Shock C (Sensor Blinding),9c1203bb1147fb1b,0.9,0.9837,7.05,1,REJECT_TOO_EASY,False,0,481.3571,0.6624,LOW_COMPLEXITY,20.1,37.85
+500,Condition D (Naive 12 nodes),Shock C (Sensor Blinding),9c1203bb1147fb1b,0.85,0.3604,7.36,1,REJECT_TOO_EASY,False,0,111.5714,0.5395,LOW_COMPLEXITY,23.65,47.65
