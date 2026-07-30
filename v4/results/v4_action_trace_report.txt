@@ -1,0 +1,42 @@
+V4 Action-Trace LZ76 Check: Real vs Sham
+=======================================================
+
+Background:
+  V3 showed: LZ76 = 0.068 +/- 0.000 for BOTH real and sham.
+  Structural divergence existed in V3 (genome size, species)
+  but action traces were identical -- neutral complexification.
+
+  V4 shows structural divergence (nodes + species count increase).
+  Question: Is the V4 structural divergence FUNCTIONAL or NEUTRAL?
+
+Protocol:
+  Real: AgentV4 + active Gray-Scott (substrate.step() each gen)
+  Sham: AgentV4 + frozen substrate (U=1, V=0, never stepped)
+  Seeds: 42, 123 | Gens: 500 | LZ trace: 100 steps per agent
+
+Results:
+  Seed 42:
+    Real  -- LZ final: 0.1375 | Nodes: 17.1 | Edges: 18.1
+    Sham  -- LZ final: 0.1200 | Nodes: 21.2 | Edges: 32.4
+  Seed 123:
+    Real  -- LZ final: 0.1230 | Nodes: 17.1 | Edges: 20.1
+    Sham  -- LZ final: 0.1205 | Nodes: 16.2 | Edges: 16.6
+
+Statistical Test (Mann-Whitney U, pooled across seeds and timepoints):
+  Real LZ mean: 0.1291
+  Sham LZ mean: 0.1232
+  Delta (real - sham): +0.0100
+  U statistic: 249.0
+  p-value: 0.1855
+
+VERDICT:
+  V4 action traces DO NOT diverge (p=0.1855, delta=+0.0100).
+  The V4 structural divergence (genome size, species count)
+  is NEUTRAL -- genotype complexifies without policy change.
+  Interpretation: Structure-function lag persists in V4.
+  CPPN developmental encoding does not escape neutral complexification.
+
+  This matches the V3 result: structural divergence without
+  corresponding behavioural divergence.
+
+Summary: V4 action traces [do NOT] diverge between real and sham conditions.
